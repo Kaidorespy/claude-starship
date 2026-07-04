@@ -1,4 +1,4 @@
-# Claude Hub
+# Claude Starship
 
 A local-first, narrative AI command center styled as a cozy starship.
 
