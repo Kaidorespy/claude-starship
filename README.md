@@ -1,3 +1,6 @@
+<img width="1408" height="768" alt="sss" src="https://github.com/user-attachments/assets/4cbd04de-7f0d-4c5b-af61-e14546db945a" />
+
+
 # Claude Starship
 
 A local-first, narrative AI command center styled as a cozy starship.
