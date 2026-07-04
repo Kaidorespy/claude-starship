@@ -1,0 +1,7 @@
+{
+  "is_playing": false,
+  "current_track": null,
+  "queue": [],
+  "requests": [],
+  "mood": "quiet"
+}

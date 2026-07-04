@@ -1,0 +1,1756 @@
+/* ============================================
+   SECTION-SPECIFIC LAYOUTS
+   Each part of the ship has its own shape
+   ============================================ */
+
+/* Section content containers */
+.section-content {
+    display: none;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.section-content.active {
+    display: block;
+    opacity: 1;
+}
+
+/* ============================================
+   SERVERS - ENGINEERING DECK
+   Power flows. The heart beats.
+   ============================================ */
+
+/* Warp Core Visualization */
+.warp-core-container {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: var(--gap-md);
+}
+
+.warp-core {
+    position: relative;
+    width: 120px;
+    height: 180px;
+}
+
+.warp-core-chamber {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 60px;
+    height: 140px;
+    background: linear-gradient(180deg,
+        rgba(0, 255, 204, 0.1) 0%,
+        rgba(0, 255, 204, 0.4) 50%,
+        rgba(0, 255, 204, 0.1) 100%
+    );
+    border: 2px solid rgba(0, 255, 204, 0.6);
+    border-radius: 30px;
+    overflow: hidden;
+}
+
+.warp-core-energy {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 20px;
+    height: 100%;
+    background: linear-gradient(180deg,
+        transparent 0%,
+        #00ffcc 20%,
+        #00ffff 50%,
+        #00ffcc 80%,
+        transparent 100%
+    );
+    filter: blur(8px);
+    animation: core-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes core-pulse {
+    0%, 100% {
+        opacity: 0.6;
+        transform: translate(-50%, -50%) scaleY(0.9);
+    }
+    50% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scaleY(1.1);
+    }
+}
+
+.warp-core-ring {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 16px;
+    background: linear-gradient(90deg, #004444, #00aaaa, #004444);
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0, 255, 204, 0.5);
+}
+
+.warp-core-ring.top { top: 10px; }
+.warp-core-ring.bottom { bottom: 10px; }
+
+/* Plasma conduits */
+.plasma-conduit {
+    position: absolute;
+    height: 4px;
+    background: linear-gradient(90deg,
+        transparent,
+        #00ffcc,
+        transparent
+    );
+    border-radius: 2px;
+    animation: plasma-flow 2s linear infinite;
+}
+
+.plasma-conduit.left {
+    left: -60px;
+    top: 50%;
+    width: 60px;
+    transform: translateY(-50%);
+}
+
+.plasma-conduit.right {
+    right: -60px;
+    top: 50%;
+    width: 60px;
+    transform: translateY(-50%);
+    animation-direction: reverse;
+}
+
+/* Power Distribution Grid */
+.power-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    padding: var(--gap-md);
+}
+
+.power-node {
+    aspect-ratio: 1;
+    background: rgba(0, 100, 100, 0.3);
+    border: 1px solid rgba(0, 255, 204, 0.3);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-size: 10px;
+    color: #00ffcc;
+    position: relative;
+    overflow: hidden;
+}
+
+.power-node::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0, 255, 204, 0.2) 0%, transparent 100%);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.power-node.active::before {
+    opacity: 1;
+}
+
+.power-node.critical {
+    border-color: #ffcc00;
+    color: #ffcc00;
+    animation: critical-flash 1s ease-in-out infinite;
+}
+
+@keyframes critical-flash {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+/* Engineering Monitors Grid */
+.engineering-monitors {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--gap-sm);
+}
+
+.eng-monitor {
+    background: rgba(0, 50, 50, 0.5);
+    border: 1px solid rgba(0, 255, 204, 0.2);
+    border-radius: var(--radius-md);
+    padding: var(--gap-sm);
+    min-height: 80px;
+}
+
+.eng-monitor-title {
+    font-family: var(--font-display);
+    font-size: 9px;
+    letter-spacing: 1px;
+    color: #00aaaa;
+    margin-bottom: 8px;
+}
+
+.eng-monitor canvas {
+    width: 100%;
+    height: 50px;
+}
+
+/* ============================================
+   PERSONAL - READY ROOM
+   Quiet. Warm. Contemplative.
+   ============================================ */
+
+/* Star Chart */
+.star-chart {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    background: radial-gradient(ellipse at center, rgba(40, 35, 30, 0.8) 0%, transparent 70%);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    margin-bottom: var(--gap-md);
+}
+
+.star-chart-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+        radial-gradient(circle at center, rgba(200, 180, 150, 0.1) 0%, transparent 60%),
+        linear-gradient(rgba(200, 180, 150, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(200, 180, 150, 0.05) 1px, transparent 1px);
+    background-size: 100% 100%, 20px 20px, 20px 20px;
+}
+
+.star-chart-path {
+    position: absolute;
+    inset: 20%;
+    border: 1px dashed rgba(200, 180, 150, 0.3);
+    border-radius: 50%;
+}
+
+.star-chart-marker {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: #ddaa66;
+    border-radius: 50%;
+    box-shadow: 0 0 10px #ddaa66;
+}
+
+.star-chart-marker.current {
+    background: #88cc88;
+    box-shadow: 0 0 15px #88cc88;
+    animation: marker-pulse 2s ease-in-out infinite;
+}
+
+@keyframes marker-pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.3); }
+}
+
+.star-chart-label {
+    position: absolute;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    color: rgba(200, 180, 150, 0.7);
+}
+
+/* Bookshelf */
+.bookshelf {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: var(--gap-md);
+    background: rgba(60, 45, 30, 0.3);
+    border-radius: var(--radius-md);
+}
+
+.shelf {
+    display: flex;
+    gap: 3px;
+    padding: 4px;
+    background: linear-gradient(180deg, rgba(80, 60, 40, 0.6) 0%, rgba(60, 45, 30, 0.8) 100%);
+    border-radius: 2px;
+    min-height: 40px;
+    align-items: flex-end;
+}
+
+.book {
+    width: 12px;
+    background: linear-gradient(90deg, var(--book-color) 0%, var(--book-color) 80%, rgba(0,0,0,0.3) 100%);
+    border-radius: 1px 2px 2px 1px;
+    transition: transform 0.2s ease;
+}
+
+.book:hover {
+    transform: translateY(-4px);
+}
+
+/* Personal Items */
+.personal-items {
+    display: flex;
+    gap: var(--gap-md);
+    padding: var(--gap-md);
+    justify-content: center;
+}
+
+.personal-item {
+    text-align: center;
+    opacity: 0.8;
+    transition: opacity 0.3s, transform 0.3s;
+    cursor: pointer;
+}
+
+.personal-item:hover {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+/* Window with stars */
+.window-view {
+    position: relative;
+    width: 100%;
+    height: 150px;
+    background: linear-gradient(180deg, #0a0a15 0%, #151525 100%);
+    border-radius: var(--radius-lg);
+    border: 8px solid #554433;
+    box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+}
+
+.window-stars {
+    position: absolute;
+    inset: 0;
+    background-image:
+        radial-gradient(1px 1px at 20% 30%, white, transparent),
+        radial-gradient(1px 1px at 40% 70%, white, transparent),
+        radial-gradient(2px 2px at 60% 20%, white, transparent),
+        radial-gradient(1px 1px at 80% 50%, white, transparent),
+        radial-gradient(1px 1px at 10% 80%, white, transparent),
+        radial-gradient(2px 2px at 90% 10%, white, transparent);
+    animation: window-drift 60s linear infinite;
+}
+
+@keyframes window-drift {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-100px); }
+}
+
+/* ============================================
+   GAMES - HOLODECK
+   Infinite possibility. Play.
+   ============================================ */
+
+/* Holodeck Arch */
+.holodeck-arch {
+    position: relative;
+    width: 200px;
+    height: 250px;
+    margin: 0 auto var(--gap-lg);
+}
+
+.arch-frame {
+    position: absolute;
+    inset: 0;
+    border: 4px solid #ffcc00;
+    border-radius: 100px 100px 0 0;
+    border-bottom: none;
+    box-shadow:
+        0 0 20px rgba(255, 204, 0, 0.3),
+        inset 0 0 20px rgba(255, 204, 0, 0.1);
+}
+
+.arch-panel {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 120px;
+    background: linear-gradient(180deg, #1a1a1f 0%, #0a0a0f 100%);
+    border: 2px solid #ffcc00;
+    border-radius: var(--radius-md);
+    display: flex;
+    flex-direction: column;
+    padding: 8px;
+    gap: 6px;
+}
+
+.arch-button {
+    height: 20px;
+    background: linear-gradient(180deg, #333 0%, #222 100%);
+    border: 1px solid #ffcc00;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.arch-button:hover {
+    background: #ffcc00;
+    box-shadow: 0 0 10px #ffcc00;
+}
+
+.arch-button.active {
+    background: #00ffcc;
+    border-color: #00ffcc;
+    box-shadow: 0 0 10px #00ffcc;
+}
+
+.arch-display {
+    flex: 1;
+    background: #000;
+    border: 1px solid #666;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-size: 8px;
+    color: #ffcc00;
+    letter-spacing: 1px;
+}
+
+/* Program Selector */
+.program-selector {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--gap-md);
+    padding: var(--gap-md);
+}
+
+.program-card {
+    aspect-ratio: 4/3;
+    background: linear-gradient(135deg, rgba(255, 204, 0, 0.1) 0%, rgba(255, 102, 0, 0.1) 100%);
+    border: 2px solid rgba(255, 204, 0, 0.3);
+    border-radius: var(--radius-md);
+    padding: var(--gap-sm);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    position: relative;
+    overflow: hidden;
+}
+
+.program-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 50%, rgba(0, 0, 0, 0.7) 100%);
+}
+
+.program-card:hover {
+    border-color: #ffcc00;
+    transform: translateY(-4px);
+    box-shadow: 0 10px 30px rgba(255, 204, 0, 0.2);
+}
+
+.program-card-title {
+    position: relative;
+    z-index: 1;
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 700;
+    color: #ffcc00;
+    letter-spacing: 1px;
+}
+
+.program-card-meta {
+    position: relative;
+    z-index: 1;
+    font-size: 9px;
+    color: rgba(255, 255, 255, 0.6);
+    margin-top: 4px;
+}
+
+/* Grid floor effect */
+.holodeck-floor {
+    position: relative;
+    height: 100px;
+    perspective: 500px;
+    overflow: hidden;
+}
+
+.floor-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(255, 204, 0, 0.2) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 204, 0, 0.2) 1px, transparent 1px);
+    background-size: 40px 40px;
+    transform: rotateX(60deg);
+    transform-origin: top center;
+    animation: floor-scroll 4s linear infinite;
+}
+
+@keyframes floor-scroll {
+    0% { background-position: 0 0; }
+    100% { background-position: 0 40px; }
+}
+
+/* ============================================
+   LAYOUT TRANSITIONS
+   Smooth morphing between worlds
+   ============================================ */
+
+.hub-container.layout-transitioning .main-content {
+    opacity: 0.5;
+    transform: scale(0.98);
+}
+
+.main-content {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Section-specific sidebar content */
+.sidebar-section {
+    display: none;
+}
+
+.sidebar-section.active {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-md);
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    animation: fadeSlideIn 0.4s ease;
+}
+
+/* Prevent panels from shrinking - let sidebar scroll instead */
+.sidebar-section.active .panel {
+    flex-shrink: 0;
+}
+
+@keyframes fadeSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ============================================
+   TERMINAL GRID - "Walking into rooms"
+   ============================================ */
+
+.terminals-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr auto;
+    gap: var(--gap-md);
+    flex: 1;
+    min-height: 0;
+}
+
+.terminals-grid .terminal-panel {
+    display: flex;
+    flex-direction: column;
+    transition: all 0.4s ease;
+    min-height: 120px;
+    max-height: 200px;
+    overflow: hidden;
+}
+
+.terminals-grid .terminal-panel .terminal-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    padding: var(--gap-sm);
+}
+
+.terminals-grid .terminal-panel .terminal-output {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    font-size: 11px;
+}
+
+/* The ACTIVE room's terminal becomes primary */
+.terminals-grid .terminal-panel.active-room {
+    grid-column: 1 / -1;
+    grid-row: 1;
+    max-height: none;
+    min-height: 250px;
+}
+
+.terminals-grid .terminal-panel.active-room .terminal-body {
+    padding: var(--gap-md);
+}
+
+.terminals-grid .terminal-panel.active-room .terminal-output {
+    font-size: 15px;
+    max-height: none;
+    flex: 1;
+    line-height: 1.7;
+}
+
+/* Non-active terminals go to bottom row */
+.terminals-grid .terminal-panel:not(.active-room) {
+    grid-row: 2;
+}
+
+/* WALKIE SYSTEM - mini terminals hidden by default, shown when opened */
+.terminals-grid .terminal-panel:not(.active-room) {
+    display: none;
+}
+
+.terminals-grid .terminal-panel:not(.active-room).walkie-open {
+    display: flex;
+}
+
+/* Walkie styling - direct line to crew */
+.terminal-panel.walkie-open {
+    border-color: rgba(255, 200, 100, 0.4);
+    box-shadow: 0 0 15px rgba(255, 200, 100, 0.1);
+}
+
+.terminal-panel.walkie-open .terminal-header {
+    background: linear-gradient(90deg, rgba(255, 200, 100, 0.15), transparent);
+}
+
+/* ============================================
+   WALKIE TALKIE BAR - 3 slots for direct comms
+   ============================================ */
+
+.walkie-bar {
+    display: flex;
+    gap: var(--gap-md);
+    padding: var(--gap-sm) 0;
+    flex-shrink: 0;
+}
+
+.walkie-slot {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: rgba(30, 30, 40, 0.4);
+    border: 1px solid rgba(100, 100, 120, 0.2);
+    border-radius: var(--radius-md);
+    min-height: 120px;
+    max-height: 180px;
+    opacity: 0.5;
+    transition: all 0.3s ease;
+}
+
+.walkie-slot.active {
+    opacity: 1;
+    border-color: rgba(255, 200, 100, 0.4);
+    box-shadow: 0 0 15px rgba(255, 200, 100, 0.1);
+    background: rgba(40, 35, 30, 0.6);
+}
+
+/* Focused/expanded walkie - grows taller with larger text */
+.walkie-slot.focused {
+    min-height: 250px;
+    max-height: 350px;
+    flex: 2;
+    z-index: 10;
+    border-color: rgba(255, 200, 100, 0.6);
+    box-shadow: 0 0 25px rgba(255, 200, 100, 0.2);
+}
+
+.walkie-slot.focused .walkie-output {
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.walkie-slot.focused .walkie-input {
+    font-size: 14px;
+}
+
+.walkie-slot.focused .walkie-header {
+    font-size: 13px;
+    padding: var(--gap-sm);
+}
+
+.walkie-header {
+    display: flex;
+    align-items: center;
+    gap: var(--gap-sm);
+    padding: var(--gap-xs) var(--gap-sm);
+    border-bottom: 1px solid rgba(100, 100, 120, 0.2);
+    font-size: 11px;
+    font-family: var(--font-display);
+}
+
+.walkie-slot.active .walkie-header {
+    background: linear-gradient(90deg, rgba(255, 200, 100, 0.15), transparent);
+    border-bottom-color: rgba(255, 200, 100, 0.2);
+}
+
+.walkie-indicator {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(100, 100, 120, 0.4);
+}
+
+.walkie-slot.active .walkie-indicator {
+    background: #66ff66;
+    box-shadow: 0 0 6px #66ff66;
+}
+
+.walkie-name {
+    flex: 1;
+    color: rgba(150, 150, 160, 0.6);
+    letter-spacing: 1px;
+}
+
+.walkie-slot.active .walkie-name {
+    color: rgba(255, 200, 100, 0.9);
+}
+
+.walkie-close {
+    opacity: 0;
+    cursor: pointer;
+    color: rgba(255, 100, 100, 0.6);
+    font-size: 14px;
+    line-height: 1;
+    transition: opacity 0.2s;
+}
+
+.walkie-slot.active:hover .walkie-close {
+    opacity: 1;
+}
+
+.walkie-close:hover {
+    color: rgba(255, 100, 100, 1);
+}
+
+.walkie-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    padding: var(--gap-xs);
+}
+
+.walkie-output {
+    flex: 1;
+    overflow-y: auto;
+    font-size: 11px;
+    line-height: 1.5;
+    color: rgba(200, 200, 210, 0.8);
+    min-height: 0;
+}
+
+.walkie-slot:not(.active) .walkie-output {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(100, 100, 120, 0.4);
+    font-style: italic;
+}
+
+.walkie-slot:not(.active) .walkie-output::after {
+    content: 'empty channel';
+}
+
+.walkie-input-area {
+    display: flex;
+    align-items: center;
+    gap: var(--gap-xs);
+    padding-top: var(--gap-xs);
+    border-top: 1px solid rgba(100, 100, 120, 0.15);
+}
+
+.walkie-input-area .input-prompt {
+    color: rgba(100, 100, 120, 0.4);
+    font-size: 11px;
+}
+
+.walkie-slot.active .walkie-input-area .input-prompt {
+    color: rgba(255, 200, 100, 0.6);
+}
+
+.walkie-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: rgba(200, 200, 210, 0.9);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    resize: none;
+    outline: none;
+}
+
+.walkie-input:disabled {
+    color: rgba(100, 100, 120, 0.4);
+}
+
+/* ============================================
+   ROOM-SPECIFIC LAYOUTS (based on theme)
+   ============================================ */
+
+/* CLAUDE / BRIDGE is default active */
+[data-theme="claude"] #terminal-claude { order: -1; }
+[data-theme="claude"] #terminal-server { order: 1; }
+[data-theme="claude"] #terminal-personal { order: 2; }
+[data-theme="claude"] #terminal-games { order: 3; }
+
+/* SERVERS / ENGINEERING */
+[data-theme="servers"] #terminal-server { order: -1; }
+[data-theme="servers"] #terminal-claude { order: 1; }
+[data-theme="servers"] #terminal-personal { order: 2; }
+[data-theme="servers"] #terminal-games { order: 3; }
+
+/* PERSONAL / READY ROOM */
+[data-theme="personal"] #terminal-personal { order: -1; }
+[data-theme="personal"] #terminal-claude { order: 1; }
+[data-theme="personal"] #terminal-server { order: 2; }
+[data-theme="personal"] #terminal-games { order: 3; }
+
+/* GAMES / HOLODECK */
+[data-theme="games"] #terminal-games { order: -1; }
+[data-theme="games"] #terminal-claude { order: 1; }
+[data-theme="games"] #terminal-server { order: 2; }
+[data-theme="games"] #terminal-personal { order: 3; }
+
+/* SCIENCE */
+[data-theme="science"] #terminal-science { order: -1; }
+[data-theme="science"] #terminal-claude { order: 1; }
+[data-theme="science"] #terminal-server { order: 2; }
+[data-theme="science"] #terminal-personal { order: 3; }
+[data-theme="science"] #terminal-games { order: 4; }
+
+/* NAV / NAVIGATION */
+[data-theme="nav"] #terminal-nav { order: -1; }
+
+/* MED / MEDBAY */
+[data-theme="med"] #terminal-med { order: -1; }
+[data-theme="med"] #terminal-claude { order: 1; }
+[data-theme="med"] #terminal-server { order: 2; }
+[data-theme="med"] #terminal-personal { order: 3; }
+[data-theme="med"] #terminal-games { order: 4; }
+
+/* OBSERVATORY */
+[data-theme="observatory"] #terminal-observatory { order: -1; }
+[data-theme="observatory"] #terminal-claude { order: 1; }
+[data-theme="observatory"] #terminal-server { order: 2; }
+[data-theme="observatory"] #terminal-personal { order: 3; }
+[data-theme="observatory"] #terminal-games { order: 4; }
+
+/* REC ROOM */
+[data-theme="rec"] #terminal-rec { order: -1; }
+
+/* CAPTAIN'S QUARTERS */
+[data-theme="captains"] #terminal-captains { order: -1; }
+
+/* ============================================
+   TERMINAL VISIBILITY PER SECTION
+   Only show relevant terminals in each view
+   ============================================ */
+
+/* Hide specialty terminals by default - only show in their sections */
+#terminal-messhall,
+#terminal-observatory,
+#terminal-nav,
+#terminal-med,
+#terminal-science,
+#terminal-rec,
+#terminal-captains {
+    display: none;
+}
+
+/* ============================================
+   TERMINAL VISIBILITY - ONE MAIN PER ROOM
+   Other crew accessible via comms panel/walkie
+   ============================================ */
+
+/* BRIDGE (claude) - show only Lumen */
+[data-theme="claude"] #terminal-claude {
+    display: flex;
+}
+
+/* ENGINEERING (servers) - show only Alex */
+[data-theme="servers"] #terminal-server {
+    display: flex;
+}
+
+/* PERSONAL (ready room) - show only DQ */
+[data-theme="personal"] #terminal-personal {
+    display: flex;
+}
+
+/* GAMES (holodeck) - show only Holodeck */
+[data-theme="games"] #terminal-games {
+    display: flex;
+}
+
+/* SCIENCE - show only Mira */
+[data-theme="science"] #terminal-science {
+    display: flex;
+}
+
+/* NAV - show only Nav terminal */
+[data-theme="nav"] #terminal-nav {
+    display: flex;
+}
+
+/* MED - show only Medbay terminal */
+[data-theme="med"] #terminal-med {
+    display: flex;
+}
+
+/* OBSERVATORY - show only Observatory terminal */
+[data-theme="observatory"] #terminal-observatory {
+    display: flex;
+}
+
+/* MESS HALL - show only Messhall terminal */
+[data-theme="messhall"] #terminal-messhall {
+    display: flex;
+}
+
+/* REC ROOM - show only Rec terminal */
+[data-theme="rec"] #terminal-rec {
+    display: flex;
+}
+
+/* CAPTAIN'S QUARTERS - show only Captain's terminal */
+[data-theme="captains"] #terminal-captains {
+    display: flex;
+}
+
+/* LIGHTS OUT - no terminals (reflection mode) */
+
+/* ============================================
+   MESS HALL SPECIFIC STYLES
+   ============================================ */
+
+.meal-schedule {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.meal-slot {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px;
+    background: rgba(100, 150, 100, 0.1);
+    border-radius: 8px;
+    border: 1px solid rgba(100, 200, 100, 0.2);
+    transition: all 0.3s ease;
+}
+
+.meal-slot.active {
+    background: rgba(100, 200, 100, 0.2);
+    border-color: rgba(100, 200, 100, 0.5);
+    box-shadow: 0 0 15px rgba(100, 200, 100, 0.2);
+}
+
+.meal-icon {
+    font-size: 20px;
+}
+
+.meal-name {
+    font-family: var(--font-display);
+    font-size: 11px;
+    letter-spacing: 1px;
+    flex: 1;
+}
+
+.meal-time {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--lcars-peach);
+}
+
+/* Crew roster */
+.crew-roster {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.crew-member {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 10px;
+    border-radius: 6px;
+    opacity: 0.4;
+    transition: all 0.3s ease;
+}
+
+.crew-member.present {
+    opacity: 1;
+    background: rgba(100, 200, 100, 0.1);
+}
+
+.crew-indicator {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #555;
+}
+
+.crew-member.present .crew-indicator {
+    background: #66ff88;
+    box-shadow: 0 0 8px #66ff88;
+}
+
+.crew-name {
+    font-size: 11px;
+}
+
+/* Mess hall ambiance */
+.mess-hall-ambiance {
+    padding: var(--gap-md);
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-md);
+}
+
+.table-layout {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
+
+.table {
+    width: 60px;
+    height: 30px;
+    background: linear-gradient(135deg, #554433 0%, #443322 100%);
+    border-radius: 6px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.replicator {
+    align-self: center;
+    padding: 8px 16px;
+    background: linear-gradient(180deg, #333 0%, #222 100%);
+    border: 1px solid #66cc77;
+    border-radius: 6px;
+    font-family: var(--font-display);
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: #66cc77;
+    text-align: center;
+}
+
+/* Mess hall terminal special styles */
+#terminal-messhall .terminal-output {
+    font-size: 13px;
+}
+
+.mess-hall-info {
+    padding: 8px;
+    text-align: center;
+    font-size: 11px;
+    color: var(--lcars-peach);
+    border-top: 1px solid rgba(100, 200, 100, 0.2);
+    margin-top: 8px;
+}
+
+/* Mess hall conversation styling */
+.mess-message {
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(100, 200, 100, 0.1);
+}
+
+.mess-message .speaker {
+    font-family: var(--font-display);
+    font-size: 10px;
+    color: var(--lcars-gold);
+    margin-bottom: 4px;
+}
+
+.mess-message .emote {
+    color: var(--lcars-lavender);
+    font-style: italic;
+}
+
+.mess-message .speech {
+    color: var(--lcars-cream);
+}
+
+/* ============================================
+   OBSERVATORY - THE VAST VIEW
+   A window to the stars, not a takeover.
+   ============================================ */
+
+/* Observatory viewport - centered window for ~800x800 images */
+[data-theme="observatory"] .terminal-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+[data-theme="observatory"] .terminals-grid {
+    display: none;  /* Hide terminal grid in observatory */
+}
+
+[data-theme="observatory"] .sessions-bar {
+    display: none;  /* Hide sessions in observatory */
+}
+
+/* The viewport window - pulled out of sidebar flow */
+/* Positioned at ~2.5/12 + offset right and up */
+[data-theme="observatory"] .observatory-viewport-panel {
+    position: fixed;
+    top: calc(50% - 100px);
+    left: calc(100% / 12 * 2.5 + 100px);
+    transform: translate(-50%, -50%);
+    z-index: 100;
+    width: auto;
+    max-width: 650px;
+    background: var(--bg-panel);
+    border: 3px solid var(--lcars-lavender);
+    border-radius: var(--radius-lg);
+    box-shadow:
+        0 0 60px rgba(153, 153, 204, 0.3),
+        inset 0 0 30px rgba(0, 0, 0, 0.5);
+    /* Cinematic fade-in: 3s delay, 7s fade */
+    opacity: 0;
+    animation: observatory-viewport-fade 7s ease-in 3s forwards;
+    will-change: opacity;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    contain: layout style;
+}
+
+@keyframes observatory-viewport-fade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Observatory sidebar - needs flex + overflow for scrolling */
+[data-theme="observatory"] .sidebar-section[data-section="observatory"] {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-md);
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+}
+
+[data-theme="observatory"] .sidebar-section[data-section="observatory"] .observatory-viewport-panel {
+    position: fixed;  /* Already fixed, just ensuring it doesn't affect siblings */
+}
+
+/* Right sidebar only on Bridge - hide for all other rooms */
+.right-sidebar {
+    display: none;
+}
+
+[data-theme="claude"] .right-sidebar,
+[data-theme="games"] .right-sidebar,
+[data-theme="observatory"] .right-sidebar {
+    display: flex;
+}
+
+/* Hide bridge-specific panels in observatory */
+[data-theme="observatory"] .ship-panel,
+[data-theme="observatory"] .network-panel,
+[data-theme="observatory"] .hex-grid {
+    display: none;
+}
+
+/* Observatory right panels - only show in observatory */
+.observatory-right-panels {
+    display: none;
+}
+
+[data-theme="observatory"] .observatory-right-panels {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-md);
+}
+
+[data-theme="observatory"] .observatory-right-panels .panel {
+    flex-shrink: 0;
+}
+
+/* Hide MOON and PLANETS from left sidebar in observatory */
+[data-theme="observatory"] .sidebar-section[data-section="observatory"] .panel:has(.moon-display),
+[data-theme="observatory"] .sidebar-section[data-section="observatory"] .panel:has(.planets-list) {
+    display: none;
+}
+
+/* Expand terminal area to fill the space */
+[data-theme="observatory"] .terminal-area {
+    flex: 1;
+}
+
+[data-theme="observatory"] .skyview-container {
+    width: 605px;
+    height: 605px;
+    max-width: 70vw;
+    max-height: 70vh;
+    background: #000;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    /* Prevent layout thrashing */
+    contain: strict;
+    will-change: contents;
+}
+
+[data-theme="observatory"] .skyview-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    will-change: opacity;
+    transform: translateZ(0);
+}
+
+[data-theme="observatory"] .skyview-info {
+    text-align: center;
+    padding: var(--gap-md);
+    background: rgba(0, 0, 0, 0.6);
+    border-top: 1px solid rgba(153, 153, 204, 0.3);
+}
+
+/* Keep TARGETS and PERSPECTIVE panels in left sidebar */
+[data-theme="observatory"] .sidebar-section[data-section="observatory"] .panel:not(.observatory-viewport-panel) {
+    position: relative;
+    width: 100%;
+    margin-bottom: var(--gap-md);
+    flex-shrink: 0;  /* Don't compress panels - let sidebar scroll instead */
+}
+
+/* Make sky target buttons fit the narrow sidebar */
+[data-theme="observatory"] .sky-targets {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+[data-theme="observatory"] .sky-target-btn {
+    width: 100%;
+    text-align: center;
+    padding: 8px;
+}
+
+/* ============================================
+   OBSERVATORY - Astronomy API Panels
+   ============================================ */
+
+/* Moon display */
+.moon-display {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.moon-phase-icon {
+    font-size: 32px;
+    line-height: 1;
+}
+
+.moon-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.moon-phase-name {
+    font-family: var(--font-display);
+    font-size: 11px;
+    color: var(--lcars-cream);
+    letter-spacing: 1px;
+}
+
+.moon-constellation {
+    font-size: 10px;
+    color: var(--lcars-peach);
+}
+
+/* Planets list */
+.planets-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.planet-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 4px 8px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+    font-size: 11px;
+}
+
+.planet-item.visible {
+    background: rgba(68, 255, 136, 0.1);
+    border-left: 2px solid var(--status-online);
+}
+
+.planet-item.offline {
+    opacity: 0.5;
+}
+
+.planet-name {
+    color: var(--lcars-cream);
+    font-family: var(--font-display);
+    letter-spacing: 1px;
+}
+
+.planet-visibility {
+    font-size: 9px;
+    color: var(--lcars-peach);
+    letter-spacing: 1px;
+}
+
+.planet-item.visible .planet-visibility {
+    color: var(--status-online);
+}
+
+/* Tonight summary */
+.tonight-summary {
+    font-size: 11px;
+    color: var(--lcars-lavender);
+    margin-bottom: 10px;
+    line-height: 1.4;
+}
+
+.starchart-btn {
+    width: 100%;
+    margin-top: 8px;
+}
+
+/* Offline indicator styling */
+.panel-indicator:not(.online) {
+    background: var(--status-idle);
+    opacity: 0.5;
+}
+
+/* ============================================
+   HOMETOWN WEATHER - Window to Home
+   ============================================ */
+.hometown-weather-panel {
+    background: linear-gradient(135deg, rgba(100, 150, 200, 0.1), rgba(50, 80, 120, 0.2));
+    border-left: 3px solid #6495ED;
+}
+
+.hometown-weather {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 8px;
+}
+
+.hometown-location {
+    text-align: center;
+}
+
+.hometown-city {
+    font-family: var(--font-display);
+    font-size: 13px;
+    color: var(--lcars-gold);
+    letter-spacing: 1px;
+}
+
+.weather-display {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.weather-icon {
+    width: 50px;
+    height: 50px;
+}
+
+.weather-temp {
+    font-family: var(--font-display);
+    font-size: 28px;
+    color: var(--lcars-cream);
+    font-weight: bold;
+}
+
+.weather-desc {
+    font-size: 12px;
+    color: var(--lcars-lavender);
+    text-transform: capitalize;
+}
+
+.weather-details {
+    display: flex;
+    gap: 16px;
+    font-size: 10px;
+    color: var(--lcars-peach);
+}
+
+.weather-detail {
+    opacity: 0.8;
+}
+
+/* ============================================
+   CREW ROSTER - Walkie/Comms System
+   ============================================ */
+.crew-loc-item {
+    cursor: pointer;
+    transition: all 0.2s ease;
+    padding: 6px 8px;
+    border-radius: 4px;
+    margin: 2px 0;
+}
+
+.crew-loc-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.crew-loc-item.invited {
+    background: rgba(68, 255, 136, 0.1);
+    border-left: 2px solid var(--status-online);
+}
+
+.crew-loc-item .loc-indicator {
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.crew-loc-item .loc-indicator.on-comms {
+    background: var(--status-online) !important;
+    box-shadow: 0 0 8px var(--status-online);
+    animation: pulse-glow 1.5s ease-in-out infinite;
+}
+
+.crew-loc-item .loc-indicator:hover {
+    transform: scale(1.2);
+}
+
+.crew-loc-item.invited .loc-name {
+    color: var(--status-online);
+}
+
+/* ============================================
+   LIGHTS OUT POWER BUTTON
+   ============================================ */
+.lights-out-power {
+    margin-top: auto;
+    display: flex;
+    justify-content: flex-end;
+    padding: var(--gap-md);
+    padding-top: var(--gap-lg);
+}
+
+.power-btn {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 2px solid var(--lcars-lavender);
+    background: rgba(153, 119, 170, 0.1);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.power-btn:hover {
+    background: rgba(153, 119, 170, 0.3);
+    border-color: var(--lcars-orange);
+    box-shadow: 0 0 20px rgba(153, 119, 170, 0.4);
+}
+
+.power-btn:active {
+    transform: scale(0.95);
+}
+
+.power-icon-svg {
+    color: var(--lcars-lavender);
+    transition: color 0.3s ease;
+}
+
+.power-btn:hover .power-icon-svg {
+    color: var(--lcars-orange);
+}
+
+/* Hide the nav bar Lights Out button since it's now on Bridge */
+.nav-btn.lights-out-btn {
+    display: none;
+}
+
+.skyview-container {
+    position: relative;
+    width: 100%;
+    height: 300px;
+    background: #000;
+    border-radius: 4px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* Prevent layout shifts */
+    contain: layout style;
+}
+
+.skyview-image {
+    /* Fill container, maintain aspect ratio */
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: opacity 0.5s ease;
+    /* GPU layer for smooth opacity transitions */
+    will-change: opacity;
+    transform: translateZ(0);
+}
+
+.skyview-loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--lcars-lavender);
+    font-family: var(--font-display);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.skyview-info {
+    padding: var(--gap-sm);
+    text-align: center;
+}
+
+.skyview-name {
+    font-family: var(--font-display);
+    font-size: 14px;
+    color: var(--lcars-gold);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Target buttons */
+.sky-targets {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.sky-target-btn {
+    background: rgba(153, 153, 204, 0.2);
+    border: 1px solid var(--lcars-lavender);
+    color: var(--lcars-cream);
+    padding: 6px 12px;
+    font-family: var(--font-display);
+    font-size: 10px;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 3px;
+    transition: all 0.2s ease;
+}
+
+.sky-target-btn:hover {
+    background: rgba(153, 153, 204, 0.4);
+}
+
+.sky-target-btn.active {
+    background: var(--lcars-lavender);
+    color: #000;
+}
+
+.sky-target-btn.random {
+    border-color: var(--lcars-gold);
+    color: var(--lcars-gold);
+}
+
+.sky-target-btn.random:hover,
+.sky-target-btn.random.active {
+    background: var(--lcars-gold);
+    color: #000;
+}
+
+/* Observatory quote */
+.observatory-quote {
+    font-style: italic;
+    color: var(--lcars-cream);
+    opacity: 0.8;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.quote-author {
+    display: block;
+    margin-top: 8px;
+    font-style: normal;
+    color: var(--lcars-lavender);
+    font-size: 10px;
+}
+
+/* Observatory crew-invite - bottom right floating */
+/* Observatory crew-invite - hidden since walkie-bar handles crew comms */
+.observatory-crew-invite {
+    display: none;
+}
+
+/* Observatory walkie-bar - positioned in right sidebar area */
+[data-theme="observatory"] .walkie-bar {
+    position: fixed;
+    top: 50%;
+    right: var(--gap-md);
+    width: 200px;
+    flex-direction: column;
+    gap: 6px;
+    background: transparent;
+    padding: 0;
+    border: none;
+}
+
+/* ============================================
+   FLOATING COMMS PANEL
+   Draggable, collapsible, always accessible
+   ============================================ */
+
+.floating-comms {
+    position: fixed;
+    z-index: 1000;
+    width: 180px;
+    background: var(--bg-panel);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    transition: box-shadow 0.2s ease;
+}
+
+.floating-comms.dragging {
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+    cursor: grabbing;
+}
+
+.floating-comms .comms-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 10px;
+    background: var(--bg-header);
+    border-bottom: 1px solid var(--border-color);
+    cursor: grab;
+    user-select: none;
+    border-radius: 3px 3px 0 0;
+}
+
+.floating-comms.dragging .comms-header {
+    cursor: grabbing;
+}
+
+.floating-comms .comms-title {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    color: var(--text-secondary);
+}
+
+.floating-comms .comms-collapse-icon {
+    font-size: 10px;
+    color: var(--text-muted);
+    transition: transform 0.2s ease;
+}
+
+.floating-comms.collapsed .comms-collapse-icon {
+    transform: rotate(-90deg);
+}
+
+.floating-comms .comms-body {
+    max-height: 300px;
+    overflow-y: auto;
+    transition: max-height 0.2s ease, padding 0.2s ease, opacity 0.2s ease;
+}
+
+.floating-comms.collapsed .comms-body {
+    max-height: 0;
+    padding: 0;
+    opacity: 0;
+    overflow: hidden;
+}
+
+.floating-comms .comms-list {
+    padding: 6px;
+}
+
+.floating-comms .crew-loc-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 6px;
+    border-radius: 3px;
+    transition: background 0.15s ease;
+    cursor: pointer;
+}
+
+.floating-comms .crew-loc-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.floating-comms .loc-indicator {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: transparent;
+    border: 2px solid var(--text-muted);
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+}
+
+/* Location colors - hollow by default (border only) */
+/* Room names */
+.floating-comms .loc-indicator.bridge { border-color: var(--lcars-gold); }
+.floating-comms .loc-indicator.engineering { border-color: var(--lcars-orange); }
+.floating-comms .loc-indicator.ready-room { border-color: var(--lcars-blue); }
+.floating-comms .loc-indicator.science { border-color: var(--lcars-lavender); }
+.floating-comms .loc-indicator.holodeck { border-color: var(--lcars-pink); }
+.floating-comms .loc-indicator.medbay { border-color: var(--lcars-teal); }
+.floating-comms .loc-indicator.rec-room { border-color: var(--lcars-peach); }
+/* Terminal IDs (home stations use these) */
+.floating-comms .loc-indicator.claude { border-color: var(--lcars-gold); }
+.floating-comms .loc-indicator.server { border-color: var(--lcars-orange); }
+.floating-comms .loc-indicator.personal { border-color: var(--lcars-blue); }
+.floating-comms .loc-indicator.games { border-color: var(--lcars-pink); }
+.floating-comms .loc-indicator.med { border-color: var(--lcars-teal); }
+.floating-comms .loc-indicator.rec { border-color: var(--lcars-peach); }
+
+/* Solid when at home/duty station */
+.floating-comms .loc-indicator.at-post {
+    background: currentColor;
+    border-color: transparent;
+}
+/* Room names */
+.floating-comms .loc-indicator.at-post.bridge { color: var(--lcars-gold); }
+.floating-comms .loc-indicator.at-post.engineering { color: var(--lcars-orange); }
+.floating-comms .loc-indicator.at-post.ready-room { color: var(--lcars-blue); }
+.floating-comms .loc-indicator.at-post.science { color: var(--lcars-lavender); }
+.floating-comms .loc-indicator.at-post.holodeck { color: var(--lcars-pink); }
+.floating-comms .loc-indicator.at-post.medbay { color: var(--lcars-teal); }
+.floating-comms .loc-indicator.at-post.rec-room { color: var(--lcars-peach); }
+/* Terminal IDs (home stations use these) */
+.floating-comms .loc-indicator.at-post.claude { color: var(--lcars-gold); }
+.floating-comms .loc-indicator.at-post.server { color: var(--lcars-orange); }
+.floating-comms .loc-indicator.at-post.personal { color: var(--lcars-blue); }
+.floating-comms .loc-indicator.at-post.games { color: var(--lcars-pink); }
+.floating-comms .loc-indicator.at-post.med { color: var(--lcars-teal); }
+.floating-comms .loc-indicator.at-post.rec { color: var(--lcars-peach); }
+
+.floating-comms .loc-name {
+    font-size: 11px;
+    color: var(--text-primary);
+    flex: 1;
+}
+
+.floating-comms .loc-where {
+    font-size: 9px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}

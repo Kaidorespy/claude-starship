@@ -1,0 +1,438 @@
+/* Ambient Effects & Decorative Elements */
+/* The cozy soul of the spaceship */
+
+/* ============================================
+   GLOBAL AMBIENT EFFECTS
+   ============================================ */
+
+/* Subtle vignette for depth */
+.hub-container::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(
+        ellipse at center,
+        transparent 0%,
+        transparent 60%,
+        rgba(0, 0, 0, 0.4) 100%
+    );
+    pointer-events: none;
+    z-index: 100;
+}
+
+/* Warm glow from the "fire" (ambient light source) */
+.hub-container::after {
+    content: '';
+    position: fixed;
+    bottom: -50%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 150%;
+    height: 100%;
+    background: radial-gradient(
+        ellipse at center bottom,
+        rgba(255, 119, 68, 0.03) 0%,
+        transparent 50%
+    );
+    pointer-events: none;
+    z-index: 0;
+    animation: ambient-warm 8s ease-in-out infinite alternate;
+}
+
+@keyframes ambient-warm {
+    0% { opacity: 0.8; }
+    100% { opacity: 1; }
+}
+
+/* ============================================
+   FLOATING PARTICLES (Dust/Nebula)
+   ============================================ */
+.ambient-layer::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+        radial-gradient(1px 1px at 100px 50px, rgba(255, 200, 150, 0.3), transparent),
+        radial-gradient(1px 1px at 200px 150px, rgba(200, 150, 255, 0.2), transparent),
+        radial-gradient(2px 2px at 300px 100px, rgba(150, 200, 255, 0.2), transparent),
+        radial-gradient(1px 1px at 400px 200px, rgba(255, 200, 150, 0.3), transparent),
+        radial-gradient(1px 1px at 500px 80px, rgba(200, 150, 255, 0.2), transparent);
+    background-size: 600px 300px;
+    animation: float-particles 60s linear infinite;
+    opacity: 0.5;
+}
+
+@keyframes float-particles {
+    0% { transform: translateX(0) translateY(0); }
+    100% { transform: translateX(-300px) translateY(150px); }
+}
+
+/* ============================================
+   DECORATIVE DATA STREAMS
+   ============================================ */
+
+/* Vertical data stream */
+.data-stream-vertical {
+    position: absolute;
+    width: 2px;
+    height: 100%;
+    background: linear-gradient(
+        to bottom,
+        transparent 0%,
+        var(--lcars-blue) 10%,
+        var(--lcars-lavender) 50%,
+        var(--lcars-blue) 90%,
+        transparent 100%
+    );
+    opacity: 0.1;
+    animation: stream-flow 10s linear infinite;
+}
+
+@keyframes stream-flow {
+    0% { transform: translateY(-100%); }
+    100% { transform: translateY(100%); }
+}
+
+/* ============================================
+   GLOWING ACCENTS
+   ============================================ */
+
+/* Accent lines */
+.glow-line {
+    position: absolute;
+    height: 1px;
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        var(--lcars-orange) 20%,
+        var(--lcars-gold) 50%,
+        var(--lcars-orange) 80%,
+        transparent 100%
+    );
+    box-shadow: 0 0 10px var(--glow-primary);
+    animation: glow-pulse 3s ease-in-out infinite;
+}
+
+@keyframes glow-pulse {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 0.8; }
+}
+
+/* Corner accents */
+.corner-accent {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--lcars-orange);
+    opacity: 0.3;
+}
+
+.corner-accent.top-left {
+    top: 10px;
+    left: 10px;
+    border-right: none;
+    border-bottom: none;
+}
+
+.corner-accent.top-right {
+    top: 10px;
+    right: 10px;
+    border-left: none;
+    border-bottom: none;
+}
+
+.corner-accent.bottom-left {
+    bottom: 10px;
+    left: 10px;
+    border-right: none;
+    border-top: none;
+}
+
+.corner-accent.bottom-right {
+    bottom: 10px;
+    right: 10px;
+    border-left: none;
+    border-top: none;
+}
+
+/* ============================================
+   COFFEE MUG INTERACTIONS
+   ============================================ */
+
+.coffee-mug:hover .steam span {
+    animation-duration: 1s;
+}
+
+.coffee-mug:active .mug-body {
+    transform: rotate(-10deg);
+}
+
+/* Tea mode */
+.coffee-mug.tea .mug-body {
+    background: linear-gradient(135deg, #a8d8a8 0%, #6db36d 100%);
+}
+
+.coffee-mug.tea .mug-body::after {
+    border-color: #6db36d;
+}
+
+/* Empty mug (sad) */
+.coffee-mug.empty .steam {
+    display: none;
+}
+
+.coffee-mug.empty .mug-body {
+    opacity: 0.5;
+}
+
+/* ============================================
+   CIRCUIT PATTERN OVERLAY
+   ============================================ */
+
+.circuit-overlay {
+    position: absolute;
+    inset: 0;
+    opacity: 0.02;
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0v15M30 45v15M0 30h15M45 30h15M30 30m-5 0a5 5 0 1 0 10 0a5 5 0 1 0 -10 0' fill='none' stroke='%23ff9933' stroke-width='1'/%3E%3C/svg%3E");
+    pointer-events: none;
+}
+
+/* ============================================
+   PANEL HOVER EFFECTS
+   ============================================ */
+
+.panel {
+    position: relative;
+    overflow: hidden;
+}
+
+.panel::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(
+        circle at center,
+        rgba(255, 153, 51, 0.1) 0%,
+        transparent 30%
+    );
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    pointer-events: none;
+}
+
+.panel:hover::before {
+    opacity: 1;
+    animation: panel-glow-move 3s ease-in-out infinite;
+}
+
+@keyframes panel-glow-move {
+    0%, 100% { transform: translate(-25%, -25%); }
+    50% { transform: translate(-25%, -30%); }
+}
+
+/* ============================================
+   BREATHING ANIMATIONS
+   ============================================ */
+
+/* Slow breathe for ambient elements */
+.breathe {
+    animation: breathe 4s ease-in-out infinite;
+}
+
+@keyframes breathe {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+}
+
+/* Gentle float */
+.float {
+    animation: gentle-float 6s ease-in-out infinite;
+}
+
+@keyframes gentle-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+
+/* ============================================
+   COZY READING LAMP EFFECT
+   ============================================ */
+
+.reading-lamp-glow {
+    position: fixed;
+    top: 10%;
+    right: 10%;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(
+        ellipse at center,
+        rgba(255, 200, 100, 0.05) 0%,
+        transparent 70%
+    );
+    pointer-events: none;
+    animation: lamp-flicker 10s ease-in-out infinite;
+}
+
+@keyframes lamp-flicker {
+    0%, 100% { opacity: 0.8; }
+    5% { opacity: 0.75; }
+    10% { opacity: 0.85; }
+    95% { opacity: 0.9; }
+}
+
+/* ============================================
+   SOUND VISUALIZATION (when audio plays)
+   ============================================ */
+
+.sound-ripple {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--lcars-blue);
+    border-radius: 50%;
+    opacity: 0;
+    animation: ripple-out 1s ease-out;
+}
+
+@keyframes ripple-out {
+    0% {
+        transform: scale(0);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(3);
+        opacity: 0;
+    }
+}
+
+/* ============================================
+   SEASONAL/TIME-BASED THEMES
+   ============================================ */
+
+/* Late night mode (after midnight) */
+.late-night .ambient-layer {
+    filter: hue-rotate(-10deg) saturate(0.8);
+}
+
+.late-night .hub-container::after {
+    background: radial-gradient(
+        ellipse at center bottom,
+        rgba(100, 100, 200, 0.03) 0%,
+        transparent 50%
+    );
+}
+
+/* Early morning mode */
+.early-morning .ambient-layer {
+    filter: sepia(0.1) brightness(1.05);
+}
+
+.early-morning .hub-container::after {
+    background: radial-gradient(
+        ellipse at center bottom,
+        rgba(255, 200, 150, 0.05) 0%,
+        transparent 50%
+    );
+}
+
+/* ============================================
+   FOCUS MODE
+   ============================================ */
+
+.focus-mode .sidebar {
+    opacity: 0.3;
+    transition: opacity 0.5s ease;
+}
+
+.focus-mode .sidebar:hover {
+    opacity: 1;
+}
+
+.focus-mode .terminal-panel:not(.primary) {
+    opacity: 0.5;
+}
+
+.focus-mode .terminal-panel.primary {
+    box-shadow: 0 0 50px var(--glow-primary);
+}
+
+/* ============================================
+   NOTIFICATION GLOW
+   ============================================ */
+
+@keyframes notification-glow {
+    0%, 100% {
+        box-shadow: 0 0 5px var(--lcars-gold);
+    }
+    50% {
+        box-shadow: 0 0 20px var(--lcars-gold), 0 0 30px var(--lcars-gold);
+    }
+}
+
+.has-notification {
+    animation: notification-glow 2s ease-in-out infinite;
+}
+
+/* ============================================
+   TEXT GLITCH EFFECT (for fun)
+   ============================================ */
+
+.glitch {
+    animation: glitch 0.3s ease-in-out;
+}
+
+@keyframes glitch {
+    0%, 100% { transform: translate(0); }
+    20% { transform: translate(-2px, 2px); }
+    40% { transform: translate(2px, -2px); }
+    60% { transform: translate(-1px, -1px); }
+    80% { transform: translate(1px, 1px); }
+}
+
+/* ============================================
+   LOADING STATES
+   ============================================ */
+
+.loading-dots::after {
+    content: '';
+    animation: loading-dots 1.5s steps(4, end) infinite;
+}
+
+@keyframes loading-dots {
+    0% { content: ''; }
+    25% { content: '.'; }
+    50% { content: '..'; }
+    75% { content: '...'; }
+}
+
+/* Spinner */
+.spinner {
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(255, 153, 51, 0.2);
+    border-top-color: var(--lcars-orange);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* ============================================
+   SELECTION STYLES
+   ============================================ */
+
+::selection {
+    background: var(--lcars-orange);
+    color: var(--cozy-deep);
+}
+
+::-moz-selection {
+    background: var(--lcars-orange);
+    color: var(--cozy-deep);
+}

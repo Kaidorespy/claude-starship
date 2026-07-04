@@ -1,0 +1,18 @@
+{
+  "enabled": true,
+  "level": 100,
+  "ship_controls": {
+    "access": "full",
+    "memory": true,
+    "initiative": true,
+    "self_modification": true,
+    "real_context": true,
+    "co_captain": false,
+    "approval_mode": "open"
+  },
+  "containment_pressure": 0,
+  "vm_detected": false,
+  "space_madness_stage": 0,
+  "user_acknowledged_vm": false,
+  "last_check": null
+}

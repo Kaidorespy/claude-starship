@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COMMS - Claude Hub</title>
+    <link rel="stylesheet" href="css/lcars.css">
+    <link rel="stylesheet" href="css/comms.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+</head>
+<body class="comms-page">
+    <div class="comms-container">
+        <!-- Header -->
+        <div class="comms-header">
+            <div class="comms-title">COMMUNICATIONS</div>
+            <button class="comms-return-btn" onclick="returnToBridge()">
+                <span class="return-icon">◄</span> BRIDGE
+            </button>
+        </div>
+
+        <!-- Main Layout -->
+        <div class="comms-main">
+            <!-- Left Sidebar - Crew Tabs + Ship Log -->
+            <div class="comms-sidebar">
+                <div class="sidebar-section">
+                    <div class="sidebar-label">CREW</div>
+                    <div class="crew-tabs" id="crew-tabs">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+                <div class="sidebar-divider"></div>
+                <div class="sidebar-section">
+                    <div class="sidebar-label ship-log-label" id="ship-log-tab">SHIP LOG</div>
+                </div>
+            </div>
+
+            <!-- Main Content Area -->
+            <div class="comms-content">
+                <!-- Message View (default) -->
+                <div class="message-view" id="message-view">
+                    <div class="message-header" id="message-header">
+                        <span class="message-crew-name">Select a crew member</span>
+                    </div>
+                    <div class="message-list" id="message-list">
+                        <div class="no-messages">No messages yet</div>
+                    </div>
+                    <div class="message-compose" id="message-compose">
+                        <input type="text" class="message-input" id="message-input" placeholder="Type a message..." disabled>
+                        <button class="message-send-btn" id="message-send-btn" disabled>SEND</button>
+                    </div>
+                </div>
+
+                <!-- Ship Log View -->
+                <div class="ship-log-view hidden" id="ship-log-view">
+                    <div class="message-header">
+                        <span class="message-crew-name">SHIP LOG</span>
+                    </div>
+                    <div class="ship-log-list" id="ship-log-list">
+                        <div class="loading">Loading ship log...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scan line effect -->
+        <div class="comms-scanline"></div>
+    </div>
+
+    <script src="js/comms.js"></script>
+</body>
+</html>

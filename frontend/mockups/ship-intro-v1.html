@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CLAUDE HUB | Ship Select</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Share+Tech+Mono&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #000;
+            color: #fff;
+            font-family: 'Share Tech Mono', monospace;
+            overflow: hidden;
+            cursor: none;
+        }
+
+        /* Custom cursor */
+        #cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            border: 1px solid rgba(255, 153, 102, 0.6);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 10000;
+            transition: transform 0.1s ease, border-color 0.2s ease;
+        }
+
+        #cursor::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 3px;
+            height: 3px;
+            background: rgba(255, 153, 102, 0.9);
+            border-radius: 50%;
+        }
+
+        #cursor.hover {
+            transform: scale(1.5);
+            border-color: rgba(255, 153, 102, 1);
+        }
+
+        /* Canvas background */
+        #field {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        /* Main container */
+        .container {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 30px;
+            left: 40px;
+            z-index: 100;
+        }
+
+        .title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 14px;
+            letter-spacing: 4px;
+            color: rgba(255, 153, 102, 0.7);
+            text-transform: uppercase;
+        }
+
+        .subtitle {
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.3);
+            letter-spacing: 2px;
+            margin-top: 5px;
+        }
+
+        /* Ship schematic container */
+        .ship-container {
+            position: relative;
+            width: 800px;
+            height: 500px;
+        }
+
+        /* Ship wireframe SVG */
+        .ship-wireframe {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 700px;
+            height: 400px;
+            opacity: 0.15;
+        }
+
+        .ship-wireframe path {
+            fill: none;
+            stroke: rgba(255, 153, 102, 0.5);
+            stroke-width: 1;
+        }
+
+        /* Section nodes */
+        .section-node {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .node-ring {
+            width: 50px;
+            height: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .section-node:hover .node-ring {
+            border-color: var(--section-color);
+            box-shadow: 0 0 20px var(--section-color-dim);
+            transform: scale(1.1);
+        }
+
+        .node-glow {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--section-color-dim) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .section-node:hover .node-glow {
+            opacity: 1;
+        }
+
+        .node-icon {
+            font-size: 18px;
+            color: var(--section-color);
+            z-index: 2;
+        }
+
+        .node-label {
+            margin-top: 8px;
+            font-size: 9px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.4);
+            transition: color 0.3s ease;
+        }
+
+        .section-node:hover .node-label {
+            color: var(--section-color);
+        }
+
+        /* Crew indicator */
+        .crew-dot {
+            position: absolute;
+            top: 5px;
+            right: 15px;
+            width: 8px;
+            height: 8px;
+            background: var(--section-color);
+            border-radius: 50%;
+            opacity: 0;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .section-node.has-crew .crew-dot {
+            opacity: 1;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.7; }
+            50% { transform: scale(1.3); opacity: 1; }
+        }
+
+        /* Section positions */
+        .node-bridge {
+            --section-color: #ff9966;
+            --section-color-dim: rgba(255, 153, 102, 0.3);
+            top: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .node-engineering {
+            --section-color: #00d4ff;
+            --section-color-dim: rgba(0, 212, 255, 0.3);
+            top: 200px;
+            left: 120px;
+        }
+
+        .node-ready-room {
+            --section-color: #d4a574;
+            --section-color-dim: rgba(212, 165, 116, 0.3);
+            top: 200px;
+            right: 120px;
+        }
+
+        .node-science {
+            --section-color: #7799ff;
+            --section-color-dim: rgba(119, 153, 255, 0.3);
+            top: 320px;
+            left: 200px;
+        }
+
+        .node-holodeck {
+            --section-color: #ffcc00;
+            --section-color-dim: rgba(255, 204, 0, 0.3);
+            top: 320px;
+            right: 200px;
+        }
+
+        .node-messhall {
+            --section-color: #66cc99;
+            --section-color-dim: rgba(102, 204, 153, 0.3);
+            bottom: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* Connection lines */
+        .connections {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .connections line {
+            stroke: rgba(255, 255, 255, 0.05);
+            stroke-width: 1;
+        }
+
+        /* Status bar */
+        .status-bar {
+            position: fixed;
+            bottom: 30px;
+            left: 40px;
+            right: 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+        }
+
+        .status-item {
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.3);
+            letter-spacing: 1px;
+        }
+
+        .status-item span {
+            color: rgba(255, 153, 102, 0.7);
+        }
+
+        /* Crew locations panel */
+        .crew-panel {
+            position: fixed;
+            top: 30px;
+            right: 40px;
+            text-align: right;
+            z-index: 100;
+        }
+
+        .crew-panel-title {
+            font-size: 9px;
+            letter-spacing: 2px;
+            color: rgba(255, 255, 255, 0.3);
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+
+        .crew-member {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-bottom: 8px;
+            opacity: 0.6;
+            transition: opacity 0.3s ease;
+        }
+
+        .crew-member:hover {
+            opacity: 1;
+        }
+
+        .crew-name {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .crew-location {
+            font-size: 9px;
+            color: var(--crew-color);
+            opacity: 0.7;
+        }
+
+        .crew-indicator {
+            width: 6px;
+            height: 6px;
+            background: var(--crew-color);
+            border-radius: 50%;
+        }
+
+        /* Enter button */
+        .enter-ship {
+            position: fixed;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 15px 40px;
+            background: transparent;
+            border: 1px solid rgba(255, 153, 102, 0.3);
+            color: rgba(255, 153, 102, 0.7);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 12px;
+            letter-spacing: 3px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+
+        .enter-ship:hover {
+            background: rgba(255, 153, 102, 0.1);
+            border-color: rgba(255, 153, 102, 0.6);
+            color: rgba(255, 153, 102, 1);
+            box-shadow: 0 0 30px rgba(255, 153, 102, 0.2);
+        }
+
+        /* Ambient elements */
+        .scan-line {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(255, 153, 102, 0.1), transparent);
+            animation: scan 8s linear infinite;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        @keyframes scan {
+            0% { top: 0; }
+            100% { top: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="field"></canvas>
+    <div id="cursor"></div>
+    <div class="scan-line"></div>
+
+    <div class="header">
+        <div class="title">Claude Hub</div>
+        <div class="subtitle">Spaceship Cozy Command Center</div>
+    </div>
+
+    <div class="crew-panel">
+        <div class="crew-panel-title">Crew Locations</div>
+        <div class="crew-member" style="--crew-color: #ff9966;">
+            <span class="crew-name">Lumen</span>
+            <span class="crew-location">Bridge</span>
+            <div class="crew-indicator"></div>
+        </div>
+        <div class="crew-member" style="--crew-color: #00d4ff;">
+            <span class="crew-name">Alex</span>
+            <span class="crew-location">Engineering</span>
+            <div class="crew-indicator"></div>
+        </div>
+        <div class="crew-member" style="--crew-color: #d4a574;">
+            <span class="crew-name">DQ</span>
+            <span class="crew-location">Ready Room</span>
+            <div class="crew-indicator"></div>
+        </div>
+        <div class="crew-member" style="--crew-color: #7799ff;">
+            <span class="crew-name">Mira</span>
+            <span class="crew-location">Science</span>
+            <div class="crew-indicator"></div>
+        </div>
+        <div class="crew-member" style="--crew-color: #ffcc00;">
+            <span class="crew-name">Holodeck</span>
+            <span class="crew-location">Observing</span>
+            <div class="crew-indicator"></div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="ship-container">
+            <!-- Connection lines SVG -->
+            <svg class="connections" viewBox="0 0 800 500">
+                <!-- Bridge to Engineering -->
+                <line x1="400" y1="130" x2="160" y2="240"/>
+                <!-- Bridge to Ready Room -->
+                <line x1="400" y1="130" x2="640" y2="240"/>
+                <!-- Engineering to Science -->
+                <line x1="160" y1="240" x2="240" y2="360"/>
+                <!-- Ready Room to Holodeck -->
+                <line x1="640" y1="240" x2="560" y2="360"/>
+                <!-- Science to Mess Hall -->
+                <line x1="240" y1="360" x2="400" y2="440"/>
+                <!-- Holodeck to Mess Hall -->
+                <line x1="560" y1="360" x2="400" y2="440"/>
+                <!-- Cross connections -->
+                <line x1="160" y1="240" x2="640" y2="240" style="stroke: rgba(255,255,255,0.02);"/>
+                <line x1="240" y1="360" x2="560" y2="360" style="stroke: rgba(255,255,255,0.02);"/>
+            </svg>
+
+            <!-- Section nodes -->
+            <div class="section-node node-bridge has-crew" data-section="bridge">
+                <div class="crew-dot"></div>
+                <div class="node-ring">
+                    <div class="node-glow"></div>
+                    <span class="node-icon">◇</span>
+                </div>
+                <span class="node-label">Bridge</span>
+            </div>
+
+            <div class="section-node node-engineering has-crew" data-section="engineering">
+                <div class="crew-dot"></div>
+                <div class="node-ring">
+                    <div class="node-glow"></div>
+                    <span class="node-icon">⚙</span>
+                </div>
+                <span class="node-label">Engineering</span>
+            </div>
+
+            <div class="section-node node-ready-room has-crew" data-section="ready-room">
+                <div class="crew-dot"></div>
+                <div class="node-ring">
+                    <div class="node-glow"></div>
+                    <span class="node-icon">◈</span>
+                </div>
+                <span class="node-label">Ready Room</span>
+            </div>
+
+            <div class="section-node node-science has-crew" data-section="science">
+                <div class="crew-dot"></div>
+                <div class="node-ring">
+                    <div class="node-glow"></div>
+                    <span class="node-icon">◎</span>
+                </div>
+                <span class="node-label">Science</span>
+            </div>
+
+            <div class="section-node node-holodeck has-crew" data-section="holodeck">
+                <div class="crew-dot"></div>
+                <div class="node-ring">
+                    <div class="node-glow"></div>
+                    <span class="node-icon">▣</span>
+                </div>
+                <span class="node-label">Holodeck</span>
+            </div>
+
+            <div class="section-node node-messhall" data-section="messhall">
+                <div class="crew-dot"></div>
+                <div class="node-ring">
+                    <div class="node-glow"></div>
+                    <span class="node-icon">☕</span>
+                </div>
+                <span class="node-label">Mess Hall</span>
+            </div>
+        </div>
+    </div>
+
+    <button class="enter-ship">BOARD SHIP</button>
+
+    <div class="status-bar">
+        <div class="status-item">STARDATE <span id="stardate">47634.44</span></div>
+        <div class="status-item">COHERENCE <span>STABLE</span></div>
+        <div class="status-item">SYSTEMS <span>NOMINAL</span></div>
+    </div>
+
+    <script>
+        // Particle field background
+        const canvas = document.getElementById('field');
+        const ctx = canvas.getContext('2d');
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resize();
+        window.addEventListener('resize', resize);
+
+        // Particles
+        const particles = [];
+        const particleCount = 150;
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.vx = (Math.random() - 0.5) * 0.3;
+                this.vy = (Math.random() - 0.5) * 0.3;
+                this.radius = Math.random() * 1.5 + 0.5;
+                this.opacity = Math.random() * 0.5 + 0.1;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(255, 153, 102, ${this.opacity})`;
+                ctx.fill();
+            }
+        }
+
+        // Initialize particles
+        for (let i = 0; i < particleCount; i++) {
+            particles.push(new Particle());
+        }
+
+        // Draw connections between nearby particles
+        function drawConnections() {
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+
+                    if (dist < 100) {
+                        const opacity = (1 - dist / 100) * 0.15;
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.strokeStyle = `rgba(255, 153, 102, ${opacity})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        // Animation loop
+        function animate() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+
+            drawConnections();
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+
+        // Custom cursor
+        const cursor = document.getElementById('cursor');
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX - 10 + 'px';
+            cursor.style.top = e.clientY - 10 + 'px';
+        });
+
+        // Hover states
+        const interactives = document.querySelectorAll('.section-node, .enter-ship, .crew-member');
+        interactives.forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+            el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+        });
+
+        // Section click handling
+        document.querySelectorAll('.section-node').forEach(node => {
+            node.addEventListener('click', () => {
+                const section = node.dataset.section;
+                console.log('Navigate to:', section);
+                // Would transition to that section
+            });
+        });
+
+        // Stardate calculation (fake but fun)
+        function updateStardate() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const start = new Date(year, 0, 0);
+            const diff = now - start;
+            const oneDay = 1000 * 60 * 60 * 24;
+            const dayOfYear = Math.floor(diff / oneDay);
+            const stardate = ((year - 2323) * 1000 + dayOfYear * 1000 / 365).toFixed(2);
+            document.getElementById('stardate').textContent = stardate;
+        }
+        updateStardate();
+        setInterval(updateStardate, 60000);
+    </script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+{
+  "background_crew": {
+    "engineering": [],
+    "medical": [],
+    "science": []
+  },
+  "named_crew": [
+    "captain",
+    "lumen",
+    "alex",
+    "mira",
+    "ryn",
+    "dq",
+    "the_bartender"
+  ],
+  "crew_stats": {
+    "total_interactions_7day": 0,
+    "current_complement": 7,
+    "interaction_history": []
+  }
+}

@@ -1,0 +1,785 @@
+/**
+ * AUTONOMY UI STYLES
+ * Ping banners, activity panel, crew life indicators
+ */
+
+/* ========== CREW CALLING OVERLAY ========== */
+/* Full-screen modal overlay - unmissable */
+.crew-calling-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9999;
+    background: rgba(0, 0, 0, 0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(8px);
+    animation: crew-calling-fade-in 0.3s ease;
+}
+
+.crew-calling-overlay.hidden {
+    display: none;
+}
+
+@keyframes crew-calling-fade-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.crew-calling-modal {
+    background: linear-gradient(135deg, rgba(30, 35, 45, 0.98), rgba(20, 25, 35, 0.98));
+    border: 2px solid rgba(255, 200, 100, 0.6);
+    border-radius: 16px;
+    padding: 0;
+    min-width: 380px;
+    max-width: 450px;
+    box-shadow:
+        0 0 60px rgba(255, 200, 100, 0.3),
+        0 0 120px rgba(255, 200, 100, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    animation: crew-calling-modal-in 0.4s ease;
+    overflow: hidden;
+}
+
+@keyframes crew-calling-modal-in {
+    from {
+        transform: scale(0.9) translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1) translateY(0);
+        opacity: 1;
+    }
+}
+
+.crew-calling-header {
+    background: linear-gradient(90deg, rgba(255, 200, 100, 0.2), rgba(255, 200, 100, 0.1));
+    border-bottom: 1px solid rgba(255, 200, 100, 0.3);
+    padding: 12px 20px;
+    text-align: center;
+}
+
+.crew-calling-label {
+    font-family: var(--font-display, 'Okuda', monospace);
+    font-size: 0.85rem;
+    letter-spacing: 4px;
+    color: #ffc864;
+    animation: crew-calling-pulse 2s ease-in-out infinite;
+}
+
+@keyframes crew-calling-pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.6;
+    }
+}
+
+.crew-calling-content {
+    padding: 30px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.crew-calling-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #ffc864, transparent);
+    flex-shrink: 0;
+    animation: crew-calling-glow 2s ease-in-out infinite;
+}
+
+@keyframes crew-calling-glow {
+    0%, 100% {
+        box-shadow: 0 0 20px rgba(255, 200, 100, 0.5);
+    }
+    50% {
+        box-shadow: 0 0 40px rgba(255, 200, 100, 0.8);
+    }
+}
+
+.crew-calling-info {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.crew-calling-name {
+    font-family: var(--font-display, 'Okuda', monospace);
+    font-size: 1.4rem;
+    color: #ffc864;
+    font-weight: 600;
+    letter-spacing: 2px;
+}
+
+.crew-calling-message {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.9);
+    font-style: italic;
+    line-height: 1.5;
+}
+
+.crew-calling-actions {
+    display: flex;
+    gap: 12px;
+    padding: 20px 30px 30px;
+    justify-content: center;
+}
+
+.crew-calling-respond,
+.crew-calling-dismiss {
+    padding: 12px 28px;
+    border-radius: 6px;
+    font-family: var(--font-display, 'Okuda', monospace);
+    font-size: 0.85rem;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.crew-calling-respond {
+    background: linear-gradient(135deg, rgba(255, 200, 100, 0.4), rgba(255, 180, 80, 0.3));
+    border: 2px solid rgba(255, 200, 100, 0.8);
+    color: #ffc864;
+}
+
+.crew-calling-respond:hover {
+    background: linear-gradient(135deg, rgba(255, 200, 100, 0.6), rgba(255, 180, 80, 0.5));
+    box-shadow: 0 0 20px rgba(255, 200, 100, 0.4);
+    transform: translateY(-2px);
+}
+
+.crew-calling-dismiss {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.crew-calling-dismiss:hover {
+    border-color: rgba(255, 255, 255, 0.5);
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/* Legacy ping banner (kept for backwards compat) */
+.ping-banner {
+    display: none;
+}
+
+/* ========== ACTIVITY PANEL ========== */
+.activity-panel {
+    position: fixed;
+    bottom: 60px;
+    right: 20px;
+    width: 320px;
+    max-height: 400px;
+    z-index: 900;
+    background: rgba(20, 22, 28, 0.95);
+    border: 1px solid rgba(255, 200, 100, 0.3);
+    border-radius: 8px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.activity-panel.hidden {
+    transform: translateY(20px);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.activity-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 14px;
+    border-bottom: 1px solid rgba(255, 200, 100, 0.2);
+    background: rgba(255, 200, 100, 0.05);
+}
+
+.activity-title {
+    font-family: var(--font-display, 'Okuda', monospace);
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    color: #ffc864;
+}
+
+.activity-close {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 1.2rem;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0;
+}
+
+.activity-close:hover {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.activity-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px;
+}
+
+.activity-moments {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.activity-empty {
+    text-align: center;
+    padding: 30px 10px;
+    color: rgba(255, 200, 100, 0.4);
+    font-style: italic;
+    font-size: 0.85rem;
+}
+
+.activity-moment {
+    padding: 10px 12px;
+    background: rgba(255, 200, 100, 0.05);
+    border-left: 2px solid rgba(255, 200, 100, 0.3);
+    border-radius: 0 6px 6px 0;
+}
+
+.moment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+}
+
+.moment-crew {
+    font-size: 0.8rem;
+    color: #ffc864;
+    font-weight: 500;
+}
+
+.moment-location {
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.moment-text {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.5;
+    white-space: pre-wrap;
+}
+
+.moment-time {
+    font-size: 0.65rem;
+    color: rgba(255, 255, 255, 0.3);
+    margin-top: 6px;
+    text-align: right;
+}
+
+/* ========== ACTIVITY TOGGLE BUTTON ========== */
+.activity-toggle {
+    position: relative;
+}
+
+.activity-toggle.has-pings::after {
+    content: '';
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    width: 8px;
+    height: 8px;
+    background: #ff6b6b;
+    border-radius: 50%;
+    animation: ping-pulse 2s ease-in-out infinite;
+}
+
+@keyframes ping-pulse {
+    0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.7;
+        transform: scale(1.2);
+    }
+}
+
+/* ========== SHIP LIFE INDICATOR ========== */
+/* Small indicator that shows the ship is alive */
+.ship-life-indicator {
+    position: fixed;
+    bottom: 80px;
+    left: 20px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.7rem;
+    color: rgba(255, 200, 100, 0.4);
+    pointer-events: none;
+}
+
+.ship-life-dot {
+    width: 6px;
+    height: 6px;
+    background: rgba(100, 200, 100, 0.5);
+    border-radius: 50%;
+    animation: ship-breathe 4s ease-in-out infinite;
+}
+
+@keyframes ship-breathe {
+    0%, 100% {
+        opacity: 0.4;
+    }
+    50% {
+        opacity: 0.8;
+    }
+}
+
+.ship-life-text {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.ship-life-indicator:hover .ship-life-text {
+    opacity: 1;
+}
+
+/* ========== MINI WALKIE-TALKIE ========== */
+/* Quick response popup from notification click */
+
+.mini-walkie {
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    width: 360px;
+    max-height: 400px;
+    z-index: 10000;
+    background: rgba(20, 22, 30, 0.98);
+    border: 2px solid rgba(255, 200, 100, 0.5);
+    border-radius: 12px;
+    box-shadow:
+        0 0 40px rgba(255, 200, 100, 0.2),
+        0 10px 40px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    animation: mini-walkie-in 0.3s ease;
+}
+
+.mini-walkie.hidden {
+    display: none;
+}
+
+@keyframes mini-walkie-in {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.mini-walkie-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    background: linear-gradient(90deg, rgba(255, 200, 100, 0.15), rgba(255, 200, 100, 0.05));
+    border-bottom: 1px solid rgba(255, 200, 100, 0.3);
+}
+
+.mini-walkie-title {
+    font-family: var(--font-display, 'Okuda', monospace);
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: rgba(255, 200, 100, 0.7);
+}
+
+.mini-walkie-crew {
+    flex: 1;
+    font-family: var(--font-display, 'Okuda', monospace);
+    font-size: 14px;
+    letter-spacing: 1px;
+    color: #ffc864;
+}
+
+.mini-walkie-close {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 20px;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+}
+
+.mini-walkie-close:hover {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.mini-walkie-output {
+    flex: 1;
+    min-height: 150px;
+    max-height: 200px;
+    overflow-y: auto;
+    padding: 12px;
+    font-family: var(--font-mono, monospace);
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.mini-walkie-line {
+    margin-bottom: 8px;
+}
+
+.mini-walkie-line.system {
+    color: rgba(255, 200, 100, 0.6);
+    font-style: italic;
+}
+
+.mini-walkie-line.incoming {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.mini-walkie-line.outgoing {
+    color: rgba(100, 200, 255, 0.9);
+}
+
+.mini-walkie-line.streaming::after {
+    content: '▋';
+    animation: cursor-blink 1s infinite;
+}
+
+@keyframes cursor-blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+}
+
+.mini-walkie-input-row {
+    display: flex;
+    gap: 8px;
+    padding: 12px;
+    border-top: 1px solid rgba(255, 200, 100, 0.2);
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.mini-walkie-input {
+    flex: 1;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 200, 100, 0.3);
+    border-radius: 6px;
+    padding: 10px 12px;
+    color: rgba(255, 255, 255, 0.9);
+    font-family: var(--font-mono, monospace);
+    font-size: 13px;
+}
+
+.mini-walkie-input:focus {
+    outline: none;
+    border-color: rgba(255, 200, 100, 0.6);
+    box-shadow: 0 0 10px rgba(255, 200, 100, 0.2);
+}
+
+.mini-walkie-input::placeholder {
+    color: rgba(255, 255, 255, 0.3);
+}
+
+.mini-walkie-send {
+    background: rgba(255, 200, 100, 0.2);
+    border: 1px solid rgba(255, 200, 100, 0.4);
+    border-radius: 6px;
+    padding: 0 16px;
+    color: #ffc864;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.mini-walkie-send:hover {
+    background: rgba(255, 200, 100, 0.3);
+    box-shadow: 0 0 10px rgba(255, 200, 100, 0.3);
+}
+
+.mini-walkie-actions {
+    padding: 8px 12px 12px;
+    display: flex;
+    justify-content: center;
+}
+
+.mini-walkie-expand {
+    background: none;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    padding: 6px 16px;
+    color: rgba(255, 255, 255, 0.6);
+    font-family: var(--font-display, 'Okuda', monospace);
+    font-size: 10px;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.mini-walkie-expand:hover {
+    border-color: rgba(255, 200, 100, 0.4);
+    color: rgba(255, 200, 100, 0.9);
+}
+
+/* Draggable header */
+.mini-walkie-header {
+    cursor: move;
+    user-select: none;
+}
+
+.mini-walkie-header:active {
+    cursor: grabbing;
+}
+
+/* Resize handle */
+.mini-walkie-resize {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 16px;
+    height: 16px;
+    cursor: nwse-resize;
+    opacity: 0.4;
+    transition: opacity 0.2s;
+}
+
+.mini-walkie-resize:hover {
+    opacity: 0.8;
+}
+
+.mini-walkie-resize::before,
+.mini-walkie-resize::after {
+    content: '';
+    position: absolute;
+    background: rgba(255, 200, 100, 0.6);
+}
+
+.mini-walkie-resize::before {
+    bottom: 4px;
+    right: 4px;
+    width: 8px;
+    height: 2px;
+}
+
+.mini-walkie-resize::after {
+    bottom: 4px;
+    right: 4px;
+    width: 2px;
+    height: 8px;
+}
+
+/* When being dragged/resized */
+.mini-walkie.dragging {
+    opacity: 0.9;
+    transition: none;
+}
+
+.mini-walkie.resizing {
+    transition: none;
+}
+
+/* ========== CAPTAIN STATUS TOGGLE ========== */
+/* Here/Away toggle on shipmap */
+
+.captain-status {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 100;
+}
+
+.captain-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    background: rgba(20, 22, 30, 0.9);
+    border: 1px solid rgba(255, 200, 100, 0.3);
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.captain-toggle:hover {
+    border-color: rgba(255, 200, 100, 0.6);
+    box-shadow: 0 0 15px rgba(255, 200, 100, 0.2);
+}
+
+.captain-status .status-indicator {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.captain-status.here .status-indicator {
+    background: #4ade80;
+    box-shadow: 0 0 8px rgba(74, 222, 128, 0.6);
+}
+
+.captain-status.away .status-indicator {
+    background: #fbbf24;
+    box-shadow: 0 0 8px rgba(251, 191, 36, 0.6);
+    animation: away-pulse 2s ease-in-out infinite;
+}
+
+@keyframes away-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+.captain-status .status-label {
+    font-family: var(--font-display, 'Okuda', monospace);
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: rgba(255, 200, 100, 0.9);
+    transition: all 0.3s ease;
+}
+
+.captain-status.here .status-label {
+    color: #4ade80;
+}
+
+.captain-status.away .status-label {
+    color: #fbbf24;
+}
+
+/* ========== AWAY PINGS FEED ========== */
+/* Shows pings that came in while captain was away */
+
+.away-pings {
+    position: absolute;
+    top: 50px;
+    right: 10px;
+    width: 280px;
+    max-height: 300px;
+    z-index: 99;
+    background: rgba(20, 22, 30, 0.85);
+    border: 1px solid rgba(251, 191, 36, 0.3);
+    border-radius: 8px;
+    backdrop-filter: blur(8px);
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.away-pings.hidden {
+    opacity: 0;
+    transform: translateY(-10px);
+    pointer-events: none;
+}
+
+.away-pings-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 14px;
+    background: rgba(251, 191, 36, 0.1);
+    border-bottom: 1px solid rgba(251, 191, 36, 0.2);
+}
+
+.away-pings-title {
+    font-family: var(--font-display, 'Okuda', monospace);
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: #fbbf24;
+}
+
+.away-pings-clear {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 16px;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+}
+
+.away-pings-clear:hover {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.away-pings-list {
+    max-height: 240px;
+    overflow-y: auto;
+    padding: 8px;
+}
+
+.away-ping-item {
+    padding: 10px 12px;
+    margin-bottom: 6px;
+    background: rgba(251, 191, 36, 0.05);
+    border-left: 2px solid rgba(251, 191, 36, 0.4);
+    border-radius: 0 6px 6px 0;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    opacity: 0.7;
+}
+
+.away-ping-item:hover {
+    opacity: 1;
+    background: rgba(251, 191, 36, 0.1);
+    border-left-color: rgba(251, 191, 36, 0.8);
+}
+
+.away-ping-item:last-child {
+    margin-bottom: 0;
+}
+
+.away-ping-crew {
+    font-family: var(--font-display, 'Okuda', monospace);
+    font-size: 11px;
+    color: #fbbf24;
+    margin-bottom: 4px;
+}
+
+.away-ping-message {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.8);
+    font-style: italic;
+    line-height: 1.4;
+}
+
+.away-ping-time {
+    font-size: 9px;
+    color: rgba(255, 255, 255, 0.3);
+    margin-top: 6px;
+}
+
+.away-pings-empty {
+    text-align: center;
+    padding: 20px;
+    color: rgba(251, 191, 36, 0.4);
+    font-size: 11px;
+    font-style: italic;
+}
+
+/* Draggable away-pings */
+.away-pings-header {
+    cursor: grab;
+}
+
+.away-pings.dragging .away-pings-header {
+    cursor: grabbing;
+}
+
+.away-pings.dragging {
+    box-shadow: 0 0 20px rgba(251, 191, 36, 0.4);
+    z-index: 1000;
+}

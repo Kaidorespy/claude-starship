@@ -1,0 +1,25 @@
+nul
+*.pyc
+__pycache__/
+.env
+node_modules/
+venv/
+.venv/
+
+# Local/player runtime data. Public defaults live in backend/default_data/.
+data/
+backend/*.json
+backend/checkpoints/
+crew_projects/
+claude-hub/
+
+# Local scratch/demo artifacts
+restore_dq.html
+ship-mockup.html
+frontend/js/dq_conversation.json
+
+# Optional local hardware monitor binaries
+backend/LibreHardwareMonitorLib.dll
+backend/LibreHardwareMonitor.exe
+LibreHardwareMonitor.exe
+LibreHardwareMonitorLib.dll

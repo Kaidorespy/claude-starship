@@ -1,0 +1,9 @@
+{
+  "chess": {},
+  "cards": {
+    "active": false
+  },
+  "darts": {
+    "high_scores": []
+  }
+}

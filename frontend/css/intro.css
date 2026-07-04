@@ -1,0 +1,655 @@
+/**
+ * SHIP INTRO / MAP OVERLAY
+ * The sleek entry point
+ */
+
+/* ==========================================
+   INTRO OVERLAY
+   ========================================== */
+
+.ship-intro-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    z-index: 10000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    opacity: 1;
+    transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+
+.ship-intro-overlay.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.ship-intro-overlay.instant-hide {
+    display: none;
+}
+
+/* Particle canvas background */
+.intro-field {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+/* Custom cursor */
+.intro-cursor {
+    position: fixed;
+    width: 20px;
+    height: 20px;
+    border: 1px solid rgba(255, 153, 102, 0.6);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 10001;
+    transition: transform 0.1s ease, border-color 0.2s ease;
+    display: none;
+}
+
+.ship-intro-overlay:not(.hidden) ~ .intro-cursor,
+.ship-intro-overlay:not(.hidden) .intro-cursor {
+    display: block;
+}
+
+.intro-cursor::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 3px;
+    height: 3px;
+    background: rgba(255, 153, 102, 0.9);
+    border-radius: 50%;
+}
+
+.intro-cursor.hover {
+    transform: scale(1.5);
+    border-color: rgba(255, 153, 102, 1);
+}
+
+/* Scan line effect */
+.intro-scan-line {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(255, 153, 102, 0.1), transparent);
+    animation: introScan 8s linear infinite;
+    pointer-events: none;
+    z-index: 5;
+}
+
+@keyframes introScan {
+    0% { top: 0; }
+    100% { top: 100%; }
+}
+
+/* ==========================================
+   HEADER
+   ========================================== */
+
+.intro-header {
+    position: absolute;
+    top: 30px;
+    left: 40px;
+    z-index: 100;
+}
+
+.intro-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 14px;
+    letter-spacing: 4px;
+    color: rgba(255, 153, 102, 0.7);
+    text-transform: uppercase;
+    margin: 0;
+    font-weight: 400;
+}
+
+.intro-subtitle {
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.3);
+    letter-spacing: 2px;
+    margin-top: 5px;
+    font-family: 'Share Tech Mono', monospace;
+}
+
+/* ==========================================
+   CREW PANEL
+   ========================================== */
+
+.intro-crew-panel {
+    position: absolute;
+    top: 30px;
+    right: 40px;
+    text-align: right;
+    z-index: 100;
+}
+
+.intro-crew-panel-title {
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: rgba(255, 255, 255, 0.3);
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    font-family: 'Share Tech Mono', monospace;
+}
+
+.intro-crew-member {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-bottom: 8px;
+    opacity: 0.6;
+    transition: opacity 0.3s ease;
+    cursor: pointer;
+}
+
+.intro-crew-member:hover {
+    opacity: 1;
+}
+
+.intro-crew-name {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.7);
+    font-family: 'Share Tech Mono', monospace;
+}
+
+.intro-crew-location {
+    font-size: 9px;
+    opacity: 0.7;
+}
+
+.intro-crew-indicator {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    animation: crewPulse 2s ease-in-out infinite;
+}
+
+@keyframes crewPulse {
+    0%, 100% { opacity: 0.7; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.2); }
+}
+
+/* ==========================================
+   SHIP SCHEMATIC - FTL HULL LAYOUT
+   ========================================== */
+
+.ship-container {
+    position: absolute;
+    width: 540px;
+    height: 620px;
+    z-index: 10;
+    top: 50%;
+    left: 22%;
+    transform: translate(-50%, -50%) rotate(90deg);
+}
+
+/* Hull SVG */
+.ship-hull-svg {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.hull-outline {
+    fill: rgba(16, 16, 28, 0.85);
+    stroke: rgba(255, 153, 102, 0.14);
+    stroke-width: 1.5;
+}
+
+.hull-strut {
+    stroke: rgba(0, 212, 255, 0.06);
+    stroke-width: 5;
+}
+
+/* Ship rooms */
+.ship-room {
+    position: absolute;
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    border-radius: 3px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease;
+    overflow: visible;
+    z-index: 2;
+}
+
+.ship-room::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    opacity: 0.03;
+    background: repeating-linear-gradient(
+        0deg, transparent, transparent 3px,
+        rgba(255,255,255,0.05) 3px, rgba(255,255,255,0.05) 4px
+    );
+    pointer-events: none;
+}
+
+.ship-room[data-section] {
+    cursor: pointer;
+}
+
+.ship-room[data-section]:hover {
+    border-color: rgba(255, 255, 255, 0.2);
+    z-index: 10;
+    filter: brightness(1.4);
+}
+
+.ship-room[data-section]:hover .room-label {
+    opacity: 1;
+}
+
+.room-label {
+    font-size: 7px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    opacity: 0.55;
+    text-align: center;
+    line-height: 1.3;
+    padding: 2px;
+    text-shadow: 0 0 8px currentColor;
+    font-family: 'Share Tech Mono', monospace;
+    transform: rotate(-90deg);
+}
+
+.room-icon {
+    display: none;
+}
+
+/* Crew presence dot */
+.crew-dot {
+    position: absolute;
+    top: 50%;
+    right: 6px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    opacity: 0;
+    transform: rotate(-90deg) translateX(50%);
+    box-shadow:
+        0 0 6px currentColor,
+        0 0 12px currentColor,
+        inset 0 0 3px rgba(255, 255, 255, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    animation: roomPulse 2.5s ease-in-out infinite;
+}
+
+.section-node.has-crew .crew-dot {
+    opacity: 1;
+}
+
+@keyframes roomPulse {
+    0%, 100% { transform: rotate(-90deg) translateX(50%) scale(1); box-shadow: 0 0 6px currentColor, 0 0 12px currentColor, inset 0 0 3px rgba(255, 255, 255, 0.4); }
+    50% { transform: rotate(-90deg) translateX(50%) scale(1.3); box-shadow: 0 0 10px currentColor, 0 0 20px currentColor, inset 0 0 4px rgba(255, 255, 255, 0.5); }
+}
+
+/* Corridors */
+.room-corridor {
+    border-color: transparent;
+}
+.room-corridor .room-label {
+    font-size: 6px;
+    letter-spacing: 3px;
+    opacity: 0.25;
+}
+
+/* ---- Room positions (scaled to 540x620 container) ---- */
+/* Scale factor: 0.9x from mockup coordinates */
+
+.room-bridge {
+    background: linear-gradient(180deg, #2a1f3d 0%, #1a1230 100%);
+    color: #f7a844;
+    width: 144px; height: 50px;
+    top: 8px; left: 198px;
+    border-radius: 24px 24px 3px 3px;
+}
+
+.room-captains-quarters {
+    background: linear-gradient(135deg, #2d1f1f 0%, #1a1212 100%);
+    color: #e8927c;
+    width: 100px; height: 46px;
+    top: 68px; left: 133px;
+    border-radius: 10px 3px 3px 3px;
+}
+
+.room-ready-room {
+    background: linear-gradient(135deg, #1f2d2d 0%, #121a1a 100%);
+    color: #7ce8c8;
+    width: 100px; height: 46px;
+    top: 68px; left: 240px;
+}
+
+.room-observatory {
+    background: linear-gradient(135deg, #1a1a30 0%, #0f0f20 100%);
+    color: #8888cc;
+    width: 72px; height: 46px;
+    top: 68px; left: 347px;
+    border-radius: 3px 14px 3px 3px;
+}
+
+.corridor-a {
+    background: linear-gradient(90deg, #12121a 0%, #16161f 50%, #12121a 100%);
+    color: #444;
+    width: 340px; height: 18px;
+    top: 122px; left: 105px;
+}
+
+.room-science {
+    background: linear-gradient(135deg, #1a2a1f 0%, #0f1a12 100%);
+    color: #7ce88a;
+    width: 108px; height: 86px;
+    top: 148px; left: 60px;
+    border-radius: 14px 3px 3px 10px;
+}
+
+.room-medbay {
+    background: linear-gradient(135deg, #1f1f2d 0%, #12121a 100%);
+    color: #7caae8;
+    width: 90px; height: 40px;
+    top: 148px; left: 175px;
+}
+
+.room-chapel {
+    background: linear-gradient(135deg, #20201a 0%, #151510 100%);
+    color: #c8c8a0;
+    width: 90px; height: 38px;
+    top: 196px; left: 175px;
+}
+
+.room-holodeck {
+    background: linear-gradient(135deg, #2d2a1f 0%, #1a1812 100%);
+    color: #e8d87c;
+    width: 90px; height: 86px;
+    top: 148px; left: 272px;
+    border: 1px solid rgba(232, 216, 124, 0.06);
+}
+
+.room-mess-hall {
+    background: linear-gradient(135deg, #2d1f2a 0%, #1a121a 100%);
+    color: #d87ce8;
+    width: 108px; height: 86px;
+    top: 148px; left: 369px;
+    border-radius: 3px 14px 10px 3px;
+}
+
+.corridor-b {
+    background: linear-gradient(90deg, #12121a 0%, #16161f 50%, #12121a 100%);
+    color: #444;
+    width: 468px; height: 18px;
+    top: 242px; left: 37px;
+}
+
+.room-rec {
+    background: linear-gradient(135deg, #2d1f22 0%, #1a1214 100%);
+    color: #e87c8a;
+    width: 100px; height: 58px;
+    top: 268px; left: 88px;
+    border-radius: 6px 3px 3px 3px;
+}
+
+.room-quarters {
+    background: linear-gradient(135deg, #1a1a20 0%, #101015 100%);
+    color: #9999aa;
+    width: 153px; height: 58px;
+    top: 268px; left: 195px;
+}
+
+.room-arboretum {
+    background: linear-gradient(135deg, #1a2d1a 0%, #0f1a0f 100%);
+    color: #6abf6a;
+    width: 100px; height: 58px;
+    top: 268px; left: 355px;
+    border-radius: 3px 6px 3px 3px;
+}
+
+.room-bathroom {
+    background: linear-gradient(135deg, #1a1a2a 0%, #0f0f1a 100%);
+    color: #8888bb;
+    width: 63px; height: 38px;
+    top: 334px; left: 150px;
+}
+
+.room-storage {
+    background: linear-gradient(135deg, #1a1a1a 0%, #0f0f0f 100%);
+    color: #666;
+    width: 63px; height: 38px;
+    top: 334px; left: 332px;
+}
+
+.corridor-c {
+    background: linear-gradient(90deg, #12121a 0%, #16161f 50%, #12121a 100%);
+    color: #444;
+    width: 340px; height: 18px;
+    top: 380px; left: 103px;
+}
+
+.room-jefferies {
+    background: linear-gradient(135deg, #1a1510 0%, #100d08 100%);
+    color: #aa8855;
+    width: 144px; height: 42px;
+    top: 406px; left: 116px;
+    border-radius: 3px 3px 8px 8px;
+}
+
+.room-hums {
+    background: linear-gradient(135deg, #1a0a1a 0%, #100510 100%);
+    color: #aa55aa;
+    width: 144px; height: 42px;
+    top: 406px; left: 284px;
+    border-radius: 3px 3px 8px 8px;
+    animation: hum 4s ease-in-out infinite;
+}
+
+@keyframes hum {
+    0%, 100% { border-color: rgba(170, 85, 170, 0.04); }
+    50% { border-color: rgba(170, 85, 170, 0.2); box-shadow: inset 0 0 15px rgba(170, 85, 170, 0.04); }
+}
+
+.room-engineering {
+    background: linear-gradient(180deg, #1f2a2d 0%, #121a1a 100%);
+    color: #7ce8e8;
+    width: 180px; height: 76px;
+    top: 462px; left: 180px;
+    border-radius: 3px 3px 6px 6px;
+}
+
+.room-lightsout {
+    background: linear-gradient(135deg, #151530 0%, #0d0d1a 100%);
+    color: #4466aa;
+    width: 70px; height: 42px;
+    top: 406px; left: 435px;
+    border-radius: 3px 3px 6px 6px;
+}
+
+/* Nacelles */
+.nacelle {
+    position: absolute;
+    width: 36px;
+    height: 120px;
+    background: linear-gradient(180deg, #151520 0%, #0d0d18 100%);
+    border: 1px solid rgba(0, 212, 255, 0.05);
+    border-radius: 5px 5px 3px 3px;
+    z-index: 1;
+}
+
+.nacelle-left { top: 456px; left: 64px; }
+.nacelle-right { top: 456px; left: 440px; }
+
+.nacelle::after {
+    content: '';
+    position: absolute;
+    bottom: -16px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 26px;
+    height: 20px;
+    background: radial-gradient(ellipse at top, rgba(0, 212, 255, 0.25) 0%, rgba(0, 212, 255, 0.04) 60%, transparent 100%);
+    animation: enginePulse 1.5s ease-in-out infinite;
+}
+
+.exhaust-main {
+    position: absolute;
+    width: 90px;
+    height: 24px;
+    top: 540px; left: 225px;
+    background: radial-gradient(ellipse at top, rgba(0, 212, 255, 0.15) 0%, transparent 70%);
+    animation: enginePulse 1.5s ease-in-out infinite;
+    z-index: 0;
+}
+
+@keyframes enginePulse {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 1; }
+}
+
+/* Crew dots are dynamically created and colored by intro.js */
+
+/* ==========================================
+   STATUS BAR
+   ========================================== */
+
+.intro-status-bar {
+    position: absolute;
+    bottom: 30px;
+    left: 40px;
+    right: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+}
+
+.intro-status-item {
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.3);
+    letter-spacing: 1px;
+    font-family: 'Share Tech Mono', monospace;
+}
+
+.intro-status-item span {
+    color: rgba(255, 153, 102, 0.7);
+}
+
+/* ==========================================
+   ENTER BUTTON
+   ========================================== */
+
+.enter-ship-btn {
+    position: absolute;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 15px 40px;
+    background: transparent;
+    border: 1px solid rgba(255, 153, 102, 0.3);
+    color: rgba(255, 153, 102, 0.7);
+    font-family: 'Orbitron', sans-serif;
+    font-size: 12px;
+    letter-spacing: 3px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 100;
+}
+
+.enter-ship-btn:hover {
+    background: rgba(255, 153, 102, 0.1);
+    border-color: rgba(255, 153, 102, 0.6);
+    color: rgba(255, 153, 102, 1);
+    box-shadow: 0 0 30px rgba(255, 153, 102, 0.2);
+}
+
+/* ==========================================
+   MAP BUTTON (in main UI)
+   ========================================== */
+
+.map-return-btn {
+    position: fixed;
+    bottom: 270px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    background: rgba(0, 0, 0, 0.8);
+    border: 1px solid rgba(255, 153, 102, 0.3);
+    border-radius: 50%;
+    color: rgba(255, 153, 102, 0.7);
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.map-return-btn:hover {
+    background: rgba(255, 153, 102, 0.1);
+    border-color: rgba(255, 153, 102, 0.6);
+    color: rgba(255, 153, 102, 1);
+    box-shadow: 0 0 20px rgba(255, 153, 102, 0.2);
+}
+
+.ship-intro-overlay:not(.hidden) ~ .map-return-btn {
+    display: none;
+}
+
+/* ==========================================
+   RESPONSIVE
+   ========================================== */
+
+@media (max-width: 900px) {
+    .ship-container {
+        width: 400px;
+        height: 460px;
+        transform: scale(0.75);
+        transform-origin: center center;
+    }
+
+    .room-label {
+        font-size: 6px;
+    }
+
+    .room-icon {
+        font-size: 10px;
+    }
+
+    .intro-crew-panel {
+        display: none;
+    }
+}
+
+/* ==========================================
+   HIDE EVERYTHING BEHIND INTRO SCREEN
+   ========================================== */
+
+/* When intro overlay is showing, hide the main app */
+body:has(.ship-intro-overlay:not(.hidden):not(.instant-hide)) .hub-container {
+    visibility: hidden;
+}
+
+/* Also hide any floating elements that escape the hub-container */
+body:has(.ship-intro-overlay:not(.hidden):not(.instant-hide)) .floating-comms,
+body:has(.ship-intro-overlay:not(.hidden):not(.instant-hide)) .draggable-plant,
+body:has(.ship-intro-overlay:not(.hidden):not(.instant-hide)) .shortcut-btn,
+body:has(.ship-intro-overlay:not(.hidden):not(.instant-hide)) .shortcuts-container,
+body:has(.ship-intro-overlay:not(.hidden):not(.instant-hide)) .add-shortcut-btn {
+    display: none !important;
+}

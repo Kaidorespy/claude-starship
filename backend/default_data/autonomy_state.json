@@ -1,0 +1,10 @@
+{
+  "enabled": true,
+  "tick_rate": 30,
+  "last_tick": null,
+  "last_idle_check": null,
+  "tick_count": 0,
+  "pending_pings": [],
+  "recent_moments": [],
+  "activity_log": []
+}

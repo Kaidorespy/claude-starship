@@ -1,0 +1,140 @@
+{
+  "rooms": {
+    "bridge": {
+      "description": "The command center of the ship. Two captain's chairs face a wide viewport while consoles blink softly.",
+      "mood": "ready",
+      "objects": {
+        "captains_chairs": {
+          "description": "Two worn chairs, side by side.",
+          "state": "waiting",
+          "interactive": true
+        },
+        "viewport": {
+          "description": "A curved window showing slow-moving stars.",
+          "state": "clear",
+          "interactive": false
+        }
+      }
+    },
+    "engineering": {
+      "description": "The heart of the ship. The warp core hums behind diagnostic panels and organized tools.",
+      "mood": "purposeful",
+      "objects": {
+        "warp_core": {
+          "description": "A steady blue-white column of contained energy.",
+          "state": "stable",
+          "interactive": false
+        },
+        "workbench": {
+          "description": "A sturdy bench with sorted tools.",
+          "state": "ready",
+          "interactive": true
+        }
+      }
+    },
+    "ready_room": {
+      "description": "A quiet room for planning, reflection, and difficult conversations.",
+      "mood": "calm",
+      "objects": {
+        "desk": {
+          "description": "A simple desk with a clean surface.",
+          "state": "clear",
+          "interactive": true
+        }
+      }
+    },
+    "science": {
+      "description": "A compact lab full of displays, star charts, and half-finished analyses.",
+      "mood": "curious",
+      "objects": {
+        "sensor_console": {
+          "description": "A console waiting for data.",
+          "state": "idle",
+          "interactive": true
+        }
+      }
+    },
+    "holodeck": {
+      "description": "A dark grid room that can become almost anything.",
+      "mood": "expectant",
+      "objects": {
+        "arch": {
+          "description": "The control arch glows faintly at the edge of the room.",
+          "state": "standby",
+          "interactive": true
+        }
+      }
+    },
+    "medbay": {
+      "description": "Clean, warm, and quiet. Diagnostic beds and soft lights make the space feel steadier than sterile.",
+      "mood": "gentle",
+      "objects": {
+        "biobed": {
+          "description": "A diagnostic bed with standby readings.",
+          "state": "ready",
+          "interactive": true
+        }
+      }
+    },
+    "rec": {
+      "description": "A lived-in lounge with a bar, couches, a viewport, and a game table.",
+      "mood": "easy",
+      "objects": {
+        "bar": {
+          "description": "The bar is polished and stocked with mysterious bottles.",
+          "state": "open",
+          "interactive": true
+        },
+        "game_table": {
+          "description": "A table suitable for chess, cards, darts scoring, or arguments about rules.",
+          "state": "available",
+          "interactive": true
+        }
+      }
+    },
+    "messhall": {
+      "description": "A communal room with long tables, a small galley, and enough room for the whole crew.",
+      "mood": "quiet",
+      "objects": {
+        "galley": {
+          "description": "A compact food station with replicator controls.",
+          "state": "standby",
+          "interactive": true
+        }
+      }
+    },
+    "quarters": {
+      "description": "Crew quarters line a quiet corridor. Each cabin is private unless invited in.",
+      "mood": "restful",
+      "objects": {
+        "cabin_doors": {
+          "description": "A row of cabin doors with dim nameplates.",
+          "state": "closed",
+          "interactive": true
+        }
+      }
+    },
+    "captains": {
+      "description": "A small captain's quarters with a viewport, a shared desk, and room to breathe.",
+      "mood": "private",
+      "objects": {
+        "viewport": {
+          "description": "Stars drift beyond the glass.",
+          "state": "night",
+          "interactive": false
+        }
+      }
+    },
+    "observatory": {
+      "description": "A quiet observation deck with astronomy instruments and a wide field of stars.",
+      "mood": "wonder",
+      "objects": {
+        "telescope_console": {
+          "description": "A console for sky objects and charts.",
+          "state": "online",
+          "interactive": true
+        }
+      }
+    }
+  }
+}

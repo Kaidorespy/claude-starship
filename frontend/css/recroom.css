@@ -1,0 +1,622 @@
+/**
+ * REC ROOM & CAPTAIN'S QUARTERS STYLES
+ */
+
+/* ========== REC ROOM ========== */
+.rec-bar-panel .bartender-presence {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+    padding: 12px;
+    background: rgba(255, 200, 100, 0.05);
+    border-radius: 8px;
+    border-left: 2px solid rgba(255, 200, 100, 0.3);
+}
+
+.bartender-silhouette {
+    font-size: 2rem;
+    opacity: 0.7;
+    color: #ffc864;
+}
+
+.bartender-status {
+    display: flex;
+    flex-direction: column;
+}
+
+.bartender-name {
+    font-size: 0.9rem;
+    color: #ffc864;
+}
+
+.bartender-mood {
+    font-size: 0.75rem;
+    opacity: 0.6;
+    font-style: italic;
+}
+
+.drink-order {
+    margin-bottom: 12px;
+}
+
+.drink-input {
+    width: 100%;
+    padding: 10px 12px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 200, 100, 0.2);
+    border-radius: 6px;
+    color: #e6edf3;
+    font-family: inherit;
+    font-size: 0.9rem;
+}
+
+.drink-input:focus {
+    outline: none;
+    border-color: rgba(255, 200, 100, 0.5);
+}
+
+.drink-input::placeholder {
+    color: rgba(255, 200, 100, 0.4);
+}
+
+.current-drink {
+    display: none;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    background: rgba(255, 200, 100, 0.1);
+    border-radius: 6px;
+}
+
+.current-drink.has-drink {
+    display: flex;
+}
+
+.drink-glass {
+    font-size: 1.2rem;
+}
+
+.drink-name {
+    font-size: 0.85rem;
+    color: #ffc864;
+}
+
+/* Chess Board */
+.chess-panel .panel-content {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.chess-board {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    aspect-ratio: 1;
+    border: 2px solid rgba(255, 200, 100, 0.3);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.chess-square {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+.chess-square.light {
+    background: rgba(255, 220, 180, 0.15);
+}
+
+.chess-square.dark {
+    background: rgba(139, 90, 43, 0.3);
+}
+
+.chess-square:hover {
+    background: rgba(255, 200, 100, 0.3);
+}
+
+.chess-square.selected {
+    background: rgba(100, 200, 100, 0.4) !important;
+}
+
+.chess-piece {
+    font-size: 1.4rem;
+    line-height: 1;
+    user-select: none;
+}
+
+.chess-piece.white {
+    color: #fff;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.chess-piece.black {
+    color: #333;
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.3);
+}
+
+.chess-controls {
+    display: flex;
+    gap: 8px;
+}
+
+.chess-btn {
+    flex: 1;
+    padding: 8px;
+    background: rgba(255, 200, 100, 0.1);
+    border: 1px solid rgba(255, 200, 100, 0.3);
+    border-radius: 4px;
+    color: #ffc864;
+    font-family: inherit;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+
+.chess-btn:hover {
+    background: rgba(255, 200, 100, 0.2);
+}
+
+.chess-status-text {
+    text-align: center;
+    font-size: 0.8rem;
+    color: rgba(255, 200, 100, 0.7);
+}
+
+/* Jukebox */
+.jukebox-display {
+    padding: 12px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 6px;
+    text-align: center;
+}
+
+.now-playing {
+    font-size: 0.85rem;
+    opacity: 0.6;
+}
+
+/* Rec room ambiance */
+.rec-room-ambiance {
+    position: relative;
+    margin-top: 16px;
+    height: 60px;
+}
+
+.bar-light {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, rgba(255, 200, 100, 0.5), transparent);
+    border-radius: 2px;
+    animation: bar-flicker 4s ease-in-out infinite;
+}
+
+@keyframes bar-flicker {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 0.8; }
+    52% { opacity: 0.3; }
+    54% { opacity: 0.8; }
+}
+
+.bar-counter {
+    position: absolute;
+    bottom: 0;
+    left: 10%;
+    right: 10%;
+    height: 8px;
+    background: linear-gradient(180deg, rgba(139, 90, 43, 0.4), rgba(80, 50, 20, 0.6));
+    border-radius: 2px 2px 0 0;
+}
+
+/* ========== CAPTAIN'S QUARTERS ========== */
+.captains-log-panel .log-entries {
+    max-height: 200px;
+    overflow-y: auto;
+    margin-bottom: 12px;
+    padding-right: 8px;
+}
+
+.log-entry {
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    font-size: 0.85rem;
+    line-height: 1.4;
+}
+
+.log-entry:last-child {
+    border-bottom: none;
+}
+
+.log-author {
+    font-weight: 600;
+    margin-right: 6px;
+}
+
+.log-author.lumen {
+    color: #ff9966;
+}
+
+.log-author.casey {
+    color: #66ccff;
+}
+
+.log-text {
+    font-style: italic;
+    opacity: 0.9;
+}
+
+.log-time {
+    display: block;
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.3);
+    margin-top: 4px;
+}
+
+.log-entry.empty .log-text {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.log-input-area {
+    margin-top: 8px;
+}
+
+.log-input {
+    width: 100%;
+    padding: 10px 12px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    color: #e6edf3;
+    font-family: inherit;
+    font-size: 0.85rem;
+    resize: none;
+    min-height: 60px;
+}
+
+.log-input:focus {
+    outline: none;
+    border-color: rgba(102, 204, 255, 0.4);
+}
+
+.log-input::placeholder {
+    color: rgba(255, 255, 255, 0.3);
+}
+
+/* Quarters Viewport */
+.quarters-viewport-panel .quarters-viewport {
+    height: 80px;
+    background: linear-gradient(180deg, #0a0a1a, #050510);
+    border-radius: 6px;
+    overflow: hidden;
+    position: relative;
+}
+
+.quarters-viewport .viewport-stars {
+    position: absolute;
+    inset: 0;
+    background-image:
+        radial-gradient(1px 1px at 20% 30%, white, transparent),
+        radial-gradient(1px 1px at 40% 70%, white, transparent),
+        radial-gradient(1px 1px at 60% 20%, white, transparent),
+        radial-gradient(1px 1px at 80% 60%, white, transparent),
+        radial-gradient(1px 1px at 10% 80%, white, transparent),
+        radial-gradient(1px 1px at 90% 40%, white, transparent);
+    animation: star-drift 60s linear infinite;
+}
+
+@keyframes star-drift {
+    from { transform: translateX(0); }
+    to { transform: translateX(-20px); }
+}
+
+.viewport-label {
+    text-align: center;
+    font-size: 0.75rem;
+    opacity: 0.4;
+    margin-top: 6px;
+}
+
+/* Personal Effects */
+.effects-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+}
+
+.effect-item {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 6px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+
+.effect-item:hover {
+    background: rgba(255, 255, 255, 0.08);
+    transform: scale(1.05);
+}
+
+/* Private indicator */
+.quarters-private {
+    text-align: center;
+    margin-top: 16px;
+    padding: 8px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.private-text {
+    font-size: 0.75rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    opacity: 0.3;
+}
+
+/* ========== BULLETIN BOARD (MESS HALL) ========== */
+.bulletin-board-panel .bulletin-posts {
+    max-height: 150px;
+    overflow-y: auto;
+    margin-bottom: 12px;
+}
+
+.bulletin-empty {
+    text-align: center;
+    font-size: 0.85rem;
+    opacity: 0.4;
+    padding: 16px;
+}
+
+.bulletin-post {
+    padding: 8px 10px;
+    background: rgba(255, 220, 150, 0.05);
+    border-left: 2px solid rgba(255, 220, 150, 0.3);
+    margin-bottom: 8px;
+    border-radius: 0 4px 4px 0;
+}
+
+.bulletin-post-content {
+    font-size: 0.85rem;
+    margin-bottom: 4px;
+}
+
+.bulletin-post-meta {
+    font-size: 0.7rem;
+    opacity: 0.5;
+}
+
+.bulletin-input-area {
+    margin-top: 8px;
+}
+
+.bulletin-input {
+    width: 100%;
+    padding: 8px 10px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 220, 150, 0.2);
+    border-radius: 4px;
+    color: #e6edf3;
+    font-family: inherit;
+    font-size: 0.85rem;
+}
+
+.bulletin-input:focus {
+    outline: none;
+    border-color: rgba(255, 220, 150, 0.4);
+}
+
+.bulletin-input::placeholder {
+    color: rgba(255, 220, 150, 0.3);
+}
+
+/* ========== WHO'S HERE ========== */
+.whos-here-panel {
+    border-left: 2px solid rgba(255, 200, 100, 0.3);
+}
+
+.whos-here-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.whos-here-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px;
+    background: rgba(255, 200, 100, 0.05);
+    border-radius: 6px;
+}
+
+.whos-here-indicator {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #ffc864;
+    box-shadow: 0 0 6px rgba(255, 200, 100, 0.4);
+}
+
+.whos-here-name {
+    flex: 1;
+    font-size: 0.85rem;
+    color: #e6edf3;
+}
+
+.whos-here-activity {
+    font-size: 0.75rem;
+    color: rgba(255, 200, 100, 0.6);
+    font-style: italic;
+}
+
+.whos-here-empty {
+    font-size: 0.8rem;
+    color: rgba(255, 200, 100, 0.4);
+    font-style: italic;
+    padding: 8px;
+}
+
+/* ========== AMBIENT TICKER ========== */
+.ambient-ticker {
+    padding: 10px 12px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 6px;
+    border-left: 2px solid rgba(255, 200, 100, 0.2);
+    margin: 8px 0;
+    min-height: 36px;
+    display: flex;
+    align-items: center;
+    transition: opacity 0.3s ease;
+}
+
+.ambient-ticker.fading {
+    opacity: 0;
+}
+
+.ambient-text {
+    font-size: 0.8rem;
+    color: rgba(255, 200, 100, 0.6);
+    font-style: italic;
+    line-height: 1.4;
+}
+
+/* ========== JUKEBOX ENHANCED ========== */
+.jukebox-display {
+    padding: 12px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 6px;
+    text-align: center;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.track-note {
+    color: #ffc864;
+}
+
+.track-name {
+    font-size: 0.85rem;
+    color: #e6edf3;
+}
+
+.track-artist {
+    font-size: 0.75rem;
+    color: rgba(255, 200, 100, 0.7);
+}
+
+.track-dj {
+    font-size: 0.7rem;
+    color: rgba(255, 200, 100, 0.5);
+    font-style: italic;
+}
+
+.track-status {
+    font-size: 0.7rem;
+    color: rgba(255, 200, 100, 0.4);
+    font-style: italic;
+}
+
+.jukebox-controls {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.jukebox-btn {
+    flex: 1;
+    padding: 6px 10px;
+    background: rgba(255, 200, 100, 0.1);
+    border: 1px solid rgba(255, 200, 100, 0.3);
+    border-radius: 4px;
+    color: #ffc864;
+    font-family: inherit;
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+
+.jukebox-btn:hover {
+    background: rgba(255, 200, 100, 0.2);
+}
+
+.jukebox-btn.spotify-connected {
+    border-color: #1DB954;
+    color: #1DB954;
+}
+
+/* ========== CAPTAIN'S QUARTERS LAYOUT ========== */
+[data-theme="captains"] #terminal-captains {
+    display: flex;
+}
+
+[data-theme="captains"] .terminals-grid {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+[data-theme="captains"] .terminals-grid .terminal-panel.active-room {
+    grid-column: unset;
+    grid-row: unset;
+    max-width: 500px;
+    min-height: 300px;
+}
+
+/* Rec room terminal - smaller, cozy bar terminal */
+[data-theme="rec"] #terminal-rec {
+    display: flex;
+}
+
+[data-theme="rec"] .terminals-grid {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+}
+
+[data-theme="rec"] .terminals-grid .terminal-panel.active-room {
+    grid-column: unset;
+    grid-row: unset;
+    max-width: 400px;
+    min-height: 300px;
+    max-height: 500px;
+}
+
+[data-theme="rec"] .terminals-grid .terminal-panel.active-room .terminal-output {
+    font-size: 13px;
+}
+
+/* ========== INTRO MAP NODES ========== */
+.node-rec {
+    left: 8%;
+    bottom: 20%;
+}
+
+.node-captains {
+    right: 8%;
+    bottom: 20%;
+}
+
+.node-rec .node-ring,
+.node-rec .node-glow {
+    background: rgba(255, 200, 100, 0.2);
+    border-color: rgba(255, 200, 100, 0.6);
+}
+
+.node-captains .node-ring,
+.node-captains .node-glow {
+    background: rgba(100, 150, 255, 0.2);
+    border-color: rgba(100, 150, 255, 0.6);
+}

@@ -1,0 +1,621 @@
+/* Terminal Styles - The Heart of the Hub */
+
+/* ============================================
+   TERMINAL AREA LAYOUT
+   ============================================ */
+.terminal-area {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-md);
+    min-height: 0;
+}
+
+/* ============================================
+   TERMINAL PANELS
+   ============================================ */
+.terminal-panel {
+    display: flex;
+    flex-direction: column;
+    background: var(--bg-terminal);
+    border-radius: var(--radius-lg);
+    border: 1px solid rgba(255, 153, 51, 0.3);
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.terminal-panel:hover {
+    border-color: rgba(255, 153, 51, 0.5);
+    box-shadow: 0 0 30px rgba(255, 153, 51, 0.1);
+}
+
+/* Terminal sizing now handled by layouts.css grid */
+
+.terminal-panel.focused {
+    border-color: var(--lcars-orange);
+    box-shadow: 0 0 40px var(--glow-primary);
+}
+
+/* Terminal Header */
+.terminal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--gap-sm) var(--gap-md);
+    background: linear-gradient(90deg,
+        var(--lcars-purple) 0%,
+        rgba(153, 119, 170, 0.5) 30%,
+        rgba(153, 119, 170, 0.2) 100%
+    );
+    border-bottom: 1px solid rgba(255, 153, 51, 0.2);
+}
+
+.terminal-controls {
+    display: flex;
+    gap: 8px;
+}
+
+.terminal-controls .control {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.control.close {
+    background: var(--status-offline);
+}
+
+.control.minimize {
+    background: var(--status-warning);
+}
+
+.control.maximize {
+    background: var(--status-online);
+}
+
+.control:hover {
+    transform: scale(1.2);
+    filter: brightness(1.2);
+}
+
+.terminal-title {
+    font-family: var(--font-display);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--lcars-cream);
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+.terminal-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--status-offline);
+}
+
+.status-dot.online {
+    background: var(--status-online);
+    box-shadow: 0 0 10px var(--status-online);
+    animation: status-pulse 2s ease-in-out infinite;
+}
+
+.status-dot.idle {
+    background: var(--status-idle);
+}
+
+.status-dot.offline {
+    background: var(--status-offline);
+}
+
+@keyframes status-pulse {
+    0%, 100% { box-shadow: 0 0 10px var(--status-online); }
+    50% { box-shadow: 0 0 20px var(--status-online); }
+}
+
+.status-text {
+    font-size: 10px;
+    letter-spacing: 1px;
+    color: var(--lcars-peach);
+}
+
+/* Terminal Body */
+.terminal-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: var(--gap-md);
+    min-height: 0;
+    overflow: hidden;
+}
+
+.terminal-body.mini {
+    padding: var(--gap-sm);
+}
+
+/* Terminal Output */
+.terminal-output {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    line-height: 1.6;
+    padding-right: var(--gap-sm);
+}
+
+.terminal-body.mini .terminal-output {
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+.output-line {
+    padding: 2px 0;
+    word-wrap: break-word;
+}
+
+.output-line.system {
+    color: var(--lcars-lavender);
+}
+
+.output-line.success {
+    color: var(--status-online);
+}
+
+.output-line.error {
+    color: var(--status-offline);
+}
+
+.output-line.warning {
+    color: var(--status-warning);
+}
+
+.output-line.prompt {
+    color: var(--lcars-orange);
+}
+
+.output-line.dim {
+    color: var(--status-idle);
+    opacity: 0.6;
+}
+
+.output-line .text-success {
+    color: var(--status-online);
+}
+
+.output-line .text-warning {
+    color: var(--status-warning);
+}
+
+.output-line .text-error {
+    color: var(--status-offline);
+}
+
+/* Blinking cursor */
+.output-line.prompt::after {
+    content: '';
+    display: inline-block;
+    width: 8px;
+    height: 16px;
+    background: var(--lcars-orange);
+    margin-left: 4px;
+    animation: blink 1s step-end infinite;
+    vertical-align: text-bottom;
+}
+
+@keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+}
+
+/* Streaming response styles */
+.output-line.claude-response {
+    color: var(--lcars-cream);
+    padding: 8px 0;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+.output-line.streaming .stream-cursor {
+    display: inline-block;
+    color: var(--lcars-orange);
+    animation: blink 0.5s step-end infinite;
+    margin-left: 2px;
+}
+
+.output-line.claude-response .response-text {
+    color: var(--lcars-lavender);
+}
+
+/* User command echo */
+.output-line.prompt-echo {
+    color: var(--lcars-orange);
+    opacity: 0.9;
+}
+
+/* Restored messages (from previous session) */
+.output-line.restored {
+    opacity: 0.7;
+    border-left: 2px solid var(--lcars-purple);
+    padding-left: 8px;
+    margin-left: -8px;
+}
+
+/* Terminal Input */
+.terminal-input-area {
+    display: flex;
+    align-items: center;
+    gap: var(--gap-sm);
+    padding-top: var(--gap-sm);
+    border-top: 1px solid rgba(255, 153, 51, 0.2);
+    margin-top: var(--gap-sm);
+}
+
+.input-prompt {
+    font-family: var(--font-display);
+    font-size: 16px;
+    color: var(--lcars-orange);
+    text-shadow: 0 0 10px var(--glow-primary);
+}
+
+.terminal-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-family: var(--font-mono);
+    font-size: 14px;
+    color: var(--lcars-cream);
+    caret-color: var(--lcars-orange);
+    resize: none;
+    min-height: 20px;
+    max-height: 120px;
+    line-height: 1.4;
+    overflow-y: auto;
+}
+
+.terminal-input::placeholder {
+    color: var(--status-idle);
+    opacity: 0.5;
+}
+
+.terminal-input:focus {
+    /* Input glow handled by parent panel focus state */
+}
+
+/* ============================================
+   CREW INVITE CIRCLES
+   ============================================ */
+.crew-invite {
+    display: none;
+    gap: 6px;
+    align-items: center;
+    padding-right: 8px;
+    border-right: 1px solid rgba(255, 153, 51, 0.2);
+    margin-right: 4px;
+}
+
+/* Only show on active room terminal */
+.terminal-panel.active-room .crew-invite {
+    display: flex;
+}
+
+.crew-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    cursor: pointer;
+    opacity: 0.3;
+    transition: all 0.2s ease;
+    border: 2px solid transparent;
+}
+
+.crew-dot:hover {
+    opacity: 0.7;
+    transform: scale(1.2);
+}
+
+.crew-dot.invited {
+    opacity: 1;
+    box-shadow: 0 0 8px currentColor;
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.crew-dot.en-route {
+    opacity: 0.7;
+    animation: pulse-en-route 1.5s ease-in-out infinite;
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+@keyframes pulse-en-route {
+    0%, 100% { box-shadow: 0 0 4px currentColor; }
+    50% { box-shadow: 0 0 12px currentColor; }
+}
+
+/* Room colors for each crew dot */
+.crew-dot[data-crew="claude"] {
+    background: #ff9933;
+    color: #ff9933;
+}
+.crew-dot[data-crew="server"] {
+    background: #33ccff;
+    color: #33ccff;
+}
+.crew-dot[data-crew="personal"] {
+    background: #cc99ff;
+    color: #cc99ff;
+}
+.crew-dot[data-crew="games"] {
+    background: #ffcc00;
+    color: #ffcc00;
+}
+
+/* Hide the dot for the current room (you're already there) */
+[data-theme="claude"] .crew-dot[data-crew="claude"],
+[data-theme="servers"] .crew-dot[data-crew="server"],
+[data-theme="personal"] .crew-dot[data-crew="personal"],
+[data-theme="games"] .crew-dot[data-crew="games"] {
+    display: none;
+}
+
+/* Crew event messages */
+.output-line.crew-event {
+    color: var(--lcars-lavender);
+    font-style: italic;
+    padding: 4px 0;
+    border-left: 2px solid var(--lcars-lavender);
+    padding-left: 8px;
+    margin: 4px 0;
+}
+
+/* Memory captured indicator */
+.output-line.memory-captured {
+    color: rgba(255, 200, 100, 0.6);
+    font-style: italic;
+    font-size: 11px;
+    padding: 2px 0;
+    opacity: 0.7;
+}
+
+/* Crew response messages */
+.output-line.crew-response {
+    padding: 4px 0;
+    margin: 2px 0;
+    padding-left: 8px;
+    border-left: 3px solid currentColor;
+}
+
+.output-line.crew-response.emote {
+    font-style: italic;
+    opacity: 0.85;
+}
+
+/* Speaker colors - match room themes */
+.output-line.crew-response.speaker-claude {
+    color: #ff9933;
+    border-left-color: #ff9933;
+}
+.output-line.crew-response.speaker-server {
+    color: #33ccff;
+    border-left-color: #33ccff;
+}
+.output-line.crew-response.speaker-personal {
+    color: #cc99ff;
+    border-left-color: #cc99ff;
+}
+.output-line.crew-response.speaker-games {
+    color: #ffcc00;
+    border-left-color: #ffcc00;
+}
+
+/* Action emotes - what crew does in the world */
+.output-line.emote.action-result {
+    font-style: italic;
+    color: rgba(180, 160, 200, 0.9);
+    padding: 8px 12px;
+    margin: 6px 0;
+    background: rgba(100, 80, 140, 0.15);
+    border-left: 2px solid rgba(180, 160, 200, 0.4);
+    border-radius: 0 4px 4px 0;
+    white-space: pre-wrap;
+    line-height: 1.5;
+}
+
+.output-line.emote.action-result .emote-text {
+    display: block;
+}
+
+/* ============================================
+   SESSIONS BAR
+   ============================================ */
+.sessions-bar {
+    background: var(--bg-panel);
+    border-radius: var(--radius-lg);
+    border: 1px solid rgba(255, 153, 51, 0.2);
+    padding: var(--gap-md);
+}
+
+.sessions-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--gap-sm);
+}
+
+.sessions-title {
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--lcars-peach);
+}
+
+.new-session-btn {
+    padding: 6px 12px;
+    font-family: var(--font-display);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: var(--cozy-deep);
+    background: var(--lcars-lavender);
+    border: none;
+    border-radius: var(--radius-pill);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.new-session-btn:hover {
+    background: var(--lcars-orange);
+    transform: scale(1.05);
+    box-shadow: 0 0 15px var(--glow-primary);
+}
+
+.sessions-list {
+    display: flex;
+    gap: var(--gap-sm);
+    flex-wrap: wrap;
+}
+
+.session-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: var(--radius-pill);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+}
+
+.session-item:hover {
+    background: rgba(255, 153, 51, 0.1);
+    border-color: rgba(255, 153, 51, 0.3);
+}
+
+.session-item.active {
+    background: rgba(255, 153, 51, 0.2);
+    border-color: var(--lcars-orange);
+}
+
+.session-item.dormant {
+    opacity: 0.5;
+}
+
+.session-indicator {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--status-idle);
+}
+
+.session-item.active .session-indicator {
+    background: var(--status-online);
+    box-shadow: 0 0 8px var(--status-online);
+}
+
+.session-item.dormant .session-indicator {
+    background: var(--status-offline);
+    opacity: 0.5;
+}
+
+.session-name {
+    font-size: 12px;
+    color: var(--lcars-cream);
+}
+
+.session-time {
+    font-size: 10px;
+    color: var(--lcars-peach);
+    opacity: 0.7;
+}
+
+/* ============================================
+   TERMINAL SPECIAL EFFECTS
+   ============================================ */
+
+/* Scanline effect (subtle) */
+.terminal-output::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: repeating-linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0.03),
+        rgba(0, 0, 0, 0.03) 1px,
+        transparent 1px,
+        transparent 2px
+    );
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Glow effect on text entry */
+.terminal-panel.typing .terminal-body {
+    box-shadow: inset 0 0 30px rgba(255, 153, 51, 0.05);
+}
+
+/* Connection animation */
+@keyframes connect-pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(68, 255, 136, 0.4);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(68, 255, 136, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(68, 255, 136, 0);
+    }
+}
+
+.terminal-panel.connecting .status-dot {
+    animation: connect-pulse 1.5s infinite;
+}
+
+/* Output scroll fade */
+.terminal-output {
+    mask-image: linear-gradient(
+        to bottom,
+        transparent 0%,
+        black 5%,
+        black 95%,
+        transparent 100%
+    );
+    -webkit-mask-image: linear-gradient(
+        to bottom,
+        transparent 0%,
+        black 5%,
+        black 95%,
+        transparent 100%
+    );
+}
+
+/* ============================================
+   RESPONSIVE TERMINAL ADJUSTMENTS
+   ============================================ */
+@media (max-width: 1000px) {
+    .terminals-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 700px) {
+    .terminals-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .terminals-grid .terminal-panel:not(.active-room) {
+        max-height: 150px;
+    }
+}

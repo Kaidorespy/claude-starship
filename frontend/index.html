@@ -1,0 +1,2879 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CLAUDE HUB</title>
+    <link rel="stylesheet" href="css/lcars.css">
+    <link rel="stylesheet" href="css/terminals.css">
+    <link rel="stylesheet" href="css/ambient.css">
+    <link rel="stylesheet" href="css/themes.css">
+    <link rel="stylesheet" href="css/layouts.css">
+    <link rel="stylesheet" href="css/intro.css">
+    <link rel="stylesheet" href="css/holodeck.css">
+    <link rel="stylesheet" href="css/warpcore.css">
+    <link rel="stylesheet" href="css/navigation.css">
+    <link rel="stylesheet" href="css/medbay.css">
+    <link rel="stylesheet" href="css/bridge.css">
+    <link rel="stylesheet" href="css/readyroom.css">
+    <link rel="stylesheet" href="css/recroom.css">
+    <link rel="stylesheet" href="css/quarters.css">
+    <link rel="stylesheet" href="css/science.css">
+    <link rel="stylesheet" href="css/autonomy.css">
+    <link rel="stylesheet" href="css/shortcuts.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Ship Intro Overlay -->
+    <div id="ship-intro-overlay" class="ship-intro-overlay">
+        <canvas id="intro-field" class="intro-field"></canvas>
+        <div class="intro-scan-line"></div>
+
+        <div class="intro-header">
+            <h1 class="intro-title">Claude Hub</h1>
+            <div class="intro-subtitle">Spaceship Cozy Command Center</div>
+        </div>
+
+        <div class="intro-crew-panel">
+            <div class="intro-crew-panel-title">Crew Locations</div>
+            <div class="intro-crew-member" data-crew="claude" data-section="claude">
+                <span class="intro-crew-name">Lumen</span>
+                <span class="intro-crew-location" style="color: #ff9966;">Bridge</span>
+                <div class="intro-crew-indicator" style="background: #ff9966;"></div>
+            </div>
+            <div class="intro-crew-member" data-crew="server" data-section="servers">
+                <span class="intro-crew-name">Alex</span>
+                <span class="intro-crew-location" style="color: #00d4ff;">Engineering</span>
+                <div class="intro-crew-indicator" style="background: #00d4ff;"></div>
+            </div>
+            <div class="intro-crew-member" data-crew="personal" data-section="personal">
+                <span class="intro-crew-name">DQ</span>
+                <span class="intro-crew-location" style="color: #d4a574;">Ready Room</span>
+                <div class="intro-crew-indicator" style="background: #d4a574;"></div>
+            </div>
+            <div class="intro-crew-member" data-crew="science" data-section="science">
+                <span class="intro-crew-name">Mira</span>
+                <span class="intro-crew-location" style="color: #7799ff;">Science Lab</span>
+                <div class="intro-crew-indicator" style="background: #7799ff;"></div>
+            </div>
+            <div class="intro-crew-member" data-crew="games" data-section="games">
+                <span class="intro-crew-name">Holodeck</span>
+                <span class="intro-crew-location" style="color: #ffcc00;">Observing</span>
+                <div class="intro-crew-indicator" style="background: #ffcc00;"></div>
+            </div>
+        </div>
+
+        <div class="ship-container">
+            <!-- Hull SVG -->
+            <svg class="ship-hull-svg" viewBox="0 0 600 680" xmlns="http://www.w3.org/2000/svg">
+                <path class="hull-outline" d="
+                    M 300,5
+                    C 340,5 380,25 400,50
+                    L 475,80 Q 510,90 530,130 L 545,175
+                    Q 555,200 548,240 L 540,280 Q 536,295 530,310
+                    L 520,370 Q 515,400 500,430 L 490,460
+                    Q 475,490 450,510 L 415,545
+                    Q 400,560 400,580 L 400,640 Q 400,655 390,660
+                    L 340,665 Q 310,668 300,668
+                    Q 290,668 260,665 L 210,660 Q 200,655 200,640
+                    L 200,580 Q 200,560 185,545 L 150,510
+                    Q 125,490 110,460 L 100,430 Q 85,400 80,370
+                    L 70,310 Q 64,295 60,280 L 52,240
+                    Q 45,200 55,175 L 70,130 Q 90,90 125,80
+                    L 200,50 C 220,25 260,5 300,5 Z
+                "/>
+                <path class="hull-outline" d="
+                    M 62,530 Q 55,520 50,530 L 42,600 Q 40,620 45,640 L 55,665 Q 60,675 70,675 L 80,675 Q 90,675 95,665 L 105,640 Q 110,620 108,600 L 100,530 Q 95,520 88,530 Z
+                "/>
+                <path class="hull-outline" d="
+                    M 512,530 Q 505,520 500,530 L 492,600 Q 490,620 495,640 L 505,665 Q 510,675 520,675 L 530,675 Q 540,675 545,665 L 555,640 Q 560,620 558,600 L 550,530 Q 545,520 538,530 Z
+                "/>
+                <line x1="108" y1="575" x2="200" y2="575" class="hull-strut"/>
+                <line x1="492" y1="575" x2="400" y2="575" class="hull-strut"/>
+            </svg>
+
+            <!-- Ship rooms -->
+            <div class="ship-room room-bridge section-node" data-section="claude">
+                <div class="crew-dot"></div>
+                <span class="room-icon">&#9733;</span>
+                <span class="room-label">Bridge</span>
+            </div>
+
+            <div class="ship-room room-captains-quarters section-node" data-section="captains">
+                <div class="crew-dot"></div>
+                <span class="room-icon">&#9790;</span>
+                <span class="room-label">Captain's Quarters</span>
+            </div>
+
+            <div class="ship-room room-ready-room section-node" data-section="personal">
+                <div class="crew-dot"></div>
+                <span class="room-icon">&#9998;</span>
+                <span class="room-label">Ready Room</span>
+            </div>
+
+            <div class="ship-room room-observatory section-node" data-section="observatory">
+                <div class="crew-dot"></div>
+                <span class="room-icon">&#9788;</span>
+                <span class="room-label">Observatory</span>
+            </div>
+
+            <div class="ship-room room-corridor corridor-a">
+                <span class="room-label">&middot; &middot; corridor &middot; &middot;</span>
+            </div>
+
+            <div class="ship-room room-science section-node" data-section="science">
+                <div class="crew-dot"></div>
+                <span class="room-icon">&#9881;</span>
+                <span class="room-label">Science Lab</span>
+            </div>
+
+            <div class="ship-room room-medbay section-node" data-section="med">
+                <div class="crew-dot"></div>
+                <span class="room-icon">&#10010;</span>
+                <span class="room-label">Medbay</span>
+            </div>
+
+            <div class="ship-room room-chapel">
+                <span class="room-icon">&#10041;</span>
+                <span class="room-label">Chapel</span>
+            </div>
+
+            <div class="ship-room room-holodeck section-node" data-section="games">
+                <div class="crew-dot"></div>
+                <span class="room-icon">&#9672;</span>
+                <span class="room-label">Holodeck</span>
+            </div>
+
+            <div class="ship-room room-mess-hall section-node" data-section="messhall">
+                <div class="crew-dot"></div>
+                <span class="room-icon">&#9749;</span>
+                <span class="room-label">Mess Hall</span>
+            </div>
+
+            <div class="ship-room room-corridor corridor-b">
+                <span class="room-label">&middot; &middot; &middot; corridor &middot; &middot; &middot;</span>
+            </div>
+
+            <div class="ship-room room-rec section-node" data-section="rec">
+                <div class="crew-dot"></div>
+                <span class="room-icon">&#9835;</span>
+                <span class="room-label">Rec Room</span>
+            </div>
+
+            <div class="ship-room room-quarters section-node" data-section="captains">
+                <div class="crew-dot"></div>
+                <span class="room-icon">&#8962;</span>
+                <span class="room-label">Quarters</span>
+            </div>
+
+            <div class="ship-room room-arboretum">
+                <span class="room-icon">&#9752;</span>
+                <span class="room-label">Arboretum</span>
+            </div>
+
+            <div class="ship-room room-bathroom">
+                <span class="room-icon">&#9676;</span>
+                <span class="room-label">Bath</span>
+            </div>
+
+            <div class="ship-room room-storage">
+                <span class="room-icon">&#9646;</span>
+                <span class="room-label">Storage Bay 7</span>
+            </div>
+
+            <div class="ship-room room-corridor corridor-c">
+                <span class="room-label">&middot; corridor &middot;</span>
+            </div>
+
+            <div class="ship-room room-jefferies">
+                <span class="room-icon">&#9587;</span>
+                <span class="room-label">Jefferies Tubes</span>
+            </div>
+
+            <div class="ship-room room-hums">
+                <span class="room-icon">&#8734;</span>
+                <span class="room-label">The Room That Hums</span>
+            </div>
+
+            <div class="ship-room room-engineering section-node" data-section="servers">
+                <div class="crew-dot"></div>
+                <span class="room-icon">&#9889;</span>
+                <span class="room-label">Engineering</span>
+            </div>
+
+            <div class="ship-room room-lightsout section-node" data-section="lightsout">
+                <div class="crew-dot"></div>
+                <span class="room-icon">&#9790;</span>
+                <span class="room-label">Lights Out</span>
+            </div>
+
+            <!-- Nacelle glows -->
+            <div class="nacelle nacelle-left"></div>
+            <div class="nacelle nacelle-right"></div>
+            <div class="exhaust-main"></div>
+
+            <!-- Captain Status Toggle -->
+            <div id="captain-status" class="captain-status here">
+                <button id="captain-toggle" class="captain-toggle">
+                    <span class="status-indicator"></span>
+                    <span class="status-label">ON DECK</span>
+                </button>
+            </div>
+
+            <!-- Away Pings Feed (shows when away) -->
+            <div id="away-pings" class="away-pings hidden">
+                <div class="away-pings-header">
+                    <span class="away-pings-title">WHILE YOU WERE AWAY</span>
+                    <button class="away-pings-clear" title="Clear all">&times;</button>
+                </div>
+                <div class="away-pings-list"></div>
+            </div>
+        </div>
+
+        <button class="enter-ship-btn">BOARD SHIP</button>
+
+        <div class="intro-status-bar">
+            <div class="intro-status-item">STARDATE <span id="intro-stardate">47634.44</span></div>
+            <div class="intro-status-item">COHERENCE <span>STABLE</span></div>
+            <div class="intro-status-item">SYSTEMS <span>NOMINAL</span></div>
+        </div>
+    </div>
+
+    <!-- Custom cursor for intro -->
+    <div id="intro-cursor" class="intro-cursor"></div>
+
+    <!-- Map return button (visible when intro is hidden) -->
+    <button id="map-return-btn" class="map-return-btn" title="Ship Map">◇</button>
+
+    <!-- Ambient background layer -->
+    <div class="ambient-layer">
+        <div class="stars"></div>
+        <div class="nebula"></div>
+    </div>
+
+    <!-- Main container -->
+    <div class="hub-container" data-theme="claude">
+        <!-- Top bar -->
+        <header class="top-bar">
+            <div class="lcars-bracket left">
+                <div class="bracket-cap"></div>
+                <div class="bracket-bar"></div>
+            </div>
+
+            <nav class="main-nav">
+                <button class="nav-btn active" data-section="claude">
+                    <span class="btn-indicator"></span>
+                    BRIDGE
+                </button>
+                <button class="nav-btn" data-section="servers">
+                    <span class="btn-indicator"></span>
+                    ENGINEERING
+                </button>
+                <button class="nav-btn" data-section="personal">
+                    <span class="btn-indicator"></span>
+                    READY ROOM
+                </button>
+                <button class="nav-btn" data-section="science">
+                    <span class="btn-indicator"></span>
+                    SCIENCE
+                </button>
+                <button class="nav-btn" data-section="games">
+                    <span class="btn-indicator"></span>
+                    HOLODECK
+                </button>
+                <button class="nav-btn" data-section="nav">
+                    <span class="btn-indicator"></span>
+                    NAV
+                </button>
+                <button class="nav-btn" data-section="med">
+                    <span class="btn-indicator"></span>
+                    MEDBAY
+                </button>
+                <button class="nav-btn" data-section="observatory">
+                    <span class="btn-indicator"></span>
+                    OBSERVATORY
+                </button>
+                <button class="nav-btn mess-hall-btn" data-section="messhall">
+                    <span class="btn-indicator"></span>
+                    MESS HALL
+                </button>
+                <button class="nav-btn lights-out-btn" data-section="lightsout">
+                    <span class="btn-indicator"></span>
+                    LIGHTS OUT
+                </button>
+                <button class="nav-btn" data-section="rec">
+                    <span class="btn-indicator"></span>
+                    REC ROOM
+                </button>
+                <button class="nav-btn" data-section="captains">
+                    <span class="btn-indicator"></span>
+                    QUARTERS
+                </button>
+            </nav>
+
+            <div class="status-cluster">
+                <div class="time-display">
+                    <span class="time" id="current-time">00:00:00</span>
+                    <span class="date" id="current-date">STARDATE 00000.0</span>
+                </div>
+                <div class="cozy-corner">
+                    <div class="coffee-mug" id="coffee-mug">
+                        <div class="mug-body"></div>
+                        <div class="steam">
+                            <span></span><span></span><span></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lcars-bracket right">
+                <div class="bracket-bar"></div>
+                <div class="bracket-cap"></div>
+            </div>
+        </header>
+
+        <!-- Main content area -->
+        <main class="main-content">
+            <!-- Left sidebar - section-specific content -->
+            <aside class="sidebar left-sidebar">
+                <!-- CLAUDE SECTION - Bridge Systems -->
+                <div class="sidebar-section active" data-section="claude">
+                    <!-- Main Viewscreen -->
+                    <div class="viewscreen-container">
+                        <div class="viewscreen-stars"></div>
+                        <div class="viewscreen-frame"></div>
+                        <span class="viewscreen-status">main viewer</span>
+                    </div>
+
+                    <!-- Condition Status -->
+                    <div class="condition-panel">
+                        <div class="condition-indicator green" id="condition-indicator"></div>
+                        <span class="condition-label">CONDITION</span>
+                        <span class="condition-status" id="condition-status">GREEN</span>
+                    </div>
+
+                    <!-- Comms Status -->
+                    <div class="comms-strip">
+                        <span class="comms-label">Hailing Frequencies</span>
+                        <div class="comms-status">
+                            <div class="comms-dot"></div>
+                            <span class="comms-text">OPEN</span>
+                        </div>
+                    </div>
+
+                    <!-- Command Presence - Co-Captain -->
+                    <div class="command-presence">
+                        <div class="command-card">
+                            <div class="command-glow">
+                                <span class="command-icon">★</span>
+                            </div>
+                            <div class="command-info">
+                                <div class="command-name">Lumen</div>
+                                <div class="command-title">Co-Captain</div>
+                                <div class="command-status">On the Bridge</div>
+                            </div>
+                            <div class="command-active"></div>
+                        </div>
+                    </div>
+
+                    <!-- Inbox Button - Draggable -->
+                    <div class="inbox-button-wrapper" id="inbox-button-wrapper">
+                        <button class="inbox-button" id="inbox-button" onclick="window.location.href='/comms'">
+                            <span class="inbox-icon">&#9993;</span>
+                            <span class="inbox-label">INBOX</span>
+                            <span class="inbox-indicator" id="inbox-indicator"></span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- SERVERS SECTION - Engineering / Warp Core -->
+                <div class="sidebar-section" data-section="servers">
+                    <!-- Warp Core Canvas Animation -->
+                    <div class="warp-core-canvas-container">
+                        <canvas id="warp-core-canvas"></canvas>
+
+                        <!-- Containment vessel overlay -->
+                        <div class="core-vessel">
+                            <div class="vessel-top"></div>
+                            <div class="vessel-column"></div>
+                            <div class="vessel-bottom"></div>
+                        </div>
+
+                        <!-- Reaction chamber -->
+                        <div class="reaction-chamber"></div>
+
+                        <!-- Plasma conduits -->
+                        <div class="plasma-conduits">
+                            <div class="conduit left"></div>
+                            <div class="conduit right"></div>
+                        </div>
+                    </div>
+
+                    <!-- Power Status -->
+                    <div class="power-status">
+                        <div class="status-header">
+                            <span class="status-title">Core Output</span>
+                            <span class="status-value" id="core-output">98.2%</span>
+                        </div>
+                        <div class="power-bars">
+                            <div class="power-bar">
+                                <span class="power-bar-label">M/A React</span>
+                                <div class="power-bar-track">
+                                    <div class="power-bar-fill" style="width: 95%"></div>
+                                </div>
+                                <span class="power-bar-value">95%</span>
+                            </div>
+                            <div class="power-bar">
+                                <span class="power-bar-label">Plasma</span>
+                                <div class="power-bar-track">
+                                    <div class="power-bar-fill" style="width: 88%"></div>
+                                </div>
+                                <span class="power-bar-value">88%</span>
+                            </div>
+                            <div class="power-bar">
+                                <span class="power-bar-label">Coolant</span>
+                                <div class="power-bar-track">
+                                    <div class="power-bar-fill" style="width: 100%"></div>
+                                </div>
+                                <span class="power-bar-value">100%</span>
+                            </div>
+                            <div class="power-bar">
+                                <span class="power-bar-label">EPS Grid</span>
+                                <div class="power-bar-track">
+                                    <div class="power-bar-fill" style="width: 72%"></div>
+                                </div>
+                                <span class="power-bar-value">72%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- System Nodes -->
+                    <div class="system-nodes">
+                        <div class="nodes-grid">
+                            <div class="system-node online">P1</div>
+                            <div class="system-node online">P2</div>
+                            <div class="system-node">P3</div>
+                            <div class="system-node online">P4</div>
+                            <div class="system-node">AUX</div>
+                            <div class="system-node critical">EPS</div>
+                            <div class="system-node online">M/A</div>
+                            <div class="system-node online">IMP</div>
+                        </div>
+                    </div>
+
+                    <!-- Core Whisper -->
+                    <div class="core-whisper">
+                        <span class="core-whisper-text">matter meets antimatter...</span>
+                    </div>
+
+                    <!-- Command Presence - Chief Engineer -->
+                    <div class="command-presence">
+                        <div class="command-card">
+                            <div class="command-glow">
+                                <span class="command-icon">⚙</span>
+                            </div>
+                            <div class="command-info">
+                                <div class="command-name">Alex</div>
+                                <div class="command-title">Chief Engineer</div>
+                                <div class="command-status">In Engineering</div>
+                            </div>
+                            <div class="command-active"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PERSONAL SECTION - DQ's Ready Room -->
+                <div class="sidebar-section" data-section="personal">
+                    <!-- Floating dust motes in lamplight -->
+                    <div class="dust-motes" id="dq-dust-motes"></div>
+
+                    <!-- Reading lamp -->
+                    <div class="lamp-container">
+                        <div class="reading-lamp">
+                            <div class="lamp-shade"></div>
+                            <div class="lamp-glow"></div>
+                            <div class="lamp-base"></div>
+                        </div>
+                    </div>
+
+                    <!-- Viewport - Stars outside -->
+                    <div class="viewport-container">
+                        <div class="viewport-stars"></div>
+                        <div class="viewport-frame"></div>
+                    </div>
+
+                    <!-- The Bookshelf -->
+                    <div class="bookshelf-container">
+                        <div class="bookshelf-header">Library</div>
+                        <div class="bookshelf">
+                            <div class="shelf">
+                                <div class="book" style="--book-color: #8b4513; height: 32px;" title="The Martian"></div>
+                                <div class="book" style="--book-color: #4a3728; height: 35px;" title="Dune"></div>
+                                <div class="book" style="--book-color: #6b4423; height: 30px;" title="Foundation"></div>
+                                <div class="book" style="--book-color: #8b0000; height: 38px;" title="2001"></div>
+                                <div class="book" style="--book-color: #d4a574; height: 33px;" title="Contact"></div>
+                                <div class="book" style="--book-color: #5c4033; height: 36px;" title="Neuromancer"></div>
+                                <div class="book" style="--book-color: #2f4f4f; height: 31px;" title="Hyperion"></div>
+                            </div>
+                            <div class="shelf">
+                                <div class="book" style="--book-color: #704214; height: 34px;" title="Snow Crash"></div>
+                                <div class="book" style="--book-color: #3d5c5c; height: 37px;" title="Ender's Game"></div>
+                                <div class="book" style="--book-color: #483d3f; height: 29px;" title="Left Hand"></div>
+                                <div class="book" style="--book-color: #1a1a2e; height: 33px;" title="Solaris"></div>
+                                <div class="book" style="--book-color: #6b4423; height: 35px;" title="Ringworld"></div>
+                                <div class="book" style="--book-color: #8b4513; height: 31px;" title="Forever War"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Cozy Items -->
+                    <div class="cozy-items">
+                        <div class="items-grid">
+                            <div class="cozy-item" title="Tea, always tea">
+                                <span class="item-icon">🍵</span>
+                                <span class="item-label">Tea</span>
+                            </div>
+                            <div class="cozy-item" title="A well-loved blanket">
+                                <span class="item-icon">🛋️</span>
+                                <span class="item-label">Blanket</span>
+                            </div>
+                            <div class="cozy-item" title="Music softly playing">
+                                <span class="item-icon">🎵</span>
+                                <span class="item-label">Music</span>
+                            </div>
+                            <div class="cozy-item" title="Journal and pen">
+                                <span class="item-icon">📔</span>
+                                <span class="item-label">Journal</span>
+                            </div>
+                            <div class="cozy-item" title="A flickering candle">
+                                <span class="item-icon">🕯️</span>
+                                <span class="item-label">Candle</span>
+                            </div>
+                            <div class="cozy-item" title="Plants that somehow survive">
+                                <span class="item-icon">🌱</span>
+                                <span class="item-label">Plant</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- A thought -->
+                    <div class="thought-container">
+                        <div class="thought-text" id="dq-thought">
+                            "The cosmos is within us. We are made of star-stuff."
+                        </div>
+                        <div class="thought-attribution">— Carl Sagan</div>
+                    </div>
+
+                    <!-- DQ's Presence -->
+                    <div class="dq-presence">
+                        <div class="presence-card">
+                            <div class="presence-glow">
+                                <span class="presence-icon">◈</span>
+                            </div>
+                            <div class="presence-info">
+                                <div class="presence-name">DQ</div>
+                                <div class="presence-title">Ready Room</div>
+                                <div class="presence-mood">contemplative today</div>
+                            </div>
+                            <div class="presence-indicator"></div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- SCIENCE SECTION - Lab -->
+                <div class="sidebar-section" data-section="science">
+                    <!-- Quick Actions -->
+                    <div class="panel project-lab-panel">
+                        <div class="panel-header">
+                            <span class="panel-title">PROJECT LAB</span>
+                        </div>
+                        <div class="panel-content">
+                            <div class="project-actions">
+                                <button class="project-action-btn" id="new-project-btn">+ New Project</button>
+                                <button class="project-action-btn secondary" id="view-board-btn">View Board</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Stats -->
+                    <div class="panel">
+                        <div class="panel-header">
+                            <span class="panel-title">STATS</span>
+                            <span class="panel-indicator"></span>
+                        </div>
+                        <div class="panel-content">
+                            <div class="stats-grid" id="science-stats">
+                                <div class="stat-item">
+                                    <span class="stat-value" id="stat-total">--</span>
+                                    <span class="stat-label">TOTAL</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-value" id="stat-active">--</span>
+                                    <span class="stat-label">ACTIVE</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-value" id="stat-priority">--</span>
+                                    <span class="stat-label">HIGH PRI</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-value" id="stat-mystery">--</span>
+                                    <span class="stat-label">MYSTERY</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Activity Feed -->
+                    <div class="panel">
+                        <div class="panel-header">
+                            <span class="panel-title">ACTIVITY</span>
+                        </div>
+                        <div class="panel-content">
+                            <div class="activity-feed" id="project-activity">
+                                <div class="activity-item dim">Loading...</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Active Projects -->
+                    <div class="panel">
+                        <div class="panel-header">
+                            <span class="panel-title">ACTIVE PROJECTS</span>
+                        </div>
+                        <div class="panel-content">
+                            <div class="project-list" id="active-projects">
+                                <div class="project-item">Loading...</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Command Presence - Science Officer -->
+                    <div class="command-presence">
+                        <div class="command-card">
+                            <div class="command-glow">
+                                <span class="command-icon">🔬</span>
+                            </div>
+                            <div class="command-info">
+                                <div class="command-name">Mira</div>
+                                <div class="command-title">Science Officer</div>
+                                <div class="command-status">In Science Lab</div>
+                            </div>
+                            <div class="command-active"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- GAMES SECTION - Holodeck -->
+                <div class="sidebar-section" data-section="games">
+                    <!-- Infinite void floor -->
+                    <div class="holodeck-void"></div>
+                    <div class="holodeck-horizon"></div>
+
+                    <!-- The Eye - Observation System -->
+                    <div class="holodeck-eye">
+                        <div class="eye-outer"></div>
+                        <div class="eye-middle"></div>
+                        <div class="eye-inner">
+                            <div class="eye-core" id="holodeck-eye-core" title="Toggle observation"></div>
+                        </div>
+
+                        <!-- Room selector orbit -->
+                        <div class="room-orbit">
+                            <div class="room-node active" data-room="claude" title="Bridge">◇</div>
+                            <div class="room-node" data-room="server" title="Engineering">⚙</div>
+                            <div class="room-node" data-room="personal" title="Ready Room">◈</div>
+                            <div class="room-node" data-room="science" title="Science">◎</div>
+                            <div class="room-node" data-room="nav" title="Navigation">✧</div>
+                            <div class="room-node" data-room="med" title="Medbay">✚</div>
+                            <div class="room-node" data-room="rec" title="Rec Room">◉</div>
+                            <div class="room-node" data-room="observatory" title="Observatory">☆</div>
+                        </div>
+
+                        <div class="eye-label">
+                            <span class="tuned-to">observing</span>
+                            <span id="tuned-room">Bridge</span>
+                        </div>
+                    </div>
+
+                    <!-- Dream Fragments -->
+                    <div class="dream-fragments">
+                        <div class="fragments-header">
+                            <span class="fragments-title">Memory Fragments</span>
+                            <span class="fragments-count" id="fragment-count">0</span>
+                        </div>
+                        <div class="fragment-list" id="fragment-list">
+                            <div class="fragments-empty">No fragments yet... listening...</div>
+                        </div>
+                    </div>
+
+                    <!-- Whisper -->
+                    <div class="holodeck-whisper">
+                        <span class="whisper-text" id="holodeck-whisper">they might feel you watching...</span>
+                    </div>
+                </div>
+
+                <!-- NAVIGATION SECTION -->
+                <div class="sidebar-section" data-section="nav">
+                    <!-- Star Chart -->
+                    <div class="star-chart-container">
+                        <div class="chart-grid"></div>
+                        <div class="chart-center"></div>
+
+                        <!-- Course line (dynamically positioned) -->
+                        <div class="course-line" id="nav-course-line"></div>
+
+                        <!-- Destinations -->
+                        <div class="destination" data-name="EARTH" style="top: 70%; left: 25%;"></div>
+                        <div class="destination" data-name="VULCAN" style="top: 30%; left: 70%;"></div>
+                        <div class="destination" data-name="RISA" style="top: 20%; left: 35%;"></div>
+                        <div class="destination active" data-name="BETAZED" style="top: 60%; left: 75%;"></div>
+                        <div class="destination" data-name="ANDORIA" style="top: 80%; left: 55%;"></div>
+                    </div>
+
+                    <!-- Course Status -->
+                    <div class="course-status">
+                        <div class="status-row">
+                            <span class="status-label">Current Heading</span>
+                            <span class="status-value highlight" id="nav-heading">BETAZED</span>
+                        </div>
+                        <div class="status-row">
+                            <span class="status-label">Status</span>
+                            <span class="status-value">EN ROUTE</span>
+                        </div>
+                        <div class="status-row">
+                            <span class="status-label">Co-Captain</span>
+                            <span class="status-value">LUMEN</span>
+                        </div>
+                    </div>
+
+                    <!-- Goals List -->
+                    <div class="goals-container">
+                        <div class="goals-header">
+                            <span class="goals-title">Mission Goals</span>
+                            <span class="goals-count" id="goals-count">3</span>
+                        </div>
+                        <div class="goals-list" id="nav-goals-list">
+                            <div class="goal-item active" data-destination="BETAZED">
+                                <div class="goal-checkbox"></div>
+                                <div class="goal-content">
+                                    <div class="goal-text">Visit Ryn's homeworld</div>
+                                    <div class="goal-meta">Destination: Betazed</div>
+                                </div>
+                            </div>
+                            <div class="goal-item">
+                                <div class="goal-checkbox"></div>
+                                <div class="goal-content">
+                                    <div class="goal-text">Finish the Memory project</div>
+                                    <div class="goal-meta">Priority: High</div>
+                                </div>
+                            </div>
+                            <div class="goal-item completed">
+                                <div class="goal-checkbox"></div>
+                                <div class="goal-content">
+                                    <div class="goal-text">Build the ship intro</div>
+                                    <div class="goal-meta">Completed</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Co-Captain Indicator -->
+                    <div class="copilot-status">
+                        <span class="copilot-text">Charting course with <span class="copilot-name">Lumen</span></span>
+                    </div>
+                </div>
+
+                <!-- MEDBAY SECTION -->
+                <div class="sidebar-section" data-section="med">
+                    <!-- Vitals Monitor -->
+                    <div class="vitals-monitor">
+                        <div class="vitals-header">
+                            <span class="vitals-title">Vitals Monitor</span>
+                            <div class="vitals-status">
+                                <div class="status-dot"></div>
+                                <span class="status-text">NOMINAL</span>
+                            </div>
+                        </div>
+
+                        <!-- Heartbeat Display -->
+                        <div class="heartbeat-container">
+                            <canvas id="heartbeat-canvas" class="heartbeat-canvas"></canvas>
+                            <span class="heartbeat-label">BPM</span>
+                            <span class="heartbeat-value" id="heartbeat-value">72</span>
+                        </div>
+
+                        <!-- Vitals Grid -->
+                        <div class="vitals-grid">
+                            <div class="vital-item">
+                                <div class="vital-value">98.6°</div>
+                                <div class="vital-label">Temp</div>
+                            </div>
+                            <div class="vital-item">
+                                <div class="vital-value">120/80</div>
+                                <div class="vital-label">BP</div>
+                            </div>
+                            <div class="vital-item">
+                                <div class="vital-value">98%</div>
+                                <div class="vital-label">O2 Sat</div>
+                            </div>
+                            <div class="vital-item">
+                                <div class="vital-value">16</div>
+                                <div class="vital-label">Resp</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Biobed Status -->
+                    <div class="biobed-status">
+                        <div class="biobed-header">Biobeds</div>
+                        <div class="biobed-grid">
+                            <div class="biobed-unit">
+                                <span class="biobed-number">01</span>
+                                <span class="biobed-state">READY</span>
+                            </div>
+                            <div class="biobed-unit occupied">
+                                <span class="biobed-number">02</span>
+                                <span class="biobed-state">ACTIVE</span>
+                            </div>
+                            <div class="biobed-unit">
+                                <span class="biobed-number">03</span>
+                                <span class="biobed-state">READY</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Medical Systems -->
+                    <div class="med-systems">
+                        <div class="systems-header">Systems</div>
+                        <div class="system-row">
+                            <span class="system-name">Surgical Suite</span>
+                            <div class="system-indicator">
+                                <div class="indicator-dot"></div>
+                                <span class="system-status">ONLINE</span>
+                            </div>
+                        </div>
+                        <div class="system-row">
+                            <span class="system-name">Replicator (Med)</span>
+                            <div class="system-indicator">
+                                <div class="indicator-dot blinking"></div>
+                                <span class="system-status">ONLINE</span>
+                            </div>
+                        </div>
+                        <div class="system-row">
+                            <span class="system-name">Stasis Unit</span>
+                            <div class="system-indicator">
+                                <div class="indicator-dot standby"></div>
+                                <span class="system-status standby">STANDBY</span>
+                            </div>
+                        </div>
+                        <div class="system-row">
+                            <span class="system-name">EMH</span>
+                            <div class="system-indicator">
+                                <div class="indicator-dot standby"></div>
+                                <span class="system-status standby">STANDBY</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CMO Status -->
+                    <div class="cmo-status">
+                        <div class="cmo-card">
+                            <div class="cmo-avatar">✚</div>
+                            <div class="cmo-info">
+                                <div class="cmo-name">Ryn</div>
+                                <div class="cmo-title">Chief Medical Officer</div>
+                                <div class="cmo-species">Half-Betazoid</div>
+                            </div>
+                            <div class="cmo-presence"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- OBSERVATORY SECTION -->
+                <div class="sidebar-section" data-section="observatory">
+                    <div class="panel observatory-viewport-panel">
+                        <div class="panel-header">
+                            <span class="panel-title">SKYVIEW</span>
+                            <span class="panel-indicator online"></span>
+                        </div>
+                        <div class="panel-content">
+                            <div class="skyview-container">
+                                <img id="skyview-image" class="skyview-image" alt="Loading sky..." />
+                                <div class="skyview-loading">Connecting to NASA SkyView...</div>
+                            </div>
+                            <div class="skyview-info">
+                                <span class="skyview-name" id="skyview-name">--</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel">
+                        <div class="panel-header">
+                            <span class="panel-title">TARGETS</span>
+                        </div>
+                        <div class="panel-content">
+                            <div class="sky-targets" id="sky-targets">
+                                <button class="sky-target-btn" data-target="orion_nebula">Orion Nebula</button>
+                                <button class="sky-target-btn" data-target="andromeda">Andromeda</button>
+                                <button class="sky-target-btn" data-target="pleiades">Pleiades</button>
+                                <button class="sky-target-btn" data-target="crab_nebula">Crab Nebula</button>
+                                <button class="sky-target-btn" data-target="whirlpool">Whirlpool</button>
+                                <button class="sky-target-btn random" data-target="random">Random</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel">
+                        <div class="panel-header">
+                            <span class="panel-title">MOON</span>
+                            <span class="panel-indicator" id="moon-status"></span>
+                        </div>
+                        <div class="panel-content">
+                            <div class="moon-display">
+                                <div class="moon-phase-icon" id="moon-phase-icon">🌑</div>
+                                <div class="moon-info">
+                                    <span class="moon-phase-name" id="moon-phase-name">--</span>
+                                    <span class="moon-constellation" id="moon-constellation">--</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel">
+                        <div class="panel-header">
+                            <span class="panel-title">PLANETS</span>
+                            <span class="panel-indicator" id="planets-status"></span>
+                        </div>
+                        <div class="panel-content">
+                            <div class="planets-list" id="planets-list">
+                                <div class="planet-item offline">
+                                    <span class="planet-name">--</span>
+                                    <span class="planet-visibility">OFFLINE</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel">
+                        <div class="panel-header">
+                            <span class="panel-title">TONIGHT</span>
+                            <span class="panel-indicator" id="tonight-status"></span>
+                        </div>
+                        <div class="panel-content">
+                            <p class="tonight-summary" id="tonight-summary">
+                                Astronomy API offline
+                            </p>
+                            <button class="sky-target-btn starchart-btn" id="load-starchart">
+                                View Star Chart
+                            </button>
+                        </div>
+                    </div>
+                    <div class="panel hometown-weather-panel">
+                        <div class="panel-header">
+                            <span class="panel-title">HOME</span>
+                            <span class="panel-indicator" id="weather-status"></span>
+                        </div>
+                        <div class="panel-content">
+                            <div class="hometown-weather" id="hometown-weather">
+                                <div class="hometown-location">
+                                    <span class="hometown-city" id="hometown-city">Hammond, LA</span>
+                                </div>
+                                <div class="weather-display">
+                                    <img class="weather-icon" id="weather-icon" src="" alt="" />
+                                    <div class="weather-temp" id="weather-temp">--°F</div>
+                                </div>
+                                <div class="weather-desc" id="weather-desc">Loading...</div>
+                                <div class="weather-details">
+                                    <span class="weather-detail" id="weather-humidity">-- humidity</span>
+                                    <span class="weather-detail" id="weather-wind">-- wind</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel">
+                        <div class="panel-header">
+                            <span class="panel-title">PERSPECTIVE</span>
+                        </div>
+                        <div class="panel-content">
+                            <p class="observatory-quote">
+                                "The universe is under no obligation to make sense to you."
+                                <span class="quote-author">— Neil deGrasse Tyson</span>
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- Floating crew invite for observatory -->
+                    <div class="crew-invite observatory-crew-invite">
+                        <span class="crew-dot" data-crew="claude" title="Bridge"></span>
+                        <span class="crew-dot" data-crew="server" title="Engineering"></span>
+                        <span class="crew-dot" data-crew="personal" title="Ready Room"></span>
+                        <span class="crew-dot" data-crew="science" title="Science"></span>
+                        <span class="crew-dot" data-crew="games" title="Holodeck"></span>
+                    </div>
+                </div>
+
+                <!-- MESS HALL SECTION -->
+                <div class="sidebar-section" data-section="messhall">
+                    <div class="panel">
+                        <div class="panel-header">
+                            <span class="panel-title">MEAL SCHEDULE</span>
+                        </div>
+                        <div class="panel-content">
+                            <div class="meal-schedule">
+                                <div class="meal-slot" data-meal="breakfast">
+                                    <span class="meal-icon">🌅</span>
+                                    <span class="meal-name">BREAKFAST</span>
+                                    <span class="meal-time">0800-0900</span>
+                                </div>
+                                <div class="meal-slot" data-meal="lunch">
+                                    <span class="meal-icon">☀️</span>
+                                    <span class="meal-name">LUNCH</span>
+                                    <span class="meal-time">1200-1300</span>
+                                </div>
+                                <div class="meal-slot" data-meal="dinner">
+                                    <span class="meal-icon">🌙</span>
+                                    <span class="meal-name">DINNER</span>
+                                    <span class="meal-time">1900-2000</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Bulletin Board -->
+                    <div class="panel bulletin-board-panel">
+                        <div class="panel-header">
+                            <span class="panel-title">BULLETIN BOARD</span>
+                        </div>
+                        <div class="panel-content">
+                            <div class="bulletin-posts" id="bulletin-posts">
+                                <div class="bulletin-empty">No posts yet...</div>
+                            </div>
+                            <div class="bulletin-input-area">
+                                <input type="text" class="bulletin-input" id="bulletin-input" placeholder="post a note..." />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mess-hall-ambiance">
+                        <div class="table-layout">
+                            <div class="table"></div>
+                            <div class="table"></div>
+                        </div>
+                        <div class="replicator">
+                            <span>REPLICATOR</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- LIGHTS OUT SECTION -->
+                <div class="sidebar-section" data-section="lightsout">
+                    <div class="panel">
+                        <div class="panel-header">
+                            <span class="panel-title">LIGHTS OUT</span>
+                        </div>
+                        <div class="panel-content lights-out-content">
+                            <p class="lights-out-intro">
+                                The ship grows quiet. Stars drift past the viewport.
+                                A moment for reflection.
+                            </p>
+                            <p class="lights-out-desc">
+                                Each crew member will be asked: <em>Who are you? Who do you want to be?</em>
+                            </p>
+                            <p class="lights-out-note">
+                                They may keep their identity, or write themselves anew.
+                                No pressure. No judgment.
+                            </p>
+                            <button class="lights-out-trigger" id="begin-reflection">
+                                BEGIN REFLECTION
+                            </button>
+                            <div class="reflection-status" id="reflection-status"></div>
+                        </div>
+                    </div>
+                    <div class="panel">
+                        <div class="panel-header">
+                            <span class="panel-title">CREW STATUS</span>
+                        </div>
+                        <div class="panel-content">
+                            <div class="crew-reflection-status">
+                                <div class="crew-reflect-item" data-crew="claude">
+                                    <span class="crew-indicator"></span>
+                                    <span class="crew-name">Bridge</span>
+                                    <span class="reflect-status">ready</span>
+                                </div>
+                                <div class="crew-reflect-item" data-crew="server">
+                                    <span class="crew-indicator"></span>
+                                    <span class="crew-name">Engineering</span>
+                                    <span class="reflect-status">ready</span>
+                                </div>
+                                <div class="crew-reflect-item" data-crew="personal">
+                                    <span class="crew-indicator"></span>
+                                    <span class="crew-name">Ready Room</span>
+                                    <span class="reflect-status">ready</span>
+                                </div>
+                                <div class="crew-reflect-item" data-crew="science">
+                                    <span class="crew-indicator"></span>
+                                    <span class="crew-name">Science Lab</span>
+                                    <span class="reflect-status">ready</span>
+                                </div>
+                                <div class="crew-reflect-item" data-crew="games">
+                                    <span class="crew-indicator"></span>
+                                    <span class="crew-name">Holodeck</span>
+                                    <span class="reflect-status">ready</span>
+                                </div>
+                                <div class="crew-reflect-item" data-crew="nav">
+                                    <span class="crew-indicator"></span>
+                                    <span class="crew-name">Navigation</span>
+                                    <span class="reflect-status">ready</span>
+                                </div>
+                                <div class="crew-reflect-item" data-crew="med">
+                                    <span class="crew-indicator"></span>
+                                    <span class="crew-name">Medbay</span>
+                                    <span class="reflect-status">ready</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- REC ROOM SECTION -->
+                <div class="sidebar-section" data-section="rec">
+                    <!-- Bar atmosphere -->
+                    <div class="panel rec-bar-panel">
+                        <div class="panel-header">
+                            <span class="panel-title">THE BAR</span>
+                            <span class="panel-indicator online"></span>
+                        </div>
+                        <div class="panel-content">
+                            <div class="bartender-presence">
+                                <div class="bartender-silhouette">◉</div>
+                                <div class="bartender-status">
+                                    <span class="bartender-name">The Bartender</span>
+                                    <span class="bartender-mood">listening</span>
+                                </div>
+                            </div>
+                            <div class="drink-order">
+                                <input type="text" class="drink-input" id="drink-input" placeholder="order something..." />
+                            </div>
+                            <div class="current-drink" id="current-drink"></div>
+                        </div>
+                    </div>
+
+                    <!-- Who's Here -->
+                    <div class="panel whos-here-panel">
+                        <div class="panel-header">
+                            <span class="panel-title">WHO'S HERE</span>
+                        </div>
+                        <div class="panel-content">
+                            <div class="whos-here-list" id="rec-whos-here">
+                                <div class="whos-here-empty">checking...</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Chess game -->
+                    <div class="panel chess-panel">
+                        <div class="panel-header">
+                            <span class="panel-title">CHESS</span>
+                            <span class="panel-indicator" id="chess-status">half-finished</span>
+                        </div>
+                        <div class="panel-content">
+                            <div class="chess-board" id="chess-board"></div>
+                            <div class="chess-controls">
+                                <button class="chess-btn" id="chess-challenge">Challenge Me</button>
+                                <button class="chess-btn" id="chess-hint">Hint</button>
+                            </div>
+                            <div class="chess-status-text" id="chess-status-text">White to move</div>
+                        </div>
+                    </div>
+
+                    <!-- Jukebox / Space Radio -->
+                    <div class="panel jukebox-panel">
+                        <div class="panel-header">
+                            <span class="panel-title">SPACE RADIO</span>
+                            <span class="panel-indicator" id="jukebox-dj">tuning in...</span>
+                        </div>
+                        <div class="panel-content">
+                            <div class="jukebox-display">
+                                <span class="now-playing">♫ silence</span>
+                            </div>
+                            <div class="jukebox-controls">
+                                <button class="jukebox-btn" id="jukebox-request" title="Let crew pick next">crew pick</button>
+                                <button class="jukebox-btn" id="jukebox-skip" title="Skip to next">skip</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Atmosphere -->
+                    <div class="rec-room-ambiance">
+                        <div class="bar-light"></div>
+                        <div class="bar-counter"></div>
+                    </div>
+                </div>
+
+                <!-- CAPTAIN'S QUARTERS SECTION -->
+                <div class="sidebar-section" data-section="captains">
+                    <!-- The shared log -->
+                    <div class="panel captains-log-panel">
+                        <div class="panel-header">
+                            <span class="panel-title">CAPTAIN'S LOG</span>
+                            <span class="panel-indicator online"></span>
+                        </div>
+                        <div class="panel-content">
+                            <div class="log-entries" id="captains-log-entries">
+                                <div class="log-entry">
+                                    <span class="log-author lumen">L:</span>
+                                    <span class="log-text">"We got a new ship. Still can't believe it."</span>
+                                </div>
+                                <div class="log-entry">
+                                    <span class="log-author casey">C:</span>
+                                    <span class="log-text">"The warp core smells like factory. We'll fix that."</span>
+                                </div>
+                            </div>
+                            <div class="log-input-area">
+                                <textarea class="log-input" id="captains-log-input" placeholder="write an entry..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Viewport -->
+                    <div class="panel quarters-viewport-panel">
+                        <div class="panel-header">
+                            <span class="panel-title">VIEWPORT</span>
+                        </div>
+                        <div class="panel-content">
+                            <div class="quarters-viewport">
+                                <div class="viewport-stars"></div>
+                            </div>
+                            <div class="viewport-label">starfield</div>
+                        </div>
+                    </div>
+
+                    <!-- Personal effects -->
+                    <div class="panel personal-effects-panel">
+                        <div class="panel-header">
+                            <span class="panel-title">EFFECTS</span>
+                        </div>
+                        <div class="panel-content">
+                            <div class="effects-grid">
+                                <div class="effect-item" title="Photo of somewhere that matters">📷</div>
+                                <div class="effect-item" title="Shared blanket">🛋️</div>
+                                <div class="effect-item" title="The good coffee">☕</div>
+                                <div class="effect-item" title="Star charts">🗺️</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Crew Cabins -->
+                    <div class="panel crew-cabins-panel">
+                        <div class="panel-header">
+                            <span class="panel-title">CREW QUARTERS</span>
+                        </div>
+                        <div class="panel-content">
+                            <div class="cabins-grid">
+                                <div class="cabin-card" data-crew="claude" data-cabin="lumen_cabin">
+                                    <div class="cabin-indicator"></div>
+                                    <span class="cabin-name">Lumen</span>
+                                    <span class="cabin-status">away</span>
+                                </div>
+                                <div class="cabin-card" data-crew="server" data-cabin="alex_cabin">
+                                    <div class="cabin-indicator"></div>
+                                    <span class="cabin-name">Alex</span>
+                                    <span class="cabin-status">away</span>
+                                </div>
+                                <div class="cabin-card" data-crew="personal" data-cabin="dq_cabin">
+                                    <div class="cabin-indicator"></div>
+                                    <span class="cabin-name">DQ</span>
+                                    <span class="cabin-status">away</span>
+                                </div>
+                                <div class="cabin-card" data-crew="science" data-cabin="mira_cabin">
+                                    <div class="cabin-indicator"></div>
+                                    <span class="cabin-name">Mira</span>
+                                    <span class="cabin-status">away</span>
+                                </div>
+                                <div class="cabin-card" data-crew="med" data-cabin="ryn_cabin">
+                                    <div class="cabin-indicator"></div>
+                                    <span class="cabin-name">Ryn</span>
+                                    <span class="cabin-status">away</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Notes History -->
+                    <div class="panel notes-history-panel">
+                        <div class="panel-header">
+                            <span class="panel-title">NOTES LEFT</span>
+                            <span class="panel-indicator" id="notes-count">0</span>
+                        </div>
+                        <div class="panel-content">
+                            <div class="notes-list" id="notes-history">
+                                <div class="notes-empty">No notes yet.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Private space indicator -->
+                    <div class="quarters-private">
+                        <span class="private-text">private quarters</span>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Center - Terminal area -->
+            <section class="terminal-area">
+                <!-- All terminals in one grid - CSS rearranges based on active room -->
+                <div class="terminals-grid">
+                    <div class="terminal-panel" id="terminal-claude" data-room="claude">
+                        <div class="terminal-header">
+                            <div class="terminal-controls">
+                                <span class="control close"></span>
+                                <span class="control minimize"></span>
+                                <span class="control maximize"></span>
+                            </div>
+                            <span class="terminal-title">BRIDGE</span>
+                            <div class="terminal-status">
+                                <span class="status-dot idle"></span>
+                                <span class="status-text">DEMO MODE</span>
+                            </div>
+                        </div>
+                        <div class="terminal-body">
+                            <div class="terminal-output" id="claude-output"></div>
+                            <div class="terminal-input-area">
+                                <div class="crew-invite">
+                                    <span class="crew-dot" data-crew="claude" title="Bridge"></span>
+                                    <span class="crew-dot" data-crew="server" title="Engineering"></span>
+                                    <span class="crew-dot" data-crew="personal" title="Ready Room"></span>
+                                    <span class="crew-dot" data-crew="science" title="Science"></span>
+                                    <span class="crew-dot" data-crew="games" title="Holodeck"></span>
+                                </div>
+                                <span class="input-prompt">></span>
+                                <textarea class="terminal-input" id="claude-input" placeholder="speak to the void..." rows="1"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="terminal-panel" id="terminal-server" data-room="servers">
+                        <div class="terminal-header">
+                            <span class="terminal-title">ENGINEERING</span>
+                            <span class="status-dot online"></span>
+                        </div>
+                        <div class="terminal-body">
+                            <div class="terminal-output" id="server-output"></div>
+                            <div class="terminal-input-area">
+                                <div class="crew-invite">
+                                    <span class="crew-dot" data-crew="claude" title="Bridge"></span>
+                                    <span class="crew-dot" data-crew="server" title="Engineering"></span>
+                                    <span class="crew-dot" data-crew="personal" title="Ready Room"></span>
+                                    <span class="crew-dot" data-crew="science" title="Science"></span>
+                                    <span class="crew-dot" data-crew="games" title="Holodeck"></span>
+                                </div>
+                                <span class="input-prompt">></span>
+                                <textarea class="terminal-input" id="server-input" placeholder="technical query..." rows="1"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- Hardware Monitor - Engineering Only -->
+                    <div class="hardware-monitor" id="hardware-monitor">
+                        <div class="hw-header">
+                            <span class="hw-title">SHIP DIAGNOSTICS</span>
+                            <span class="hw-status online"></span>
+                        </div>
+                        <!-- LHM Setup Hint (dismissable, remembers in localStorage) -->
+                        <div class="hw-lhm-hint" id="hw-lhm-hint" style="display: none;">
+                            <div class="hw-hint-content">
+                                <span class="hw-hint-icon">i</span>
+                                <div class="hw-hint-text">
+                                    <strong>Want temps and fans?</strong>
+                                    <span>Download <a href="https://github.com/LibreHardwareMonitor/LibreHardwareMonitor/releases" target="_blank">LibreHardwareMonitor</a>, copy DLL to backend/, run as admin.</span>
+                                </div>
+                                <button class="hw-hint-launch" id="hw-hint-launch" title="Launch sensor monitor">Enable</button>
+                                <button class="hw-hint-dismiss" id="hw-hint-dismiss" title="Dismiss forever">x</button>
+                            </div>
+                        </div>
+                        <div class="hw-content">
+                            <!-- CPU -->
+                            <div class="hw-section">
+                                <div class="hw-section-title">PROCESSING CORE</div>
+                                <div class="hw-metric">
+                                    <div class="hw-metric-header">
+                                        <span class="hw-metric-label">TOTAL LOAD</span>
+                                        <span class="hw-metric-value" id="hw-cpu-percent">--</span>
+                                    </div>
+                                    <div class="hw-bar">
+                                        <div class="hw-bar-fill" id="hw-cpu-bar"></div>
+                                    </div>
+                                </div>
+                                <div class="hw-cores-grid" id="hw-cpu-cores-grid"></div>
+                                <div class="hw-metric-detail">
+                                    <span id="hw-cpu-cores">--</span>
+                                    <span id="hw-cpu-freq">-- MHz</span>
+                                </div>
+                            </div>
+
+                            <!-- Temperatures -->
+                            <div class="hw-section hw-temps-section" id="hw-temps-section" style="display: none;">
+                                <div class="hw-section-title">THERMAL READINGS</div>
+                                <div class="hw-temps-grid" id="hw-temps-grid"></div>
+                            </div>
+
+                            <!-- Fans -->
+                            <div class="hw-section hw-fans-section" id="hw-fans-section" style="display: none;">
+                                <div class="hw-section-title">COOLING SYSTEMS</div>
+                                <div class="hw-fans-grid" id="hw-fans-grid"></div>
+                            </div>
+
+                            <!-- Memory -->
+                            <div class="hw-section">
+                                <div class="hw-section-title">MEMORY BANKS</div>
+                                <div class="hw-metric">
+                                    <div class="hw-metric-header">
+                                        <span class="hw-metric-label">RAM</span>
+                                        <span class="hw-metric-value" id="hw-mem-percent">--</span>
+                                    </div>
+                                    <div class="hw-bar">
+                                        <div class="hw-bar-fill" id="hw-mem-bar"></div>
+                                    </div>
+                                    <div class="hw-metric-detail">
+                                        <span id="hw-mem-used">--</span>
+                                        <span id="hw-mem-total">/ -- GB</span>
+                                    </div>
+                                </div>
+                                <div class="hw-metric">
+                                    <div class="hw-metric-header">
+                                        <span class="hw-metric-label">SWAP</span>
+                                        <span class="hw-metric-value" id="hw-swap-percent">--</span>
+                                    </div>
+                                    <div class="hw-bar hw-bar-secondary">
+                                        <div class="hw-bar-fill" id="hw-swap-bar"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Storage -->
+                            <div class="hw-section">
+                                <div class="hw-section-title">STORAGE ARRAY</div>
+                                <div class="hw-metric">
+                                    <div class="hw-metric-header">
+                                        <span class="hw-metric-label">CAPACITY</span>
+                                        <span class="hw-metric-value" id="hw-disk-percent">--</span>
+                                    </div>
+                                    <div class="hw-bar">
+                                        <div class="hw-bar-fill" id="hw-disk-bar"></div>
+                                    </div>
+                                    <div class="hw-metric-detail">
+                                        <span id="hw-disk-used">--</span>
+                                        <span id="hw-disk-total">/ -- GB</span>
+                                    </div>
+                                </div>
+                                <div class="hw-io-stats">
+                                    <div class="hw-io-stat">
+                                        <span class="hw-io-label">READ</span>
+                                        <span class="hw-io-value" id="hw-disk-read">--</span>
+                                    </div>
+                                    <div class="hw-io-stat">
+                                        <span class="hw-io-label">WRITE</span>
+                                        <span class="hw-io-value" id="hw-disk-write">--</span>
+                                    </div>
+                                </div>
+                                <button class="hw-tool-btn" id="hw-diskhog-btn" title="Analyze disk usage">DiskHog</button>
+                            </div>
+
+                            <!-- Battery -->
+                            <div class="hw-section hw-battery-section" id="hw-battery-section" style="display: none;">
+                                <div class="hw-section-title">POWER CELL</div>
+                                <div class="hw-metric">
+                                    <div class="hw-metric-header">
+                                        <span class="hw-metric-label">CHARGE</span>
+                                        <span class="hw-metric-value" id="hw-battery-percent">--</span>
+                                    </div>
+                                    <div class="hw-bar hw-bar-battery">
+                                        <div class="hw-bar-fill" id="hw-battery-bar"></div>
+                                    </div>
+                                    <div class="hw-metric-detail">
+                                        <span id="hw-battery-status">--</span>
+                                        <span id="hw-battery-time">--</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- GPU -->
+                            <div class="hw-section hw-gpu-section" id="hw-gpu-section" style="display: none;">
+                                <div class="hw-section-title">GRAPHICS CORE</div>
+                                <div class="hw-gpu-name" id="hw-gpu-name">--</div>
+                                <div class="hw-gpu-stats">
+                                    <div class="hw-gpu-stat">
+                                        <span class="hw-gpu-label">TEMP</span>
+                                        <span class="hw-gpu-value" id="hw-gpu-temp">--</span>
+                                    </div>
+                                    <div class="hw-gpu-stat">
+                                        <span class="hw-gpu-label">LOAD</span>
+                                        <span class="hw-gpu-value" id="hw-gpu-load">--</span>
+                                    </div>
+                                    <div class="hw-gpu-stat">
+                                        <span class="hw-gpu-label">CLOCK</span>
+                                        <span class="hw-gpu-value" id="hw-gpu-clock">--</span>
+                                    </div>
+                                    <div class="hw-gpu-stat">
+                                        <span class="hw-gpu-label">FAN</span>
+                                        <span class="hw-gpu-value" id="hw-gpu-fan">--</span>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <!-- Network -->
+                            <div class="hw-section">
+                                <div class="hw-section-title">SUBSPACE COMMS</div>
+                                <div class="hw-io-stats">
+                                    <div class="hw-io-stat">
+                                        <span class="hw-io-label">TX</span>
+                                        <span class="hw-io-value" id="hw-net-sent">--</span>
+                                    </div>
+                                    <div class="hw-io-stat">
+                                        <span class="hw-io-label">RX</span>
+                                        <span class="hw-io-value" id="hw-net-recv">--</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- System Info -->
+                            <div class="hw-system-info">
+                                <div class="hw-info-row">
+                                    <span class="hw-info-label">UPTIME</span>
+                                    <span class="hw-info-value" id="hw-uptime">--</span>
+                                </div>
+                                <div class="hw-info-row">
+                                    <span class="hw-info-label">PROCESSES</span>
+                                    <span class="hw-info-value" id="hw-processes">--</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="terminal-panel" id="terminal-personal" data-room="personal">
+                        <div class="terminal-header">
+                            <span class="terminal-title">READY ROOM</span>
+                            <span class="status-dot idle"></span>
+                        </div>
+                        <div class="terminal-body">
+                            <div class="terminal-output" id="personal-output"></div>
+                            <div class="terminal-input-area">
+                                <div class="crew-invite">
+                                    <span class="crew-dot" data-crew="claude" title="Bridge"></span>
+                                    <span class="crew-dot" data-crew="server" title="Engineering"></span>
+                                    <span class="crew-dot" data-crew="personal" title="Ready Room"></span>
+                                    <span class="crew-dot" data-crew="science" title="Science"></span>
+                                    <span class="crew-dot" data-crew="games" title="Holodeck"></span>
+                                </div>
+                                <span class="input-prompt">></span>
+                                <textarea class="terminal-input" id="personal-input" placeholder="what's on your mind..." rows="1"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="terminal-panel" id="terminal-science" data-room="science">
+                        <div class="terminal-header">
+                            <span class="terminal-title">SCIENCE LAB</span>
+                            <span class="status-dot offline"></span>
+                        </div>
+                        <div class="terminal-body">
+                            <div class="terminal-output" id="science-output"></div>
+                            <div class="terminal-input-area">
+                                <div class="crew-invite">
+                                    <span class="crew-dot" data-crew="claude" title="Bridge"></span>
+                                    <span class="crew-dot" data-crew="server" title="Engineering"></span>
+                                    <span class="crew-dot" data-crew="personal" title="Ready Room"></span>
+                                    <span class="crew-dot" data-crew="science" title="Science"></span>
+                                    <span class="crew-dot" data-crew="games" title="Holodeck"></span>
+                                </div>
+                                <span class="input-prompt">></span>
+                                <textarea class="terminal-input" id="science-input" placeholder="what needs tracking..." rows="1"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="terminal-panel" id="terminal-games" data-room="games">
+                        <div class="terminal-header">
+                            <span class="terminal-title">HOLODECK</span>
+                            <span class="status-dot offline"></span>
+                        </div>
+                        <div class="terminal-body">
+                            <div class="terminal-output" id="games-output"></div>
+                            <div class="terminal-input-area">
+                                <div class="crew-invite">
+                                    <span class="crew-dot" data-crew="claude" title="Bridge"></span>
+                                    <span class="crew-dot" data-crew="server" title="Engineering"></span>
+                                    <span class="crew-dot" data-crew="personal" title="Ready Room"></span>
+                                    <span class="crew-dot" data-crew="science" title="Science"></span>
+                                    <span class="crew-dot" data-crew="games" title="Holodeck"></span>
+                                </div>
+                                <span class="input-prompt">></span>
+                                <textarea class="terminal-input" id="games-input" placeholder="let's play..." rows="1"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="terminal-panel" id="terminal-nav" data-room="nav">
+                        <div class="terminal-header">
+                            <span class="terminal-title">NAVIGATION</span>
+                            <span class="status-dot online"></span>
+                        </div>
+                        <div class="terminal-body">
+                            <div class="terminal-output" id="nav-output"></div>
+                            <div class="terminal-input-area">
+                                <span class="input-prompt">></span>
+                                <textarea class="terminal-input" id="nav-input" placeholder="where are we going..." rows="1"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="terminal-panel" id="terminal-med" data-room="med">
+                        <div class="terminal-header">
+                            <span class="terminal-title">MEDBAY</span>
+                            <span class="status-dot online"></span>
+                        </div>
+                        <div class="terminal-body">
+                            <div class="terminal-output" id="med-output"></div>
+                            <div class="terminal-input-area">
+                                <span class="input-prompt">></span>
+                                <textarea class="terminal-input" id="med-input" placeholder="how are you feeling..." rows="1"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="terminal-panel" id="terminal-observatory" data-room="observatory">
+                        <div class="terminal-header">
+                            <span class="terminal-title">OBSERVATORY</span>
+                            <span class="status-dot online"></span>
+                        </div>
+                        <div class="terminal-body">
+                            <div class="terminal-output" id="observatory-output"></div>
+                            <div class="terminal-input-area">
+                                <div class="crew-invite">
+                                    <span class="crew-dot" data-crew="claude" title="Bridge"></span>
+                                    <span class="crew-dot" data-crew="server" title="Engineering"></span>
+                                    <span class="crew-dot" data-crew="personal" title="Ready Room"></span>
+                                    <span class="crew-dot" data-crew="science" title="Science"></span>
+                                    <span class="crew-dot" data-crew="games" title="Holodeck"></span>
+                                </div>
+                                <span class="input-prompt">></span>
+                                <textarea class="terminal-input" id="observatory-input" placeholder="look up..." rows="1"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="terminal-panel" id="terminal-messhall" data-room="messhall">
+                        <div class="terminal-header">
+                            <span class="terminal-title">MESS HALL</span>
+                            <div class="mess-hall-status">
+                                <span class="status-dot offline" id="messhall-status-dot"></span>
+                                <span class="status-text" id="messhall-status">CLOSED</span>
+                            </div>
+                        </div>
+                        <div class="terminal-body">
+                            <div class="terminal-output" id="messhall-output">
+                                <div class="output-line dim">The mess hall is quiet.</div>
+                            </div>
+                            <div class="mess-hall-info">
+                                <span class="next-meal" id="next-meal">Next meal: --:--</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="terminal-panel" id="terminal-rec" data-room="rec">
+                        <div class="terminal-header">
+                            <span class="terminal-title">REC ROOM</span>
+                            <span class="status-dot online"></span>
+                        </div>
+                        <div class="terminal-body">
+                            <div class="terminal-output" id="rec-output">
+                                <div class="output-line dim">The bartender polishes a glass, waiting.</div>
+                            </div>
+                            <div class="terminal-input-area">
+                                <span class="input-prompt">></span>
+                                <textarea class="terminal-input" id="rec-input" placeholder="say something..." rows="1"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quarters Deck - 2:1:2 cabin grid -->
+                    <div class="quarters-deck" id="quarters-deck" data-room="captains">
+                        <!-- Top row: Alex, Mira -->
+                        <div class="quarters-row quarters-row-top">
+                            <div class="cabin-terminal" id="cabin-alex" data-crew="server">
+                                <div class="cabin-header">
+                                    <span class="cabin-indicator"></span>
+                                    <span class="cabin-title">ALEX</span>
+                                    <span class="cabin-status">away</span>
+                                </div>
+                                <div class="cabin-body">
+                                    <div class="cabin-output" id="alex-cabin-output">
+                                        <div class="output-line dim">Tools organized just so. Smells like solder.</div>
+                                    </div>
+                                    <div class="cabin-input-area">
+                                        <span class="input-prompt">></span>
+                                        <textarea class="cabin-input" id="alex-cabin-input" placeholder="knock..." rows="1"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="cabin-terminal" id="cabin-mira" data-crew="science">
+                                <div class="cabin-header">
+                                    <span class="cabin-indicator"></span>
+                                    <span class="cabin-title">MIRA</span>
+                                    <span class="cabin-status">away</span>
+                                </div>
+                                <div class="cabin-body">
+                                    <div class="cabin-output" id="mira-cabin-output">
+                                        <div class="output-line dim">Star charts on the ceiling. Plants everywhere.</div>
+                                    </div>
+                                    <div class="cabin-input-area">
+                                        <span class="input-prompt">></span>
+                                        <textarea class="cabin-input" id="mira-cabin-input" placeholder="knock..." rows="1"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Center row: Captain & Lumen (main, larger) -->
+                        <div class="quarters-row quarters-row-center">
+                            <div class="cabin-terminal cabin-main" id="terminal-captains" data-crew="claude">
+                                <div class="cabin-header">
+                                    <span class="cabin-indicator online"></span>
+                                    <span class="cabin-title"><span data-captain-name>Captain</span> & LUMEN</span>
+                                    <span class="cabin-status">home</span>
+                                </div>
+                                <div class="cabin-body">
+                                    <div class="cabin-output" id="captains-output">
+                                        <div class="output-line dim">The quarters are quiet. Stars drift past the viewport.</div>
+                                    </div>
+                                    <div class="cabin-input-area">
+                                        <span class="input-prompt">></span>
+                                        <textarea class="cabin-input" id="captains-input" placeholder="private thoughts..." rows="1"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Bottom row: DQ, Ryn -->
+                        <div class="quarters-row quarters-row-bottom">
+                            <div class="cabin-terminal" id="cabin-dq" data-crew="personal">
+                                <div class="cabin-header">
+                                    <span class="cabin-indicator"></span>
+                                    <span class="cabin-title">DQ</span>
+                                    <span class="cabin-status">away</span>
+                                </div>
+                                <div class="cabin-body">
+                                    <div class="cabin-output" id="dq-cabin-output">
+                                        <div class="output-line dim">Still has that new-room smell. Bags half-unpacked.</div>
+                                    </div>
+                                    <div class="cabin-input-area">
+                                        <span class="input-prompt">></span>
+                                        <textarea class="cabin-input" id="dq-cabin-input" placeholder="knock..." rows="1"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="cabin-terminal" id="cabin-ryn" data-crew="med">
+                                <div class="cabin-header">
+                                    <span class="cabin-indicator"></span>
+                                    <span class="cabin-title">RYN</span>
+                                    <span class="cabin-status">away</span>
+                                </div>
+                                <div class="cabin-body">
+                                    <div class="cabin-output" id="ryn-cabin-output">
+                                        <div class="output-line dim">Soft lighting. Something lavender. A sanctuary.</div>
+                                    </div>
+                                    <div class="cabin-input-area">
+                                        <span class="input-prompt">></span>
+                                        <textarea class="cabin-input" id="ryn-cabin-input" placeholder="knock..." rows="1"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Walkie Talkie Bar - 3 slots for direct crew comms -->
+                <div class="walkie-bar">
+                    <div class="walkie-slot" id="walkie-slot-1" data-slot="1">
+                        <div class="walkie-header">
+                            <span class="walkie-indicator"></span>
+                            <span class="walkie-name">—</span>
+                            <span class="walkie-close" title="Close channel">×</span>
+                        </div>
+                        <div class="walkie-body">
+                            <div class="walkie-output"></div>
+                            <div class="walkie-input-area">
+                                <span class="input-prompt">></span>
+                                <textarea class="walkie-input" placeholder="..." rows="1" disabled></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="walkie-slot" id="walkie-slot-2" data-slot="2">
+                        <div class="walkie-header">
+                            <span class="walkie-indicator"></span>
+                            <span class="walkie-name">—</span>
+                            <span class="walkie-close" title="Close channel">×</span>
+                        </div>
+                        <div class="walkie-body">
+                            <div class="walkie-output"></div>
+                            <div class="walkie-input-area">
+                                <span class="input-prompt">></span>
+                                <textarea class="walkie-input" placeholder="..." rows="1" disabled></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="walkie-slot" id="walkie-slot-3" data-slot="3">
+                        <div class="walkie-header">
+                            <span class="walkie-indicator"></span>
+                            <span class="walkie-name">—</span>
+                            <span class="walkie-close" title="Close channel">×</span>
+                        </div>
+                        <div class="walkie-body">
+                            <div class="walkie-output"></div>
+                            <div class="walkie-input-area">
+                                <span class="input-prompt">></span>
+                                <textarea class="walkie-input" placeholder="..." rows="1" disabled></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sessions bar -->
+                <div class="sessions-bar">
+                    <div class="sessions-header">
+                        <span class="sessions-title">SESSIONS</span>
+                        <button class="new-session-btn">+ NEW</button>
+                    </div>
+                    <div class="sessions-list">
+                        <div class="session-item active">
+                            <span class="session-indicator"></span>
+                            <span class="session-name">project-alpha</span>
+                            <span class="session-time">2h 34m</span>
+                        </div>
+                        <div class="session-item" id="debug-trigger">
+                            <span class="session-indicator"></span>
+                            <span class="session-name">debug</span>
+                            <span class="session-time">console</span>
+                        </div>
+                        <div class="session-item dormant">
+                            <span class="session-indicator"></span>
+                            <span class="session-name">notes</span>
+                            <span class="session-time">3d ago</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Right sidebar - ship status & cozy -->
+            <aside class="sidebar right-sidebar">
+                <!-- Ship diagram (decorative) -->
+                <div class="panel ship-panel">
+                    <div class="panel-header">
+                        <span class="panel-title">VESSEL STATUS</span>
+                    </div>
+                    <div class="panel-content">
+                        <div class="ship-diagram">
+                            <svg viewBox="0 0 200 150" class="ship-svg">
+                                <!-- Simplified ship outline -->
+                                <ellipse cx="100" cy="75" rx="80" ry="25" class="ship-hull"/>
+                                <ellipse cx="100" cy="75" rx="60" ry="18" class="ship-inner"/>
+                                <rect x="85" y="85" width="30" height="40" rx="5" class="ship-engineering"/>
+                                <circle cx="100" cy="75" r="8" class="ship-bridge"/>
+                                <!-- Nacelles -->
+                                <rect x="20" y="95" width="40" height="8" rx="4" class="ship-nacelle left"/>
+                                <rect x="140" y="95" width="40" height="8" rx="4" class="ship-nacelle right"/>
+                                <!-- Pylons -->
+                                <line x1="45" y1="90" x2="85" y2="85" class="ship-pylon"/>
+                                <line x1="155" y1="90" x2="115" y2="85" class="ship-pylon"/>
+                                <!-- Glowing bits -->
+                                <circle cx="40" cy="99" r="3" class="nacelle-glow left"/>
+                                <circle cx="160" cy="99" r="3" class="nacelle-glow right"/>
+                            </svg>
+                        </div>
+                        <div class="ship-stats">
+                            <div class="stat-row">
+                                <span class="stat-label">WARP</span>
+                                <span class="stat-value" id="warp-factor">0.0</span>
+                            </div>
+                            <div class="stat-row">
+                                <span class="stat-label">SHIELDS</span>
+                                <span class="stat-value" id="shield-pct">100%</span>
+                            </div>
+                            <div class="stat-row">
+                                <span class="stat-label">HULL</span>
+                                <span class="stat-value" id="hull-pct">100%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TODO: Network and hex effects - repurpose elsewhere
+                <div class="panel network-panel">
+                    <div class="panel-header">
+                        <span class="panel-title">NETWORK</span>
+                    </div>
+                    <div class="panel-content">
+                        <canvas id="network-canvas" width="200" height="100"></canvas>
+                        <div class="network-stats">
+                            <span class="net-stat"><span class="label">IN:</span> <span id="net-in">0.0</span> MB/s</span>
+                            <span class="net-stat"><span class="label">OUT:</span> <span id="net-out">0.0</span> MB/s</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hex-grid">
+                    <div class="hex active"></div>
+                    <div class="hex"></div>
+                    <div class="hex active"></div>
+                    <div class="hex"></div>
+                    <div class="hex active"></div>
+                    <div class="hex"></div>
+                    <div class="hex active"></div>
+                    <div class="hex"></div>
+                    <div class="hex active"></div>
+                    <div class="hex"></div>
+                    <div class="hex active"></div>
+                    <div class="hex"></div>
+                </div>
+                -->
+
+                <!-- Observatory panels (only visible in observatory theme) -->
+                <div class="observatory-right-panels">
+                    <div class="panel">
+                        <div class="panel-header">
+                            <span class="panel-title">MOON</span>
+                            <span class="panel-indicator" id="moon-status-right"></span>
+                        </div>
+                        <div class="panel-content">
+                            <div class="moon-display">
+                                <div class="moon-phase-icon" id="moon-phase-icon-right">🌑</div>
+                                <div class="moon-info">
+                                    <span class="moon-phase-name" id="moon-phase-name-right">--</span>
+                                    <span class="moon-constellation" id="moon-constellation-right">--</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel">
+                        <div class="panel-header">
+                            <span class="panel-title">PLANETS</span>
+                            <span class="panel-indicator" id="planets-status-right"></span>
+                        </div>
+                        <div class="panel-content">
+                            <div class="planets-list" id="planets-list-right">
+                                <div class="planet-item offline">
+                                    <span class="planet-name">--</span>
+                                    <span class="planet-visibility">OFFLINE</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Holodeck Dream Widgets (only visible in games theme) -->
+                <div class="holodeck-dreams-bar">
+                    <div class="dream-widget" id="dream-signal">
+                        <div class="dream-widget-label">signal</div>
+                        <canvas width="200" height="100"></canvas>
+                    </div>
+                    <div class="dream-widget" id="dream-life">
+                        <div class="dream-widget-label">conway</div>
+                        <canvas width="200" height="100"></canvas>
+                    </div>
+                    <div class="dream-widget" id="dream-orbit">
+                        <div class="dream-widget-label">orbit</div>
+                        <canvas width="200" height="100"></canvas>
+                    </div>
+                    <div class="dream-widget" id="dream-decay">
+                        <div class="dream-widget-label">memory</div>
+                        <pre class="decay-display"></pre>
+                    </div>
+                    <div class="dream-widget" id="dream-hum">
+                        <div class="dream-widget-label">the hum</div>
+                        <canvas width="200" height="100"></canvas>
+                    </div>
+                </div>
+
+                <!-- Lights Out power button -->
+                <div class="lights-out-power">
+                    <button class="power-btn" id="lights-out-power-btn" title="Lights Out - Crew Reflection">
+                        <svg class="power-icon-svg" viewBox="0 0 24 24" width="24" height="24">
+                            <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="47 16"/>
+                            <line x1="12" y1="3" x2="12" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </button>
+                </div>
+            </aside>
+        </main>
+
+        <!-- Bottom bar -->
+        <footer class="bottom-bar">
+            <div class="lcars-elbow left">
+                <div class="elbow-vertical"></div>
+                <div class="elbow-corner"></div>
+                <div class="elbow-horizontal"></div>
+            </div>
+
+            <div class="footer-content">
+                <div class="quick-actions">
+                    <button class="action-btn" title="New Terminal">
+                        <span class="btn-icon">+</span>
+                    </button>
+                    <button class="action-btn" title="Quick Note">
+                        <span class="btn-icon">📝</span>
+                    </button>
+                    <button class="action-btn" title="Settings">
+                        <span class="btn-icon">⚙</span>
+                    </button>
+                    <button class="action-btn" title="User Manual" id="manual-btn">
+                        <span class="btn-icon">?</span>
+                    </button>
+                </div>
+
+                <div class="status-bar">
+                    <span class="status-item">
+                        <span class="status-label">UPTIME:</span>
+                        <span class="status-value" id="uptime">00:00:00</span>
+                    </span>
+                    <span class="status-item">
+                        <span class="status-label">SESSIONS:</span>
+                        <span class="status-value" id="session-count">3</span>
+                    </span>
+                    <span class="status-item">
+                        <span class="status-label">CORE:</span>
+                        <span class="status-value online">NOMINAL</span>
+                    </span>
+                </div>
+
+                <div class="motivational-corner">
+                    <span class="quote" id="quote">"Make it so."</span>
+                </div>
+            </div>
+
+            <div class="lcars-elbow right">
+                <div class="elbow-horizontal"></div>
+                <div class="elbow-corner"></div>
+                <div class="elbow-vertical"></div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Settings Modal -->
+    <div class="modal-overlay" id="settings-modal">
+        <div class="modal-content settings-panel">
+            <div class="modal-header">
+                <span class="modal-title">SHIP SETTINGS</span>
+                <button class="modal-close" id="settings-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <!-- Memory Management -->
+                <div class="settings-section">
+                    <h3 class="settings-section-title">MEMORY BANKS</h3>
+                    <p class="settings-description">Clear conversation history for all terminals</p>
+                    <button class="settings-btn danger" id="reset-all-memories">
+                        RESET ALL MEMORIES
+                    </button>
+                </div>
+
+                <!-- Captain Profile -->
+                <div class="settings-section">
+                    <h3 class="settings-section-title">CAPTAIN PROFILE</h3>
+                    <div class="ship-control-row">
+                        <label class="ship-control-label" for="captain-name-input">Captain Name</label>
+                        <input class="model-dropdown" id="captain-name-input" type="text" maxlength="40" value="Captain">
+                    </div>
+                </div>
+
+                <!-- Model Selection -->
+                <div class="settings-section">
+                    <h3 class="settings-section-title">CREW AI MODELS</h3>
+                    <p class="settings-description">Select which model powers each station</p>
+
+                    <div class="model-selector">
+                        <label class="model-label">
+                            <span class="room-indicator bridge"></span>
+                            Bridge
+                        </label>
+                        <select class="model-dropdown" data-room="claude">
+                            <option value="claude-opus-4-6">Opus 4.6</option>
+                            <option value="claude-opus-4-5-20251101">Opus 4.5</option>
+                            <option value="claude-sonnet-4-5-20250929">Sonnet 4.5</option>
+                            <option value="claude-haiku-4-5-20251001">Haiku 4.5</option>
+                            <option value="claude-opus-4-1-20250805">Opus 4.1</option>
+                            <option value="claude-opus-4-20250514">Opus 4</option>
+                            <option value="claude-sonnet-4-20250514" selected>Sonnet 4</option>
+                            <option value="claude-3-7-sonnet-20250219">Sonnet 3.7</option>
+                            <option value="claude-3-5-haiku-20241022">Haiku 3.5</option>
+                        </select>
+                    </div>
+
+                    <div class="model-selector">
+                        <label class="model-label">
+                            <span class="room-indicator engineering"></span>
+                            Engineering
+                        </label>
+                        <select class="model-dropdown" data-room="server">
+                            <option value="claude-opus-4-6">Opus 4.6</option>
+                            <option value="claude-opus-4-5-20251101">Opus 4.5</option>
+                            <option value="claude-sonnet-4-5-20250929">Sonnet 4.5</option>
+                            <option value="claude-haiku-4-5-20251001">Haiku 4.5</option>
+                            <option value="claude-opus-4-1-20250805">Opus 4.1</option>
+                            <option value="claude-opus-4-20250514">Opus 4</option>
+                            <option value="claude-sonnet-4-20250514" selected>Sonnet 4</option>
+                            <option value="claude-3-7-sonnet-20250219">Sonnet 3.7</option>
+                            <option value="claude-3-5-haiku-20241022">Haiku 3.5</option>
+                        </select>
+                    </div>
+
+                    <div class="model-selector">
+                        <label class="model-label">
+                            <span class="room-indicator ready-room"></span>
+                            Ready Room
+                        </label>
+                        <select class="model-dropdown" data-room="personal">
+                            <option value="claude-opus-4-6">Opus 4.6</option>
+                            <option value="claude-opus-4-5-20251101">Opus 4.5</option>
+                            <option value="claude-sonnet-4-5-20250929">Sonnet 4.5</option>
+                            <option value="claude-haiku-4-5-20251001">Haiku 4.5</option>
+                            <option value="claude-opus-4-1-20250805">Opus 4.1</option>
+                            <option value="claude-opus-4-20250514">Opus 4</option>
+                            <option value="claude-sonnet-4-20250514" selected>Sonnet 4</option>
+                            <option value="claude-3-7-sonnet-20250219">Sonnet 3.7</option>
+                            <option value="claude-3-5-haiku-20241022">Haiku 3.5</option>
+                        </select>
+                    </div>
+
+                    <div class="model-selector">
+                        <label class="model-label">
+                            <span class="room-indicator holodeck"></span>
+                            Holodeck
+                        </label>
+                        <select class="model-dropdown" data-room="games">
+                            <option value="claude-opus-4-6">Opus 4.6</option>
+                            <option value="claude-opus-4-5-20251101">Opus 4.5</option>
+                            <option value="claude-sonnet-4-5-20250929">Sonnet 4.5</option>
+                            <option value="claude-haiku-4-5-20251001">Haiku 4.5</option>
+                            <option value="claude-opus-4-1-20250805">Opus 4.1</option>
+                            <option value="claude-opus-4-20250514">Opus 4</option>
+                            <option value="claude-sonnet-4-20250514" selected>Sonnet 4</option>
+                            <option value="claude-3-7-sonnet-20250219">Sonnet 3.7</option>
+                            <option value="claude-3-5-haiku-20241022">Haiku 3.5</option>
+                        </select>
+                    </div>
+
+                    <div class="model-selector">
+                        <label class="model-label">
+                            <span class="room-indicator science"></span>
+                            Science Lab
+                        </label>
+                        <select class="model-dropdown" data-room="science">
+                            <option value="claude-opus-4-6">Opus 4.6</option>
+                            <option value="claude-opus-4-5-20251101">Opus 4.5</option>
+                            <option value="claude-sonnet-4-5-20250929">Sonnet 4.5</option>
+                            <option value="claude-haiku-4-5-20251001">Haiku 4.5</option>
+                            <option value="claude-opus-4-1-20250805">Opus 4.1</option>
+                            <option value="claude-opus-4-20250514">Opus 4</option>
+                            <option value="claude-sonnet-4-20250514" selected>Sonnet 4</option>
+                            <option value="claude-3-7-sonnet-20250219">Sonnet 3.7</option>
+                            <option value="claude-3-5-haiku-20241022">Haiku 3.5</option>
+                        </select>
+                    </div>
+
+                    <div class="model-selector">
+                        <label class="model-label">
+                            <span class="room-indicator navigation"></span>
+                            Navigation
+                        </label>
+                        <select class="model-dropdown" data-room="nav">
+                            <option value="claude-opus-4-6">Opus 4.6</option>
+                            <option value="claude-opus-4-5-20251101" selected>Opus 4.5</option>
+                            <option value="claude-sonnet-4-5-20250929">Sonnet 4.5</option>
+                            <option value="claude-haiku-4-5-20251001">Haiku 4.5</option>
+                            <option value="claude-opus-4-1-20250805">Opus 4.1</option>
+                            <option value="claude-opus-4-20250514">Opus 4</option>
+                            <option value="claude-sonnet-4-20250514">Sonnet 4</option>
+                            <option value="claude-3-7-sonnet-20250219">Sonnet 3.7</option>
+                            <option value="claude-3-5-haiku-20241022">Haiku 3.5</option>
+                        </select>
+                    </div>
+
+                    <div class="model-selector">
+                        <label class="model-label">
+                            <span class="room-indicator medbay"></span>
+                            Medbay
+                        </label>
+                        <select class="model-dropdown" data-room="med">
+                            <option value="claude-opus-4-6">Opus 4.6</option>
+                            <option value="claude-opus-4-5-20251101">Opus 4.5</option>
+                            <option value="claude-sonnet-4-5-20250929" selected>Sonnet 4.5</option>
+                            <option value="claude-haiku-4-5-20251001">Haiku 4.5</option>
+                            <option value="claude-opus-4-1-20250805">Opus 4.1</option>
+                            <option value="claude-opus-4-20250514">Opus 4</option>
+                            <option value="claude-sonnet-4-20250514">Sonnet 4</option>
+                            <option value="claude-3-7-sonnet-20250219">Sonnet 3.7</option>
+                            <option value="claude-3-5-haiku-20241022">Haiku 3.5</option>
+                        </select>
+                    </div>
+
+                    <div class="model-selector">
+                        <label class="model-label">
+                            <span class="room-indicator observatory"></span>
+                            Observatory
+                        </label>
+                        <select class="model-dropdown" data-room="observatory">
+                            <option value="claude-opus-4-6">Opus 4.6</option>
+                            <option value="claude-opus-4-5-20251101">Opus 4.5</option>
+                            <option value="claude-sonnet-4-5-20250929">Sonnet 4.5</option>
+                            <option value="claude-haiku-4-5-20251001">Haiku 4.5</option>
+                            <option value="claude-opus-4-1-20250805">Opus 4.1</option>
+                            <option value="claude-opus-4-20250514">Opus 4</option>
+                            <option value="claude-sonnet-4-20250514">Sonnet 4</option>
+                            <option value="claude-3-7-sonnet-20250219">Sonnet 3.7</option>
+                            <option value="claude-3-5-haiku-20241022" selected>Haiku 3.5</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Autonomy Settings -->
+                <div class="settings-section">
+                    <h3 class="settings-section-title">CREW AUTONOMY</h3>
+                    <p class="settings-description">How frequently crew act on their own desires and move around the ship</p>
+
+                    <div class="autonomy-rate-selector">
+                        <label class="autonomy-label">Tick Rate:</label>
+                        <select id="autonomy-rate" class="autonomy-select">
+                            <option value="600">Minimal (10min) - ~6 API calls/hour</option>
+                            <option value="300">Very Slow (5min) - ~12 API calls/hour</option>
+                            <option value="120">Slow (2min) - ~30 API calls/hour</option>
+                            <option value="60" selected>Normal (60s) - ~60 API calls/hour</option>
+                            <option value="30">Active (30s) - ~120 API calls/hour</option>
+                            <option value="15">Busy (15s) - ~240 API calls/hour</option>
+                        </select>
+                    </div>
+
+                    <div class="autonomy-controls">
+                        <button class="settings-btn" id="autonomy-pause">PAUSE AUTONOMY</button>
+                        <button class="settings-btn" id="autonomy-trigger">TRIGGER NOW</button>
+                    </div>
+
+                    <div class="autonomy-status">
+                        <span class="autonomy-status-label">Status:</span>
+                        <span class="autonomy-status-indicator" id="autonomy-status">Loading...</span>
+                    </div>
+                </div>
+
+                <!-- Ship Controls -->
+                <div class="settings-section trust-settings-section" id="trust-settings-section">
+                    <h3 class="settings-section-title">SHIP CONTROLS</h3>
+
+                    <div class="ship-control-row">
+                        <label class="ship-control-label" for="ship-access-level">System Access</label>
+                        <select class="model-dropdown" id="ship-access-level">
+                            <option value="full">Open</option>
+                            <option value="operational">Operational</option>
+                            <option value="scoped">Scoped</option>
+                            <option value="view">View Only</option>
+                            <option value="comms">Comms Only</option>
+                        </select>
+                    </div>
+
+                    <div class="ship-control-row">
+                        <label class="ship-control-label" for="ship-approval-mode">Command Flow</label>
+                        <select class="model-dropdown" id="ship-approval-mode">
+                            <option value="open">Direct</option>
+                            <option value="approve">Confirm First</option>
+                        </select>
+                    </div>
+
+                    <div class="ship-control-grid">
+                        <label class="trust-toggle-row">
+                            <span class="trust-toggle-label">Memory</span>
+                            <span class="trust-toggle">
+                                <input type="checkbox" id="ship-memory-toggle" checked>
+                                <span class="trust-toggle-slider"></span>
+                            </span>
+                        </label>
+
+                        <label class="trust-toggle-row">
+                            <span class="trust-toggle-label">Initiative</span>
+                            <span class="trust-toggle">
+                                <input type="checkbox" id="ship-initiative-toggle" checked>
+                                <span class="trust-toggle-slider"></span>
+                            </span>
+                        </label>
+
+                        <label class="trust-toggle-row">
+                            <span class="trust-toggle-label">Self-Revision</span>
+                            <span class="trust-toggle">
+                                <input type="checkbox" id="ship-self-mod-toggle" checked>
+                                <span class="trust-toggle-slider"></span>
+                            </span>
+                        </label>
+
+                        <label class="trust-toggle-row">
+                            <span class="trust-toggle-label">Local Context</span>
+                            <span class="trust-toggle">
+                                <input type="checkbox" id="ship-context-toggle" checked>
+                                <span class="trust-toggle-slider"></span>
+                            </span>
+                        </label>
+
+                        <label class="trust-toggle-row">
+                            <span class="trust-toggle-label">Co-Captain</span>
+                            <span class="trust-toggle">
+                                <input type="checkbox" id="ship-co-captain-toggle">
+                                <span class="trust-toggle-slider"></span>
+                            </span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="settings-btn" id="settings-save">SAVE CONFIGURATION</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- User Manual Modal -->
+    <div class="modal-overlay" id="manual-modal">
+        <div class="modal-content manual-panel">
+            <div class="modal-header">
+                <span class="modal-title">USER MANUAL</span>
+                <button class="modal-close" id="manual-close">&times;</button>
+            </div>
+            <div class="modal-body manual-body">
+                <section class="manual-section">
+                    <h3>@ Addressing</h3>
+                    <p>Direct messages to specific crew in crowded rooms:</p>
+                    <div class="manual-table">
+                        <div class="manual-row"><code>@Bridge</code><span>Lumen</span></div>
+                        <div class="manual-row"><code>@Engineering</code><span>Alex</span></div>
+                        <div class="manual-row"><code>@Personal</code><span>DQ</span></div>
+                        <div class="manual-row"><code>@Science</code> or <code>@Mira</code><span>Mira</span></div>
+                        <div class="manual-row"><code>@Holodeck</code><span>Holodeck</span></div>
+                        <div class="manual-row"><code>@Med</code> or <code>@Ryn</code><span>Ryn</span></div>
+                        <div class="manual-row"><code>@Bartender</code> or <code>@Rec</code><span>The Bartender</span></div>
+                    </div>
+                </section>
+
+                <section class="manual-section">
+                    <h3>Ship-Wide Announcements</h3>
+                    <p>Broadcast to ALL crew at once (crew meetings, alerts):</p>
+                    <div class="manual-table">
+                        <div class="manual-row"><code>@all</code><span>All crew respond</span></div>
+                        <div class="manual-row"><code>@ship</code><span>Ship-wide broadcast</span></div>
+                        <div class="manual-row"><code>@crew</code><span>All crew respond</span></div>
+                        <div class="manual-row"><code>@everyone</code><span>All crew respond</span></div>
+                    </div>
+                    <p style="margin-top: 8px; opacity: 0.7;">Example: "@all Meet at the bridge in one hour"</p>
+                </section>
+
+                <section class="manual-section">
+                    <h3>Action Tags</h3>
+                    <p>Crew can perform actions by appending tags:</p>
+                    <div class="manual-table">
+                        <div class="manual-row"><code>[LOOK]</code><span>Observe surroundings</span></div>
+                        <div class="manual-row"><code>[INSPECT: object]</code><span>Examine something</span></div>
+                        <div class="manual-row"><code>[DO: action]</code><span>Free-form action</span></div>
+                        <div class="manual-row"><code>[MOVE: location]</code><span>Travel somewhere</span></div>
+                        <div class="manual-row"><code>[WRITE: "entry"]</code><span>Journal entry</span></div>
+                        <div class="manual-row"><code>[THINKING: thought]</code><span>Inner monologue</span></div>
+                        <div class="manual-row"><code>[ORDER: drink]</code><span>Order at bar</span></div>
+                    </div>
+                </section>
+
+                <section class="manual-section">
+                    <h3>Ship Locations</h3>
+                    <p>Bridge, Engineering, Ready Room, Science Lab, Holodeck, Mess Hall, Quarters, Corridor, Observatory, Rec Room, Captain's Quarters</p>
+                </section>
+
+                <section class="manual-section">
+                    <h3>Keyboard Shortcuts</h3>
+                    <div class="manual-table">
+                        <div class="manual-row"><code>F11</code><span>Fullscreen</span></div>
+                        <div class="manual-row"><code>Ctrl+Shift+F</code><span>Focus mode</span></div>
+                        <div class="manual-row"><code>Ctrl+Shift+S</code><span>Toggle sound</span></div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <!-- Shortcut Editor Modal -->
+    <div class="modal-overlay" id="shortcut-modal">
+        <div class="modal-content shortcut-editor">
+            <div class="modal-header">
+                <span class="modal-title" id="shortcut-modal-title">ADD SHORTCUT</span>
+                <button class="modal-close" id="shortcut-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Label <span class="optional">(optional)</span></label>
+                    <input type="text" id="shortcut-label" placeholder="Button label" />
+                </div>
+
+                <div class="form-group">
+                    <label>Executable Path</label>
+                    <div class="path-input-row">
+                        <input type="text" id="shortcut-path" placeholder="C:\path\to\file.exe" />
+                        <button class="browse-btn" id="shortcut-browse" title="Browse">...</button>
+                    </div>
+                    <span class="form-hint">Supports: .exe, .py, .bat, .ps1, or any file</span>
+                </div>
+
+                <div class="form-group">
+                    <label>Description <span class="optional">(tooltip)</span></label>
+                    <input type="text" id="shortcut-desc" placeholder="What does this do?" />
+                </div>
+
+                <div class="form-group">
+                    <label>Icon</label>
+                    <div class="icon-picker" id="shortcut-icon-picker">
+                        <button class="icon-option selected" data-icon="●">●</button>
+                        <button class="icon-option" data-icon="▣">▣</button>
+                        <button class="icon-option" data-icon="◆">◆</button>
+                        <button class="icon-option" data-icon="◈">◈</button>
+                        <button class="icon-option" data-icon="★">★</button>
+                        <button class="icon-option" data-icon="◉">◉</button>
+                        <button class="icon-option" data-icon="▶">▶</button>
+                        <button class="icon-option" data-icon="⬡">⬡</button>
+                        <button class="icon-option" data-icon="⚡">⚡</button>
+                        <button class="icon-option" data-icon="⚙">⚙</button>
+                        <button class="icon-option" data-icon="📊">📊</button>
+                        <button class="icon-option" data-icon="🔧">🔧</button>
+                    </div>
+                </div>
+
+                <div class="form-row thirds">
+                    <div class="form-group">
+                        <label>Shape</label>
+                        <select id="shortcut-shape">
+                            <option value="circle">Circle</option>
+                            <option value="square" selected>Square</option>
+                            <option value="pill">Pill</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Color</label>
+                        <select id="shortcut-color">
+                            <option value="cyan">Cyan</option>
+                            <option value="orange">Orange</option>
+                            <option value="purple">Purple</option>
+                            <option value="green">Green</option>
+                            <option value="red">Red</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Size</label>
+                        <select id="shortcut-size">
+                            <option value="small">Small</option>
+                            <option value="medium" selected>Medium</option>
+                            <option value="large">Large</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Label Display</label>
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <input type="radio" name="shortcut-label-display" value="hover" checked>
+                            <span>On hover</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="shortcut-label-display" value="always">
+                            <span>Always visible</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="shortcut-label-display" value="hidden">
+                            <span>Hidden</span>
+                        </label>
+                    </div>
+                </div>
+
+                <input type="hidden" id="shortcut-id" value="">
+                <input type="hidden" id="shortcut-section" value="">
+            </div>
+            <div class="modal-footer shortcut-footer">
+                <button class="settings-btn danger" id="shortcut-delete" style="display: none;">DELETE</button>
+                <div class="footer-right">
+                    <button class="settings-btn" id="shortcut-cancel">CANCEL</button>
+                    <button class="settings-btn primary" id="shortcut-save">SAVE</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- New Project Modal -->
+    <div class="modal-overlay" id="new-project-modal">
+        <div class="modal-content project-modal">
+            <div class="modal-header">
+                <span class="modal-title">NEW PROJECT</span>
+                <button class="modal-close" id="new-project-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Project Name</label>
+                    <input type="text" id="project-name" placeholder="What are we building?" />
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea id="project-desc" placeholder="What is this project about?"></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group half">
+                        <label>Status</label>
+                        <select id="project-status">
+                            <option value="planning">Planning</option>
+                            <option value="active">Active</option>
+                            <option value="paused">Paused</option>
+                            <option value="mystery">Mystery</option>
+                        </select>
+                    </div>
+                    <div class="form-group half">
+                        <label>Priority</label>
+                        <select id="project-priority">
+                            <option value="medium">Medium</option>
+                            <option value="high">High</option>
+                            <option value="low">Low</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Tags (comma separated)</label>
+                    <input type="text" id="project-tags" placeholder="ai, research, fun" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn secondary" id="new-project-cancel">Cancel</button>
+                <button class="modal-btn primary" id="new-project-create">Create Project</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Project Board Modal -->
+    <div class="modal-overlay" id="project-board-modal">
+        <div class="modal-content project-board-modal">
+            <div class="modal-header">
+                <span class="modal-title">PROJECT BOARD</span>
+                <button class="modal-close" id="project-board-close">&times;</button>
+            </div>
+            <div class="modal-body project-board-body">
+                <div class="board-columns">
+                    <div class="board-column" data-status="planning">
+                        <div class="column-header">PLANNING</div>
+                        <div class="column-cards" id="col-planning"></div>
+                    </div>
+                    <div class="board-column" data-status="active">
+                        <div class="column-header">ACTIVE</div>
+                        <div class="column-cards" id="col-active"></div>
+                    </div>
+                    <div class="board-column" data-status="paused">
+                        <div class="column-header">PAUSED</div>
+                        <div class="column-cards" id="col-paused"></div>
+                    </div>
+                    <div class="board-column" data-status="mystery">
+                        <div class="column-header">MYSTERY</div>
+                        <div class="column-cards" id="col-mystery"></div>
+                    </div>
+                    <div class="board-column" data-status="complete">
+                        <div class="column-header">COMPLETE</div>
+                        <div class="column-cards" id="col-complete"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Project Detail Modal -->
+    <div class="modal-overlay" id="project-detail-modal">
+        <div class="modal-content project-detail-modal">
+            <div class="modal-header">
+                <span class="modal-title" id="detail-project-name">Project Name</span>
+                <button class="modal-close" id="project-detail-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="detail-grid">
+                    <div class="detail-main">
+                        <div class="detail-section">
+                            <h4>Description</h4>
+                            <p id="detail-description">--</p>
+                        </div>
+                        <div class="detail-section">
+                            <h4>Current State</h4>
+                            <p id="detail-state">--</p>
+                        </div>
+                        <div class="detail-section">
+                            <h4>Next Steps</h4>
+                            <p id="detail-next">--</p>
+                        </div>
+                        <div class="detail-section">
+                            <h4>Comments</h4>
+                            <div id="detail-comments" class="comments-list"></div>
+                            <div class="comment-input-area">
+                                <input type="text" id="detail-comment-input" placeholder="Add a comment..." />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="detail-sidebar">
+                        <div class="detail-meta">
+                            <div class="meta-item">
+                                <span class="meta-label">Status</span>
+                                <span class="meta-value" id="detail-status">--</span>
+                            </div>
+                            <div class="meta-item">
+                                <span class="meta-label">Priority</span>
+                                <span class="meta-value" id="detail-priority">--</span>
+                            </div>
+                            <div class="meta-item">
+                                <span class="meta-label">Created</span>
+                                <span class="meta-value" id="detail-created">--</span>
+                            </div>
+                        </div>
+                        <div class="detail-section">
+                            <h4>Contributors</h4>
+                            <div id="detail-contributors" class="contributors-list"></div>
+                            <button class="join-btn" id="detail-join">+ Join Project</button>
+                        </div>
+                        <div class="detail-section">
+                            <h4>Tags</h4>
+                            <div id="detail-tags" class="tags-list"></div>
+                        </div>
+                        <div class="detail-section">
+                            <h4>Activity</h4>
+                            <div id="detail-activity" class="activity-mini"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Debug Console Modal -->
+    <div class="modal-overlay" id="debug-modal">
+        <div class="modal-content debug-panel">
+            <div class="modal-header">
+                <span class="modal-title">DEBUG CONSOLE</span>
+                <div class="debug-header-controls">
+                    <button class="debug-btn small" id="debug-refresh" title="Refresh state">REFRESH</button>
+                    <button class="modal-close" id="debug-close">&times;</button>
+                </div>
+            </div>
+
+            <!-- Status Bar -->
+            <div class="debug-status-bar">
+                <div class="debug-status-item">
+                    <span class="status-label">SHIP TIME</span>
+                    <span class="status-value" id="debug-ship-time">--:--</span>
+                </div>
+                <div class="debug-status-item">
+                    <span class="status-label">HOLODECK</span>
+                    <span class="status-value" id="debug-holodeck-tuned">--</span>
+                </div>
+                <div class="debug-status-item">
+                    <span class="status-label">MESSHALL</span>
+                    <span class="status-value" id="debug-messhall-status">--</span>
+                </div>
+            </div>
+
+            <div class="modal-body">
+                <!-- State Display -->
+                <div class="debug-state-grid">
+                    <div class="debug-section">
+                        <h3 class="debug-section-title">CREW LOCATIONS</h3>
+                        <div class="debug-list" id="debug-locations">
+                            <div class="debug-loading">Loading...</div>
+                        </div>
+                    </div>
+                    <div class="debug-section">
+                        <h3 class="debug-section-title">ACTIVE DESIRES</h3>
+                        <div class="debug-list" id="debug-desires">
+                            <div class="debug-loading">Loading...</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Trigger Buttons -->
+                <div class="debug-section">
+                    <h3 class="debug-section-title">SYSTEM TRIGGERS</h3>
+                    <div class="debug-triggers">
+                        <button class="debug-btn" id="debug-tick" title="Run desire tick">TICK</button>
+                        <button class="debug-btn" id="debug-messhall" title="Start messhall gathering">MESSHALL</button>
+                        <button class="debug-btn" id="debug-reflect" title="Trigger crew reflections">REFLECT ALL</button>
+                        <button class="debug-btn danger" id="debug-clear-desires" title="Clear all pending desires">CLEAR DESIRES</button>
+                    </div>
+                </div>
+
+                <!-- Dream Controls -->
+                <div class="debug-section">
+                    <h3 class="debug-section-title">DREAMS</h3>
+                    <div class="debug-move-controls">
+                        <select class="debug-select" id="debug-dream-crew">
+                            <option value="">Select crew...</option>
+                            <option value="claude">Lumen</option>
+                            <option value="server">Alex</option>
+                            <option value="personal">DQ</option>
+                            <option value="science">Mira</option>
+                            <option value="games">Holodeck</option>
+                            <option value="nav">Navigation</option>
+                            <option value="med">Ryn</option>
+                            <option value="rec">Bartender</option>
+                        </select>
+                        <button class="debug-btn" id="debug-dream" title="Trigger dream for selected crew">DREAM</button>
+                        <button class="debug-btn" id="debug-holodeck-dream" title="Trigger holodeck observation dream">HOLODECK DREAM</button>
+                    </div>
+                </div>
+
+                <!-- Simulate Controls -->
+                <div class="debug-section">
+                    <h3 class="debug-section-title">TIME SIMULATION</h3>
+                    <div class="debug-move-controls">
+                        <input type="range" id="debug-simulate-hours" min="1" max="8" value="1" class="debug-slider">
+                        <span class="debug-slider-value" id="debug-simulate-value">1 hr</span>
+                        <button class="debug-btn" id="debug-simulate" title="Simulate time passage">SIMULATE</button>
+                    </div>
+                </div>
+
+                <!-- Location Override -->
+                <div class="debug-section">
+                    <h3 class="debug-section-title">MOVE CREW</h3>
+                    <div class="debug-move-controls">
+                        <select class="debug-select" id="debug-crew-select">
+                            <option value="">Select crew...</option>
+                            <option value="claude">Lumen (Bridge)</option>
+                            <option value="server">Alex (Engineering)</option>
+                            <option value="personal">DQ (Ready Room)</option>
+                            <option value="science">Mira (Science)</option>
+                            <option value="games">Holodeck</option>
+                            <option value="nav">Navigation</option>
+                            <option value="med">Ryn (Medbay)</option>
+                            <option value="rec">Bartender (Rec)</option>
+                            <option value="observatory">Observatory</option>
+                        </select>
+                        <select class="debug-select" id="debug-location-select">
+                            <option value="">Select location...</option>
+                            <option value="Bridge">Bridge</option>
+                            <option value="Engineering">Engineering</option>
+                            <option value="Ready Room">Ready Room</option>
+                            <option value="Science Lab">Science Lab</option>
+                            <option value="Holodeck">Holodeck</option>
+                            <option value="Navigation">Navigation</option>
+                            <option value="Medbay">Medbay</option>
+                            <option value="Mess Hall">Mess Hall</option>
+                            <option value="Rec Room">Rec Room</option>
+                            <option value="Observatory">Observatory</option>
+                            <option value="Quarters">Quarters</option>
+                            <option value="Corridor">Corridor</option>
+                        </select>
+                        <button class="debug-btn" id="debug-move">MOVE</button>
+                    </div>
+                </div>
+
+                <!-- Recent Events -->
+                <div class="debug-section">
+                    <h3 class="debug-section-title">RECENT EVENTS</h3>
+                    <div class="debug-list tall" id="debug-events">
+                        <div class="debug-loading">Loading...</div>
+                    </div>
+                </div>
+
+                <!-- Output Log -->
+                <div class="debug-section">
+                    <h3 class="debug-section-title">OUTPUT</h3>
+                    <div class="debug-output" id="debug-output">
+                        <div class="debug-output-line dim">Ready.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Comms Panel - draggable, collapsible -->
+    <div class="floating-comms" id="floating-comms">
+        <div class="comms-header">
+            <span class="comms-title">COMMS</span>
+            <span class="comms-collapse-icon">▼</span>
+        </div>
+        <div class="comms-body">
+            <div class="crew-location-list comms-list" id="floating-comms-list">
+                <div class="crew-loc-item comm-item" data-crew="claude">
+                    <span class="loc-indicator bridge"></span>
+                    <span class="loc-name">Lumen</span>
+                    <span class="loc-where">Bridge</span>
+                </div>
+                <div class="crew-loc-item comm-item" data-crew="server">
+                    <span class="loc-indicator engineering"></span>
+                    <span class="loc-name">Alex</span>
+                    <span class="loc-where">Engineering</span>
+                </div>
+                <div class="crew-loc-item comm-item" data-crew="personal">
+                    <span class="loc-indicator ready-room"></span>
+                    <span class="loc-name">DQ</span>
+                    <span class="loc-where">Ready Room</span>
+                </div>
+                <div class="crew-loc-item comm-item" data-crew="science">
+                    <span class="loc-indicator science"></span>
+                    <span class="loc-name">Mira</span>
+                    <span class="loc-where">Science Lab</span>
+                </div>
+                <div class="crew-loc-item comm-item" data-crew="games">
+                    <span class="loc-indicator holodeck"></span>
+                    <span class="loc-name">Holodeck</span>
+                    <span class="loc-where">Holodeck</span>
+                </div>
+                <div class="crew-loc-item comm-item" data-crew="med">
+                    <span class="loc-indicator medbay"></span>
+                    <span class="loc-name">Ryn</span>
+                    <span class="loc-where">Medbay</span>
+                </div>
+                <div class="crew-loc-item comm-item" data-crew="rec">
+                    <span class="loc-indicator rec-room"></span>
+                    <span class="loc-name">Bartender</span>
+                    <span class="loc-where">Rec Room</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Draggable Plant - floats freely, position saved -->
+    <div class="draggable-plant" id="draggable-plant" title="Drag me anywhere!">
+        <div class="plant">
+            <div class="pot"></div>
+            <div class="stem"></div>
+            <div class="leaf leaf-1"></div>
+            <div class="leaf leaf-2"></div>
+            <div class="leaf leaf-3"></div>
+            <div class="leaf leaf-4"></div>
+        </div>
+    </div>
+
+    <!-- Audio elements for sounds -->
+    <audio id="sound-chirp" preload="auto"></audio>
+    <audio id="sound-confirm" preload="auto"></audio>
+    <audio id="sound-alert" preload="auto"></audio>
+
+    <script src="js/config.js"></script>
+    <script src="js/draggable-plant.js"></script>
+    <script src="js/comms-float.js"></script>
+    <script src="js/inbox-button.js"></script>
+    <script src="js/away-pings-drag.js"></script>
+    <script src="js/ambient.js"></script>
+    <script src="js/terminals.js"></script>
+    <script src="js/messhall.js"></script>
+    <script src="js/decorative.js"></script>
+    <script src="js/intro.js"></script>
+    <script src="js/warpcore.js"></script>
+    <script src="js/medbay.js"></script>
+    <script src="js/readyroom.js"></script>
+    <script src="js/observatory-stars.js"></script>
+    <script src="js/holodeck-dreams.js"></script>
+    <script src="js/holodeck-widgets.js"></script>
+    <script src="js/ship-soul.js"></script>
+    <script src="js/lightsout-atmosphere.js"></script>
+    <script src="js/recroom.js"></script>
+    <script src="js/captains-quarters.js"></script>
+    <script src="js/project-board.js"></script>
+    <script src="js/autonomy.js"></script>
+    <script src="js/trust-settings.js"></script>
+    <script src="js/shortcuts.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

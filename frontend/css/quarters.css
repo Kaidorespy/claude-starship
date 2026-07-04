@@ -1,0 +1,289 @@
+/* Quarters Deck - Cabin Terminal Grid */
+
+/* ============================================
+   QUARTERS DECK CONTAINER
+   ============================================ */
+.quarters-deck {
+    display: none; /* Hidden by default */
+    flex-direction: column;
+    gap: var(--gap-md);
+    height: 100%;
+    padding: var(--gap-sm);
+    position: relative; /* For absolute positioned dragged terminals */
+}
+
+/* Only show quarters deck when it has active-room class */
+.quarters-deck.active-room {
+    display: flex;
+}
+
+/* ============================================
+   QUARTERS ROWS - 2:1:2 LAYOUT
+   ============================================ */
+.quarters-row {
+    display: flex;
+    flex-direction: row;
+    gap: var(--gap-md);
+    justify-content: center;
+    align-items: stretch;
+    width: 100%;
+    position: relative; /* For absolute positioning of dragged terminals */
+}
+
+.quarters-row-top,
+.quarters-row-bottom {
+    min-height: 180px;
+}
+
+.quarters-row-center {
+    min-height: 220px;
+}
+
+/* ============================================
+   CABIN TERMINALS
+   ============================================ */
+.cabin-terminal {
+    flex: 1 1 auto;
+    display: none; /* Hidden by default - toggle with cabin cards */
+    flex-direction: column;
+    background: var(--bg-terminal, rgba(20, 15, 30, 0.9));
+    border-radius: var(--radius-lg, 12px);
+    border: 1px solid rgba(100, 80, 140, 0.4);
+    overflow: hidden;
+    transition: all 0.3s ease;
+    min-width: 300px;
+    max-width: 500px;
+    position: relative; /* For drag/resize */
+}
+
+.cabin-terminal.cabin-open {
+    display: flex; /* Show when toggled open */
+}
+
+/* Absolute positioned terminals float above flex layout */
+.cabin-terminal[style*="position: absolute"] {
+    z-index: 10;
+}
+
+.cabin-terminal.dragging {
+    opacity: 0.9;
+    z-index: 1000;
+    box-shadow: 0 10px 40px rgba(100, 80, 140, 0.5);
+}
+
+.cabin-terminal.resizing {
+    transition: none;
+}
+
+.cabin-terminal:hover {
+    border-color: rgba(140, 120, 180, 0.6);
+    box-shadow: 0 0 20px rgba(100, 80, 140, 0.2);
+}
+
+.cabin-terminal.focused {
+    border-color: var(--lcars-lavender, #cc99ff);
+    box-shadow: 0 0 30px rgba(180, 140, 220, 0.3);
+}
+
+/* Main cabin (Casey & Lumen) - larger, always visible */
+.cabin-terminal.cabin-main {
+    display: flex !important; /* Always visible */
+    flex: 2 1 auto;
+    max-width: 700px;
+    min-width: 400px;
+}
+
+/* Main cabin can also be dragged/resized */
+.cabin-terminal.cabin-main .cabin-header {
+    cursor: move;
+}
+
+/* ============================================
+   CABIN HEADER
+   ============================================ */
+.cabin-header {
+    display: flex;
+    align-items: center;
+    gap: var(--gap-sm, 8px);
+    padding: 8px 12px;
+    background: linear-gradient(90deg,
+        rgba(100, 80, 140, 0.6) 0%,
+        rgba(80, 60, 120, 0.3) 50%,
+        rgba(60, 40, 100, 0.2) 100%
+    );
+    border-bottom: 1px solid rgba(100, 80, 140, 0.3);
+}
+
+.cabin-indicator {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(100, 100, 120, 0.5);
+    transition: all 0.3s ease;
+}
+
+.cabin-indicator.online,
+.cabin-terminal[data-present="true"] .cabin-indicator {
+    background: var(--status-online, #66ff66);
+    box-shadow: 0 0 8px rgba(100, 255, 100, 0.5);
+}
+
+.cabin-indicator.away {
+    background: rgba(100, 100, 120, 0.4);
+}
+
+.cabin-title {
+    font-family: var(--font-display, 'Orbitron', sans-serif);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    color: var(--lcars-cream, #ffcc99);
+    flex: 1;
+}
+
+.cabin-status {
+    font-family: var(--font-mono, monospace);
+    font-size: 9px;
+    color: rgba(180, 160, 200, 0.7);
+    text-transform: lowercase;
+    letter-spacing: 0.5px;
+}
+
+/* ============================================
+   CABIN BODY
+   ============================================ */
+.cabin-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+}
+
+.cabin-output {
+    flex: 1;
+    padding: 8px 12px;
+    overflow-y: auto;
+    font-family: var(--font-mono, monospace);
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--text-primary, #e0e0e0);
+}
+
+.cabin-output .output-line {
+    margin-bottom: 4px;
+}
+
+.cabin-output .output-line.dim {
+    color: rgba(180, 160, 200, 0.5);
+    font-style: italic;
+}
+
+.cabin-output .output-line.crew {
+    color: var(--lcars-lavender, #cc99ff);
+}
+
+.cabin-output .output-line.casey {
+    color: var(--lcars-cream, #ffcc99);
+}
+
+/* ============================================
+   CABIN INPUT
+   ============================================ */
+.cabin-input-area {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    background: rgba(0, 0, 0, 0.3);
+    border-top: 1px solid rgba(100, 80, 140, 0.2);
+}
+
+.cabin-input-area .input-prompt {
+    color: var(--lcars-lavender, #cc99ff);
+    font-family: var(--font-mono, monospace);
+    font-size: 15px;
+    opacity: 0.7;
+}
+
+.cabin-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--text-primary, #e0e0e0);
+    font-family: var(--font-mono, monospace);
+    font-size: 15px;
+    resize: none;
+    line-height: 1.4;
+}
+
+.cabin-input::placeholder {
+    color: rgba(180, 160, 200, 0.4);
+    font-style: italic;
+}
+
+.cabin-input:focus {
+    color: var(--lcars-cream, #ffcc99);
+}
+
+/* ============================================
+   SCROLLBAR STYLING
+   ============================================ */
+.cabin-output::-webkit-scrollbar {
+    width: 4px;
+}
+
+.cabin-output::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.cabin-output::-webkit-scrollbar-thumb {
+    background: rgba(100, 80, 140, 0.4);
+    border-radius: 2px;
+}
+
+.cabin-output::-webkit-scrollbar-thumb:hover {
+    background: rgba(140, 120, 180, 0.6);
+}
+
+/* ============================================
+   RESIZE HANDLE
+   ============================================ */
+.cabin-resize-handle {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 20px;
+    height: 20px;
+    cursor: nwse-resize;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(150, 130, 170, 0.4);
+    font-size: 14px;
+    user-select: none;
+    transition: color 0.2s ease;
+}
+
+.cabin-resize-handle:hover {
+    color: rgba(180, 150, 200, 0.8);
+}
+
+/* ============================================
+   RESPONSIVE ADJUSTMENTS
+   ============================================ */
+@media (max-width: 900px) {
+    .quarters-row {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .cabin-terminal {
+        max-width: 100%;
+        min-width: 280px;
+    }
+
+    .cabin-terminal.cabin-main {
+        max-width: 100%;
+    }
+}

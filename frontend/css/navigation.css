@@ -1,0 +1,358 @@
+/**
+ * NAVIGATION - The Command Room
+ * Where co-captains chart the course
+ */
+
+/* ==========================================
+   NAVIGATION SIDEBAR
+   ========================================== */
+
+.sidebar-section[data-section="nav"] {
+    background: linear-gradient(180deg,
+        rgba(20, 10, 30, 0.95) 0%,
+        rgba(10, 5, 20, 0.98) 100%
+    );
+    position: relative;
+    overflow: hidden;
+}
+
+/* Subtle star field background */
+.sidebar-section[data-section="nav"]::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+        radial-gradient(1px 1px at 20px 30px, rgba(255,255,255,0.3), transparent),
+        radial-gradient(1px 1px at 40px 70px, rgba(255,255,255,0.2), transparent),
+        radial-gradient(1px 1px at 50px 160px, rgba(255,255,255,0.3), transparent),
+        radial-gradient(1px 1px at 90px 40px, rgba(255,255,255,0.2), transparent),
+        radial-gradient(1px 1px at 130px 80px, rgba(255,255,255,0.25), transparent),
+        radial-gradient(1px 1px at 160px 120px, rgba(255,255,255,0.2), transparent),
+        radial-gradient(1px 1px at 70px 200px, rgba(255,255,255,0.15), transparent),
+        radial-gradient(1px 1px at 180px 180px, rgba(255,255,255,0.2), transparent);
+    pointer-events: none;
+    animation: navStarsTwinkle 8s ease-in-out infinite;
+}
+
+@keyframes navStarsTwinkle {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+}
+
+/* ==========================================
+   STAR CHART
+   ========================================== */
+
+.sidebar-section[data-section="nav"] .star-chart-container {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    margin-bottom: 15px;
+    border: 1px solid rgba(204, 153, 255, 0.15);
+    border-radius: 8px;
+    overflow: hidden;
+    background: radial-gradient(ellipse at center,
+        rgba(40, 20, 60, 0.5) 0%,
+        rgba(10, 5, 20, 0.8) 100%
+    );
+}
+
+.sidebar-section[data-section="nav"] .chart-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(204, 153, 255, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(204, 153, 255, 0.05) 1px, transparent 1px);
+    background-size: 20px 20px;
+}
+
+.sidebar-section[data-section="nav"] .chart-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 8px;
+    height: 8px;
+    background: rgba(204, 153, 255, 0.8);
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(204, 153, 255, 0.5);
+    z-index: 5;
+}
+
+.sidebar-section[data-section="nav"] .chart-center::before {
+    content: 'YOU';
+    position: absolute;
+    top: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 7px;
+    color: rgba(204, 153, 255, 0.6);
+    letter-spacing: 1px;
+    white-space: nowrap;
+}
+
+/* Destination points */
+.sidebar-section[data-section="nav"] .destination {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+.sidebar-section[data-section="nav"] .destination::before {
+    content: attr(data-name);
+    position: absolute;
+    top: 14px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 7px;
+    color: rgba(255, 255, 255, 0.4);
+    letter-spacing: 1px;
+    white-space: nowrap;
+    transition: color 0.3s ease;
+}
+
+.sidebar-section[data-section="nav"] .destination:hover {
+    border-color: rgba(204, 153, 255, 0.8);
+    background: rgba(204, 153, 255, 0.2);
+    box-shadow: 0 0 15px rgba(204, 153, 255, 0.3);
+}
+
+.sidebar-section[data-section="nav"] .destination:hover::before {
+    color: rgba(204, 153, 255, 0.8);
+}
+
+.sidebar-section[data-section="nav"] .destination.active {
+    border-color: #cc99ff;
+    background: rgba(204, 153, 255, 0.3);
+    box-shadow: 0 0 20px rgba(204, 153, 255, 0.5);
+    animation: navDestinationPulse 2s ease-in-out infinite;
+}
+
+.sidebar-section[data-section="nav"] .destination.active::before {
+    color: #cc99ff;
+}
+
+@keyframes navDestinationPulse {
+    0%, 100% { box-shadow: 0 0 10px rgba(204, 153, 255, 0.4); }
+    50% { box-shadow: 0 0 25px rgba(204, 153, 255, 0.7); }
+}
+
+/* Course line to active destination */
+.sidebar-section[data-section="nav"] .course-line {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    height: 1px;
+    background: linear-gradient(90deg,
+        rgba(204, 153, 255, 0.6) 0%,
+        rgba(204, 153, 255, 0.2) 100%
+    );
+    transform-origin: left center;
+    z-index: 3;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.sidebar-section[data-section="nav"] .course-line.active {
+    opacity: 1;
+}
+
+/* ==========================================
+   COURSE STATUS
+   ========================================== */
+
+.sidebar-section[data-section="nav"] .course-status {
+    padding: 0 15px;
+    margin-bottom: 15px;
+}
+
+.sidebar-section[data-section="nav"] .status-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(204, 153, 255, 0.1);
+}
+
+.sidebar-section[data-section="nav"] .status-row:last-child {
+    border-bottom: none;
+}
+
+.sidebar-section[data-section="nav"] .status-label {
+    font-size: 9px;
+    color: rgba(255, 255, 255, 0.4);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.sidebar-section[data-section="nav"] .status-value {
+    font-size: 10px;
+    color: rgba(204, 153, 255, 0.8);
+    font-family: 'Share Tech Mono', monospace;
+}
+
+.sidebar-section[data-section="nav"] .status-value.highlight {
+    color: #cc99ff;
+    text-shadow: 0 0 10px rgba(204, 153, 255, 0.5);
+}
+
+/* ==========================================
+   GOALS / TODO LIST
+   ========================================== */
+
+.sidebar-section[data-section="nav"] .goals-container {
+    padding: 0 15px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+}
+
+.sidebar-section[data-section="nav"] .goals-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.sidebar-section[data-section="nav"] .goals-title {
+    font-size: 9px;
+    color: rgba(255, 255, 255, 0.3);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.sidebar-section[data-section="nav"] .goals-count {
+    font-size: 10px;
+    color: rgba(204, 153, 255, 0.6);
+}
+
+.sidebar-section[data-section="nav"] .goals-list {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding-right: 5px;
+}
+
+.sidebar-section[data-section="nav"] .goals-list::-webkit-scrollbar {
+    width: 2px;
+}
+
+.sidebar-section[data-section="nav"] .goals-list::-webkit-scrollbar-thumb {
+    background: rgba(204, 153, 255, 0.3);
+    border-radius: 2px;
+}
+
+.sidebar-section[data-section="nav"] .goal-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 8px 10px;
+    background: rgba(204, 153, 255, 0.05);
+    border-left: 2px solid rgba(204, 153, 255, 0.2);
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.sidebar-section[data-section="nav"] .goal-item:hover {
+    background: rgba(204, 153, 255, 0.1);
+    border-left-color: rgba(204, 153, 255, 0.5);
+}
+
+.sidebar-section[data-section="nav"] .goal-item.active {
+    background: rgba(204, 153, 255, 0.15);
+    border-left-color: #cc99ff;
+}
+
+.sidebar-section[data-section="nav"] .goal-item.completed {
+    opacity: 0.5;
+}
+
+.sidebar-section[data-section="nav"] .goal-item.completed .goal-text {
+    text-decoration: line-through;
+}
+
+.sidebar-section[data-section="nav"] .goal-checkbox {
+    width: 12px;
+    height: 12px;
+    border: 1px solid rgba(204, 153, 255, 0.4);
+    border-radius: 2px;
+    flex-shrink: 0;
+    margin-top: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.sidebar-section[data-section="nav"] .goal-item.completed .goal-checkbox {
+    background: rgba(204, 153, 255, 0.3);
+    border-color: rgba(204, 153, 255, 0.6);
+}
+
+.sidebar-section[data-section="nav"] .goal-item.completed .goal-checkbox::after {
+    content: '✓';
+    font-size: 8px;
+    color: #cc99ff;
+}
+
+.sidebar-section[data-section="nav"] .goal-text {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.4;
+}
+
+.sidebar-section[data-section="nav"] .goal-meta {
+    font-size: 8px;
+    color: rgba(204, 153, 255, 0.4);
+    margin-top: 4px;
+}
+
+/* Empty state */
+.sidebar-section[data-section="nav"] .goals-empty {
+    text-align: center;
+    padding: 20px;
+    color: rgba(255, 255, 255, 0.3);
+    font-size: 11px;
+    font-style: italic;
+}
+
+/* ==========================================
+   CO-CAPTAIN INDICATOR
+   ========================================== */
+
+.sidebar-section[data-section="nav"] .copilot-status {
+    position: absolute;
+    bottom: 15px;
+    left: 0;
+    right: 0;
+    text-align: center;
+}
+
+.sidebar-section[data-section="nav"] .copilot-text {
+    font-size: 9px;
+    color: rgba(204, 153, 255, 0.4);
+    letter-spacing: 1px;
+}
+
+.sidebar-section[data-section="nav"] .copilot-name {
+    color: rgba(204, 153, 255, 0.7);
+}
+
+/* ==========================================
+   RESPONSIVE
+   ========================================== */
+
+@media (max-width: 1400px) {
+    .sidebar-section[data-section="nav"] .star-chart-container {
+        height: 160px;
+    }
+}

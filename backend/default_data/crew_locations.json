@@ -1,0 +1,32 @@
+{
+  "locations": {
+    "claude": {
+      "location": "bridge",
+      "activity": "on duty"
+    },
+    "server": {
+      "location": "engineering",
+      "activity": "checking systems"
+    },
+    "personal": {
+      "location": "ready_room",
+      "activity": "settling in"
+    },
+    "science": {
+      "location": "science",
+      "activity": "reviewing instruments"
+    },
+    "games": {
+      "location": "holodeck",
+      "activity": "standing by"
+    },
+    "med": {
+      "location": "medbay",
+      "activity": "preparing medbay"
+    },
+    "rec": {
+      "location": "rec",
+      "activity": "tending bar"
+    }
+  }
+}

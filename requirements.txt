@@ -1,0 +1,18 @@
+# Claude Hub - Dependencies
+
+# Web framework
+fastapi>=0.100.0
+uvicorn[standard]>=0.23.0
+
+# WebSocket support (included with uvicorn[standard])
+websockets>=11.0
+
+# Optional: Better Windows terminal support
+# winpty>=2.0.0  # Uncomment on Windows for full PTY support
+
+# System monitoring
+psutil>=5.9.0
+pythonnet>=3.0.0  # For LibreHardwareMonitor integration (Windows temps/fans)
+
+# Development
+python-dotenv>=1.0.0

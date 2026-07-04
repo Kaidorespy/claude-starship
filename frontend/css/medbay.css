@@ -1,0 +1,389 @@
+/**
+ * MEDBAY - Medical Bay
+ * Ryn's domain - the half-Betazoid healer
+ */
+
+/* ==========================================
+   MEDBAY SIDEBAR
+   ========================================== */
+
+.sidebar-section[data-section="med"] {
+    background: linear-gradient(180deg,
+        rgba(20, 15, 25, 0.95) 0%,
+        rgba(15, 10, 20, 0.98) 100%
+    );
+    position: relative;
+    overflow: hidden;
+}
+
+/* Subtle ambient glow */
+.sidebar-section[data-section="med"]::before {
+    content: '';
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(ellipse,
+        rgba(255, 102, 153, 0.08) 0%,
+        transparent 70%
+    );
+    pointer-events: none;
+    animation: medbayAmbient 5s ease-in-out infinite;
+}
+
+@keyframes medbayAmbient {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+}
+
+/* ==========================================
+   VITALS MONITOR
+   ========================================== */
+
+.sidebar-section[data-section="med"] .vitals-monitor {
+    position: relative;
+    padding: 15px;
+    margin-bottom: 10px;
+}
+
+.sidebar-section[data-section="med"] .vitals-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.sidebar-section[data-section="med"] .vitals-title {
+    font-size: 9px;
+    color: rgba(255, 255, 255, 0.3);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.sidebar-section[data-section="med"] .vitals-status {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.sidebar-section[data-section="med"] .status-dot {
+    width: 6px;
+    height: 6px;
+    background: #66cc99;
+    border-radius: 50%;
+    animation: medbayStatusPulse 2s ease-in-out infinite;
+}
+
+.sidebar-section[data-section="med"] .status-dot.alert {
+    background: #ff6666;
+}
+
+@keyframes medbayStatusPulse {
+    0%, 100% { opacity: 0.6; box-shadow: 0 0 5px currentColor; }
+    50% { opacity: 1; box-shadow: 0 0 10px currentColor; }
+}
+
+.sidebar-section[data-section="med"] .status-text {
+    font-size: 9px;
+    color: #66cc99;
+    letter-spacing: 1px;
+}
+
+/* Heartbeat display */
+.sidebar-section[data-section="med"] .heartbeat-container {
+    position: relative;
+    height: 60px;
+    background: rgba(255, 102, 153, 0.05);
+    border: 1px solid rgba(255, 102, 153, 0.15);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 15px;
+}
+
+.sidebar-section[data-section="med"] .heartbeat-canvas {
+    width: 100%;
+    height: 100%;
+}
+
+.sidebar-section[data-section="med"] .heartbeat-value {
+    position: absolute;
+    top: 8px;
+    right: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    color: rgba(255, 102, 153, 0.8);
+    font-family: 'Share Tech Mono', monospace;
+}
+
+.sidebar-section[data-section="med"] .heartbeat-label {
+    position: absolute;
+    top: 8px;
+    left: 10px;
+    font-size: 8px;
+    color: rgba(255, 255, 255, 0.4);
+    letter-spacing: 1px;
+}
+
+/* Vitals grid */
+.sidebar-section[data-section="med"] .vitals-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+.sidebar-section[data-section="med"] .vital-item {
+    background: rgba(255, 102, 153, 0.05);
+    border: 1px solid rgba(255, 102, 153, 0.1);
+    border-radius: 4px;
+    padding: 10px;
+    text-align: center;
+}
+
+.sidebar-section[data-section="med"] .vital-value {
+    font-size: 16px;
+    color: rgba(255, 102, 153, 0.8);
+    font-family: 'Share Tech Mono', monospace;
+    margin-bottom: 4px;
+}
+
+.sidebar-section[data-section="med"] .vital-label {
+    font-size: 8px;
+    color: rgba(255, 255, 255, 0.4);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+/* ==========================================
+   BIOBED STATUS
+   ========================================== */
+
+.sidebar-section[data-section="med"] .biobed-status {
+    padding: 0 15px;
+    margin-bottom: 15px;
+}
+
+.sidebar-section[data-section="med"] .biobed-header {
+    font-size: 9px;
+    color: rgba(255, 255, 255, 0.3);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+.sidebar-section[data-section="med"] .biobed-grid {
+    display: flex;
+    gap: 8px;
+}
+
+.sidebar-section[data-section="med"] .biobed-unit {
+    flex: 1;
+    height: 40px;
+    background: rgba(255, 102, 153, 0.05);
+    border: 1px solid rgba(255, 102, 153, 0.15);
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.sidebar-section[data-section="med"] .biobed-unit.occupied {
+    border-color: rgba(102, 204, 153, 0.4);
+}
+
+.sidebar-section[data-section="med"] .biobed-unit.occupied::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg,
+        rgba(102, 204, 153, 0.5) 0%,
+        rgba(102, 204, 153, 0.8) 50%,
+        rgba(102, 204, 153, 0.5) 100%
+    );
+    animation: medbayBiobedScan 2s linear infinite;
+}
+
+@keyframes medbayBiobedScan {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+.sidebar-section[data-section="med"] .biobed-number {
+    font-size: 11px;
+    color: rgba(255, 102, 153, 0.6);
+    font-family: 'Share Tech Mono', monospace;
+}
+
+.sidebar-section[data-section="med"] .biobed-state {
+    font-size: 7px;
+    color: rgba(255, 255, 255, 0.3);
+    letter-spacing: 1px;
+}
+
+.sidebar-section[data-section="med"] .biobed-unit.occupied .biobed-state {
+    color: rgba(102, 204, 153, 0.6);
+}
+
+/* ==========================================
+   MEDICAL SYSTEMS
+   ========================================== */
+
+.sidebar-section[data-section="med"] .med-systems {
+    padding: 0 15px;
+    margin-bottom: 15px;
+}
+
+.sidebar-section[data-section="med"] .systems-header {
+    font-size: 9px;
+    color: rgba(255, 255, 255, 0.3);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+.sidebar-section[data-section="med"] .system-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 0;
+    border-bottom: 1px solid rgba(255, 102, 153, 0.08);
+}
+
+.sidebar-section[data-section="med"] .system-row:last-child {
+    border-bottom: none;
+}
+
+.sidebar-section[data-section="med"] .system-name {
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.sidebar-section[data-section="med"] .system-indicator {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.sidebar-section[data-section="med"] .indicator-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(102, 204, 153, 0.6);
+}
+
+.sidebar-section[data-section="med"] .indicator-dot.standby {
+    background: rgba(255, 204, 102, 0.6);
+}
+
+.sidebar-section[data-section="med"] .indicator-dot.offline {
+    background: rgba(255, 102, 102, 0.6);
+}
+
+.sidebar-section[data-section="med"] .indicator-dot.blinking {
+    animation: medbayIndicatorBlink 1s ease-in-out infinite;
+}
+
+@keyframes medbayIndicatorBlink {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 1; }
+}
+
+.sidebar-section[data-section="med"] .system-status {
+    font-size: 8px;
+    color: rgba(102, 204, 153, 0.7);
+    letter-spacing: 1px;
+}
+
+.sidebar-section[data-section="med"] .system-status.standby {
+    color: rgba(255, 204, 102, 0.7);
+}
+
+/* ==========================================
+   CMO STATUS
+   ========================================== */
+
+.sidebar-section[data-section="med"] .cmo-status {
+    position: absolute;
+    bottom: 15px;
+    left: 0;
+    right: 0;
+    padding: 0 15px;
+}
+
+.sidebar-section[data-section="med"] .cmo-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    background: rgba(255, 102, 153, 0.05);
+    border: 1px solid rgba(255, 102, 153, 0.15);
+    border-radius: 6px;
+}
+
+.sidebar-section[data-section="med"] .cmo-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg,
+        rgba(255, 102, 153, 0.3) 0%,
+        rgba(153, 102, 204, 0.3) 100%
+    );
+    border: 1px solid rgba(255, 102, 153, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+}
+
+.sidebar-section[data-section="med"] .cmo-info {
+    flex: 1;
+}
+
+.sidebar-section[data-section="med"] .cmo-name {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 2px;
+}
+
+.sidebar-section[data-section="med"] .cmo-title {
+    font-size: 8px;
+    color: rgba(255, 102, 153, 0.5);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.sidebar-section[data-section="med"] .cmo-species {
+    font-size: 8px;
+    color: rgba(153, 102, 204, 0.6);
+    font-style: italic;
+}
+
+.sidebar-section[data-section="med"] .cmo-presence {
+    width: 8px;
+    height: 8px;
+    background: #66cc99;
+    border-radius: 50%;
+    animation: medbayPresencePulse 2s ease-in-out infinite;
+}
+
+@keyframes medbayPresencePulse {
+    0%, 100% { box-shadow: 0 0 5px rgba(102, 204, 153, 0.5); }
+    50% { box-shadow: 0 0 15px rgba(102, 204, 153, 0.8); }
+}
+
+/* ==========================================
+   RESPONSIVE
+   ========================================== */
+
+@media (max-width: 1400px) {
+    .sidebar-section[data-section="med"] .vitals-grid {
+        grid-template-columns: 1fr;
+    }
+}

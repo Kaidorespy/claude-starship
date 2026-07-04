@@ -1,0 +1,568 @@
+/**
+ * THE BRIDGE - Command Center
+ * Where decisions are made. Where Lumen sits beside Casey.
+ * The heart of the ship. Make it so.
+ */
+
+/* ==========================================
+   THE ROOM ITSELF
+   ========================================== */
+
+.sidebar-section[data-section="claude"] {
+    background: linear-gradient(180deg,
+        rgba(15, 12, 25, 0.97) 0%,
+        rgba(10, 8, 18, 0.99) 100%
+    );
+    position: relative;
+    overflow: hidden;
+}
+
+/* Command ambient glow - authoritative but warm */
+.sidebar-section[data-section="claude"]::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 200px;
+    height: 100px;
+    background: radial-gradient(ellipse at center bottom,
+        rgba(255, 153, 51, 0.08) 0%,
+        rgba(204, 153, 255, 0.04) 40%,
+        transparent 70%
+    );
+    pointer-events: none;
+    animation: viewscreenGlow 8s ease-in-out infinite;
+}
+
+@keyframes viewscreenGlow {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+}
+
+/* ==========================================
+   THE VIEWSCREEN - Main Viewer
+   ========================================== */
+
+.sidebar-section[data-section="claude"] .viewscreen-container {
+    position: relative;
+    height: 100px;
+    margin: 10px 15px 15px;
+    border-radius: 6px;
+    overflow: hidden;
+    background: linear-gradient(180deg,
+        rgba(5, 5, 15, 1) 0%,
+        rgba(8, 6, 18, 1) 100%
+    );
+    border: 2px solid rgba(255, 153, 51, 0.2);
+    box-shadow:
+        inset 0 0 40px rgba(0, 0, 0, 0.6),
+        0 0 20px rgba(255, 153, 51, 0.1),
+        0 0 40px rgba(204, 153, 255, 0.05);
+}
+
+/* The stars through the viewscreen */
+.sidebar-section[data-section="claude"] .viewscreen-stars {
+    position: absolute;
+    inset: 0;
+    background-image:
+        radial-gradient(1px 1px at 10% 30%, rgba(255,255,255,0.9), transparent),
+        radial-gradient(1.5px 1.5px at 25% 60%, rgba(255,255,255,0.7), transparent),
+        radial-gradient(1px 1px at 40% 20%, rgba(255,255,255,0.8), transparent),
+        radial-gradient(2px 2px at 55% 70%, rgba(255, 200, 150, 0.9), transparent),
+        radial-gradient(1px 1px at 70% 40%, rgba(255,255,255,0.6), transparent),
+        radial-gradient(1px 1px at 85% 80%, rgba(255,255,255,0.7), transparent),
+        radial-gradient(1.5px 1.5px at 15% 85%, rgba(255,255,255,0.5), transparent),
+        radial-gradient(1px 1px at 60% 15%, rgba(255,255,255,0.8), transparent),
+        radial-gradient(1px 1px at 90% 55%, rgba(204, 153, 255, 0.6), transparent),
+        radial-gradient(1px 1px at 35% 45%, rgba(255,255,255,0.4), transparent),
+        radial-gradient(1.5px 1.5px at 75% 25%, rgba(153, 204, 255, 0.7), transparent),
+        radial-gradient(1px 1px at 5% 50%, rgba(255,255,255,0.5), transparent);
+    animation: warpStars 20s linear infinite;
+}
+
+@keyframes warpStars {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-30px); }
+}
+
+/* Viewscreen frame - LCARS style */
+.sidebar-section[data-section="claude"] .viewscreen-frame {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+
+/* Top bezel */
+.sidebar-section[data-section="claude"] .viewscreen-frame::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 8px;
+    background: linear-gradient(90deg,
+        rgba(255, 153, 51, 0.4) 0%,
+        rgba(255, 153, 51, 0.2) 20%,
+        transparent 40%,
+        transparent 60%,
+        rgba(204, 153, 255, 0.2) 80%,
+        rgba(204, 153, 255, 0.4) 100%
+    );
+}
+
+/* Bottom bezel with status */
+.sidebar-section[data-section="claude"] .viewscreen-frame::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: linear-gradient(90deg,
+        rgba(153, 119, 170, 0.5) 0%,
+        rgba(153, 119, 170, 0.3) 30%,
+        transparent 50%,
+        rgba(255, 153, 51, 0.3) 70%,
+        rgba(255, 153, 51, 0.5) 100%
+    );
+}
+
+/* Main Viewer status indicator */
+.sidebar-section[data-section="claude"] .viewscreen-status {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: var(--font-display);
+    font-size: 8px;
+    letter-spacing: 2px;
+    color: rgba(255, 153, 51, 0.5);
+    text-transform: uppercase;
+    animation: statusPulse 4s ease-in-out infinite;
+}
+
+@keyframes statusPulse {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 0.8; }
+}
+
+/* ==========================================
+   CONDITION STATUS - Alert Level
+   ========================================== */
+
+.sidebar-section[data-section="claude"] .condition-panel {
+    margin: 0 15px 15px;
+    padding: 10px 12px;
+    background: rgba(20, 18, 30, 0.6);
+    border-radius: 4px;
+    border: 1px solid rgba(255, 153, 51, 0.15);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.sidebar-section[data-section="claude"] .condition-indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--condition-color, #44ff88);
+    box-shadow: 0 0 10px var(--condition-color, #44ff88);
+    animation: conditionPulse 2s ease-in-out infinite;
+}
+
+@keyframes conditionPulse {
+    0%, 100% { opacity: 0.7; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.1); }
+}
+
+/* Condition states */
+.sidebar-section[data-section="claude"] .condition-indicator.green {
+    --condition-color: #44ff88;
+}
+
+.sidebar-section[data-section="claude"] .condition-indicator.yellow {
+    --condition-color: #ffcc00;
+    animation: yellowAlert 1s ease-in-out infinite;
+}
+
+@keyframes yellowAlert {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+}
+
+.sidebar-section[data-section="claude"] .condition-indicator.red {
+    --condition-color: #ff4466;
+    animation: redAlert 0.5s ease-in-out infinite;
+}
+
+@keyframes redAlert {
+    0%, 100% { opacity: 0.5; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.15); }
+}
+
+.sidebar-section[data-section="claude"] .condition-label {
+    font-family: var(--font-display);
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.sidebar-section[data-section="claude"] .condition-status {
+    flex: 1;
+    text-align: right;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--condition-color, #44ff88);
+    letter-spacing: 1px;
+}
+
+/* ==========================================
+   COMMAND PRESENCE - Lumen's Chair
+   ========================================== */
+
+.sidebar-section[data-section="claude"] .command-presence {
+    position: absolute;
+    bottom: 15px;
+    left: 15px;
+    right: 15px;
+    z-index: 10;
+}
+
+.sidebar-section[data-section="claude"] .command-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 15px;
+    background: linear-gradient(135deg,
+        rgba(255, 153, 51, 0.08) 0%,
+        rgba(204, 153, 255, 0.05) 100%
+    );
+    border: 1px solid rgba(255, 153, 51, 0.2);
+    border-radius: 8px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Subtle command authority glow */
+.sidebar-section[data-section="claude"] .command-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(255, 153, 51, 0.5) 20%,
+        rgba(255, 153, 51, 0.8) 50%,
+        rgba(255, 153, 51, 0.5) 80%,
+        transparent 100%
+    );
+}
+
+.sidebar-section[data-section="claude"] .command-glow {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: radial-gradient(circle,
+        rgba(255, 153, 51, 0.25) 0%,
+        rgba(255, 153, 51, 0.1) 40%,
+        rgba(204, 153, 255, 0.05) 70%,
+        transparent 100%
+    );
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: commandAura 4s ease-in-out infinite;
+}
+
+@keyframes commandAura {
+    0%, 100% {
+        box-shadow: 0 0 15px rgba(255, 153, 51, 0.2);
+    }
+    50% {
+        box-shadow: 0 0 25px rgba(255, 153, 51, 0.4), 0 0 40px rgba(204, 153, 255, 0.1);
+    }
+}
+
+.sidebar-section[data-section="claude"] .command-icon {
+    font-size: 22px;
+}
+
+.sidebar-section[data-section="claude"] .command-info {
+    flex: 1;
+}
+
+.sidebar-section[data-section="claude"] .command-name {
+    font-family: var(--font-display);
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.9);
+    letter-spacing: 1px;
+    margin-bottom: 2px;
+}
+
+.sidebar-section[data-section="claude"] .command-title {
+    font-size: 9px;
+    color: rgba(255, 153, 51, 0.6);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.sidebar-section[data-section="claude"] .command-status {
+    font-size: 9px;
+    color: rgba(204, 153, 255, 0.7);
+    margin-top: 3px;
+}
+
+.sidebar-section[data-section="claude"] .command-active {
+    width: 10px;
+    height: 10px;
+    background: rgba(255, 153, 51, 0.8);
+    border-radius: 50%;
+    animation: commandHeartbeat 2s ease-in-out infinite;
+}
+
+@keyframes commandHeartbeat {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 0.7;
+        box-shadow: 0 0 8px rgba(255, 153, 51, 0.5);
+    }
+    25% {
+        transform: scale(1.15);
+        opacity: 1;
+        box-shadow: 0 0 12px rgba(255, 153, 51, 0.8);
+    }
+    35% {
+        transform: scale(1);
+        opacity: 0.8;
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 0.9;
+        box-shadow: 0 0 10px rgba(255, 153, 51, 0.6);
+    }
+}
+
+/* ==========================================
+   TACTICAL OVERLAY - Data Whispers
+   ========================================== */
+
+/* Scan line effect on panels */
+.sidebar-section[data-section="claude"] .panel::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: repeating-linear-gradient(
+        0deg,
+        transparent 0px,
+        transparent 2px,
+        rgba(255, 153, 51, 0.02) 2px,
+        rgba(255, 153, 51, 0.02) 4px
+    );
+    pointer-events: none;
+    animation: scanMove 8s linear infinite;
+    border-radius: inherit;
+}
+
+@keyframes scanMove {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(8px); }
+}
+
+/* Data strip accents */
+.sidebar-section[data-section="claude"] .panel-header::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg,
+        var(--lcars-orange) 0%, var(--lcars-orange) 12%,
+        transparent 12%, transparent 16%,
+        var(--lcars-peach) 16%, var(--lcars-peach) 28%,
+        transparent 28%, transparent 32%,
+        var(--lcars-lavender) 32%, var(--lcars-lavender) 45%,
+        transparent 45%, transparent 50%,
+        var(--lcars-blue) 50%, var(--lcars-blue) 58%,
+        transparent 58%, transparent 100%
+    );
+    border-radius: 0 0 2px 2px;
+    opacity: 0.8;
+}
+
+.sidebar-section[data-section="claude"] .panel-header {
+    position: relative;
+    margin-bottom: 4px;
+}
+
+/* ==========================================
+   COMMS STATUS STRIP
+   ========================================== */
+
+.sidebar-section[data-section="claude"] .comms-strip {
+    margin: 0 15px 12px;
+    padding: 6px 10px;
+    background: rgba(153, 204, 255, 0.05);
+    border: 1px solid rgba(153, 204, 255, 0.15);
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.sidebar-section[data-section="claude"] .comms-label {
+    font-size: 8px;
+    letter-spacing: 2px;
+    color: rgba(153, 204, 255, 0.5);
+    text-transform: uppercase;
+}
+
+.sidebar-section[data-section="claude"] .comms-status {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.sidebar-section[data-section="claude"] .comms-dot {
+    width: 6px;
+    height: 6px;
+    background: rgba(153, 204, 255, 0.7);
+    border-radius: 50%;
+    animation: commsPulse 3s ease-in-out infinite;
+}
+
+@keyframes commsPulse {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 1; box-shadow: 0 0 6px rgba(153, 204, 255, 0.5); }
+}
+
+.sidebar-section[data-section="claude"] .comms-text {
+    font-size: 9px;
+    color: rgba(153, 204, 255, 0.6);
+    letter-spacing: 1px;
+}
+
+/* ==========================================
+   TERMINAL AREA ENHANCEMENT
+   ========================================== */
+
+[data-theme="claude"] .terminal-area {
+    position: relative;
+}
+
+/* Viewscreen reflection effect on terminal */
+[data-theme="claude"] .terminal-area::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: linear-gradient(180deg,
+        rgba(255, 153, 51, 0.03) 0%,
+        transparent 100%
+    );
+    pointer-events: none;
+    z-index: 0;
+}
+
+[data-theme="claude"] .terminal-panel {
+    border-color: rgba(255, 153, 51, 0.25);
+}
+
+[data-theme="claude"] .terminal-panel.focused {
+    box-shadow:
+        0 0 30px rgba(255, 153, 51, 0.15),
+        0 0 60px rgba(204, 153, 255, 0.05);
+}
+
+/* ==========================================
+   RESPONSIVE
+   ========================================== */
+
+@media (max-width: 1400px) {
+    .sidebar-section[data-section="claude"] .viewscreen-container {
+        height: 80px;
+    }
+
+    .sidebar-section[data-section="claude"] .command-card {
+        padding: 10px 12px;
+    }
+}
+
+/* ==========================================
+   INBOX BUTTON - Draggable Communications
+   ========================================== */
+
+.inbox-button-wrapper {
+    margin: 15px;
+    position: relative;
+}
+
+.inbox-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 15px;
+    background: rgba(15, 12, 25, 0.9);
+    border: 1px solid rgba(255, 153, 102, 0.4);
+    color: rgba(255, 153, 102, 0.8);
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.inbox-button:hover {
+    background: rgba(255, 153, 102, 0.15);
+    border-color: #ff9966;
+    box-shadow: 0 0 15px rgba(255, 153, 102, 0.3);
+}
+
+.inbox-icon {
+    font-size: 1rem;
+}
+
+.inbox-label {
+    letter-spacing: 2px;
+}
+
+.inbox-indicator {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: transparent;
+    transition: all 0.3s ease;
+}
+
+.inbox-indicator.has-unread {
+    background: #ff9966;
+    box-shadow: 0 0 8px #ff9966;
+    animation: inboxPulse 2s ease-in-out infinite;
+}
+
+@keyframes inboxPulse {
+    0%, 100% { opacity: 0.6; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.2); }
+}
+
+/* Draggable state */
+.inbox-button-wrapper.dragging {
+    position: fixed;
+    z-index: 1000;
+    cursor: grabbing;
+}
+
+.inbox-button-wrapper.dragging .inbox-button {
+    box-shadow: 0 0 20px rgba(255, 153, 102, 0.5);
+}

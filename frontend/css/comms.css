@@ -1,0 +1,411 @@
+/* ===========================================
+   COMMS PAGE - LCARS Terminal Style
+   Casey's Inbox System
+   =========================================== */
+
+:root {
+    --comms-bg: #0a0810;
+    --comms-panel: rgba(15, 12, 25, 0.95);
+    --comms-border: #2a2235;
+    --comms-orange: #ff9966;
+    --comms-purple: #cc99ff;
+    --comms-blue: #9999ff;
+    --comms-text: #e8e0f0;
+    --comms-dim: #554466;
+    --comms-glow: rgba(255, 153, 102, 0.3);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body.comms-page {
+    margin: 0;
+    padding: 0;
+    background: var(--comms-bg);
+    color: var(--comms-text);
+    font-family: 'Share Tech Mono', monospace;
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+.comms-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    position: relative;
+}
+
+/* Scan line effect */
+.comms-scanline {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0, 0, 0, 0.1) 2px,
+        rgba(0, 0, 0, 0.1) 4px
+    );
+    z-index: 100;
+}
+
+/* Header */
+.comms-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 25px;
+    background: linear-gradient(135deg, rgba(255, 153, 102, 0.15), rgba(204, 153, 255, 0.1));
+    border-bottom: 2px solid var(--comms-orange);
+}
+
+.comms-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--comms-orange);
+    text-shadow: 0 0 10px var(--comms-glow);
+    letter-spacing: 3px;
+}
+
+.comms-return-btn {
+    background: transparent;
+    border: 1px solid var(--comms-orange);
+    color: var(--comms-orange);
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.85rem;
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.comms-return-btn:hover {
+    background: rgba(255, 153, 102, 0.2);
+    box-shadow: 0 0 15px var(--comms-glow);
+}
+
+.return-icon {
+    font-size: 1rem;
+}
+
+/* Main Layout */
+.comms-main {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+}
+
+/* Sidebar */
+.comms-sidebar {
+    width: 200px;
+    background: var(--comms-panel);
+    border-right: 1px solid var(--comms-border);
+    display: flex;
+    flex-direction: column;
+    padding: 15px 0;
+}
+
+.sidebar-section {
+    padding: 0 15px;
+}
+
+.sidebar-label {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.7rem;
+    color: var(--comms-dim);
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+.sidebar-divider {
+    height: 1px;
+    background: var(--comms-border);
+    margin: 15px 0;
+}
+
+/* Crew Tabs */
+.crew-tabs {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.crew-tab {
+    display: flex;
+    align-items: center;
+    padding: 10px 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border-left: 3px solid transparent;
+    position: relative;
+}
+
+.crew-tab.dim {
+    opacity: 0.5;
+}
+
+.crew-tab.lit {
+    opacity: 1;
+}
+
+.crew-tab.lit::after {
+    content: '';
+    position: absolute;
+    right: 10px;
+    width: 8px;
+    height: 8px;
+    background: var(--comms-orange);
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--comms-orange);
+    animation: pulse-glow 2s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+}
+
+.crew-tab:hover {
+    background: rgba(255, 153, 102, 0.1);
+}
+
+.crew-tab.active {
+    background: rgba(255, 153, 102, 0.15);
+    border-left-color: var(--comms-orange);
+}
+
+.crew-tab-name {
+    font-size: 0.9rem;
+    color: var(--comms-text);
+}
+
+/* Ship Log Tab */
+.ship-log-label {
+    cursor: pointer;
+    padding: 10px 0;
+    transition: all 0.2s ease;
+}
+
+.ship-log-label:hover {
+    color: var(--comms-orange);
+}
+
+.ship-log-label.active {
+    color: var(--comms-orange);
+    text-shadow: 0 0 10px var(--comms-glow);
+}
+
+/* Content Area */
+.comms-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: var(--comms-panel);
+    overflow: hidden;
+}
+
+/* Message View */
+.message-view, .ship-log-view {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.message-view.hidden, .ship-log-view.hidden {
+    display: none;
+}
+
+.message-header {
+    padding: 15px 20px;
+    border-bottom: 1px solid var(--comms-border);
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.message-crew-name {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.1rem;
+    color: var(--comms-purple);
+    letter-spacing: 1px;
+}
+
+/* Message List */
+.message-list, .ship-log-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 15px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.no-messages, .loading {
+    color: var(--comms-dim);
+    font-style: italic;
+    text-align: center;
+    padding: 40px;
+}
+
+/* Individual Message */
+.message-item {
+    padding: 12px 15px;
+    border-radius: 4px;
+    max-width: 80%;
+    position: relative;
+}
+
+.message-item.from-crew {
+    background: rgba(204, 153, 255, 0.1);
+    border-left: 3px solid var(--comms-purple);
+    align-self: flex-start;
+}
+
+.message-item.from-casey {
+    background: rgba(255, 153, 102, 0.1);
+    border-right: 3px solid var(--comms-orange);
+    align-self: flex-end;
+    border-left: none;
+}
+
+.message-item.unread {
+    box-shadow: 0 0 10px rgba(255, 153, 102, 0.3);
+}
+
+.message-sender {
+    font-size: 0.75rem;
+    color: var(--comms-dim);
+    margin-bottom: 5px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.message-text {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: var(--comms-text);
+}
+
+.message-time {
+    font-size: 0.7rem;
+    color: var(--comms-dim);
+    margin-top: 8px;
+    text-align: right;
+}
+
+/* Compose Area */
+.message-compose {
+    display: flex;
+    gap: 10px;
+    padding: 15px 20px;
+    border-top: 1px solid var(--comms-border);
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.message-input {
+    flex: 1;
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid var(--comms-border);
+    color: var(--comms-text);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.95rem;
+    padding: 12px 15px;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.message-input:focus {
+    border-color: var(--comms-orange);
+    box-shadow: 0 0 10px var(--comms-glow);
+}
+
+.message-input:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.message-send-btn {
+    background: transparent;
+    border: 1px solid var(--comms-orange);
+    color: var(--comms-orange);
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.85rem;
+    padding: 12px 20px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.message-send-btn:hover:not(:disabled) {
+    background: rgba(255, 153, 102, 0.2);
+    box-shadow: 0 0 15px var(--comms-glow);
+}
+
+.message-send-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Ship Log Entries */
+.log-entry {
+    padding: 10px 15px;
+    border-left: 2px solid var(--comms-border);
+    font-size: 0.85rem;
+    transition: all 0.2s ease;
+}
+
+.log-entry:hover {
+    background: rgba(255, 153, 102, 0.05);
+    border-left-color: var(--comms-purple);
+}
+
+.log-entry-time {
+    font-size: 0.7rem;
+    color: var(--comms-dim);
+    margin-bottom: 4px;
+}
+
+.log-entry-content {
+    color: var(--comms-text);
+}
+
+.log-entry-crew {
+    color: var(--comms-purple);
+    font-weight: bold;
+}
+
+.log-entry-type {
+    font-size: 0.7rem;
+    color: var(--comms-orange);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-left: 8px;
+}
+
+/* Scrollbar */
+.message-list::-webkit-scrollbar,
+.ship-log-list::-webkit-scrollbar {
+    width: 8px;
+}
+
+.message-list::-webkit-scrollbar-track,
+.ship-log-list::-webkit-scrollbar-track {
+    background: var(--comms-bg);
+}
+
+.message-list::-webkit-scrollbar-thumb,
+.ship-log-list::-webkit-scrollbar-thumb {
+    background: var(--comms-border);
+    border-radius: 4px;
+}
+
+.message-list::-webkit-scrollbar-thumb:hover,
+.ship-log-list::-webkit-scrollbar-thumb:hover {
+    background: var(--comms-dim);
+}

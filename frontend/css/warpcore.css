@@ -1,0 +1,1158 @@
+/**
+ * WARP CORE - Engineering Section
+ * Matter and antimatter, the heart of the ship
+ * All styles scoped to [data-section="servers"] to prevent bleeding
+ */
+
+/* ==========================================
+   ENGINEERING SIDEBAR - THE CORE
+   ========================================== */
+
+.sidebar-section[data-section="servers"] {
+    background: linear-gradient(180deg,
+        rgba(0, 20, 30, 0.95) 0%,
+        rgba(0, 10, 20, 0.98) 100%
+    );
+    position: relative;
+    overflow: hidden;
+}
+
+/* Ambient glow behind everything */
+.sidebar-section[data-section="servers"]::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    height: 400px;
+    background: radial-gradient(ellipse,
+        rgba(0, 212, 255, 0.1) 0%,
+        rgba(0, 212, 255, 0.05) 30%,
+        transparent 70%
+    );
+    pointer-events: none;
+    animation: warpCoreAmbient 4s ease-in-out infinite;
+}
+
+@keyframes warpCoreAmbient {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+}
+
+/* ==========================================
+   WARP CORE CANVAS
+   ========================================== */
+
+.sidebar-section[data-section="servers"] .warp-core-canvas-container {
+    position: relative;
+    width: 100%;
+    height: 280px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+}
+
+.sidebar-section[data-section="servers"] #warp-core-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* Core structure overlay (the containment vessel) */
+.sidebar-section[data-section="servers"] .core-vessel {
+    position: absolute;
+    width: 80px;
+    height: 200px;
+    pointer-events: none;
+    z-index: 5;
+}
+
+.sidebar-section[data-section="servers"] .vessel-top,
+.sidebar-section[data-section="servers"] .vessel-bottom {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 20px;
+    background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(0, 212, 255, 0.2) 20%,
+        rgba(0, 212, 255, 0.3) 50%,
+        rgba(0, 212, 255, 0.2) 80%,
+        transparent 100%
+    );
+    border-radius: 50%;
+}
+
+.sidebar-section[data-section="servers"] .vessel-top {
+    top: 0;
+    box-shadow: 0 -5px 20px rgba(0, 212, 255, 0.3);
+}
+
+.sidebar-section[data-section="servers"] .vessel-bottom {
+    bottom: 0;
+    box-shadow: 0 5px 20px rgba(0, 212, 255, 0.3);
+}
+
+.sidebar-section[data-section="servers"] .vessel-column {
+    position: absolute;
+    top: 20px;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    background: linear-gradient(180deg,
+        rgba(0, 212, 255, 0.1) 0%,
+        rgba(0, 212, 255, 0.05) 50%,
+        rgba(0, 212, 255, 0.1) 100%
+    );
+}
+
+.sidebar-section[data-section="servers"] .vessel-column::before,
+.sidebar-section[data-section="servers"] .vessel-column::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 2px;
+    background: rgba(0, 212, 255, 0.3);
+}
+
+.sidebar-section[data-section="servers"] .vessel-column::before { top: 30%; }
+.sidebar-section[data-section="servers"] .vessel-column::after { bottom: 30%; }
+
+/* Reaction chamber center */
+.sidebar-section[data-section="servers"] .reaction-chamber {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 30px;
+    height: 30px;
+    border: 1px solid rgba(0, 212, 255, 0.3);
+    border-radius: 50%;
+    z-index: 10;
+    animation: warpChamberPulse 2s ease-in-out infinite;
+}
+
+.sidebar-section[data-section="servers"] .reaction-chamber::before {
+    content: '';
+    position: absolute;
+    inset: 5px;
+    background: radial-gradient(circle,
+        rgba(255, 255, 255, 0.9) 0%,
+        rgba(0, 212, 255, 0.5) 50%,
+        transparent 70%
+    );
+    border-radius: 50%;
+    animation: warpChamberGlow 2s ease-in-out infinite;
+}
+
+@keyframes warpChamberPulse {
+    0%, 100% {
+        transform: translate(-50%, -50%) scale(1);
+        box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1.1);
+        box-shadow: 0 0 40px rgba(0, 212, 255, 0.5);
+    }
+}
+
+@keyframes warpChamberGlow {
+    0%, 100% { opacity: 0.7; }
+    50% { opacity: 1; }
+}
+
+/* ==========================================
+   PLASMA CONDUITS
+   ========================================== */
+
+.sidebar-section[data-section="servers"] .plasma-conduits {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    transform: translateY(-50%);
+    height: 40px;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.sidebar-section[data-section="servers"] .conduit {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 6px;
+    background: linear-gradient(90deg,
+        rgba(0, 212, 255, 0.05) 0%,
+        rgba(0, 212, 255, 0.2) 50%,
+        rgba(0, 212, 255, 0.05) 100%
+    );
+    border-radius: 3px;
+}
+
+.sidebar-section[data-section="servers"] .conduit.left {
+    left: 0;
+    right: 60%;
+}
+
+.sidebar-section[data-section="servers"] .conduit.right {
+    left: 60%;
+    right: 0;
+}
+
+.sidebar-section[data-section="servers"] .conduit::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 30px;
+    background: rgba(0, 212, 255, 0.5);
+    border-radius: 3px;
+    animation: warpPlasmaFlow 2s linear infinite;
+}
+
+.sidebar-section[data-section="servers"] .conduit.left::before {
+    right: 0;
+    animation-name: warpPlasmaFlowLeft;
+}
+
+.sidebar-section[data-section="servers"] .conduit.right::before {
+    left: 0;
+    animation-name: warpPlasmaFlowRight;
+}
+
+@keyframes warpPlasmaFlowLeft {
+    0% { transform: translateX(100px); opacity: 0; }
+    20% { opacity: 1; }
+    80% { opacity: 1; }
+    100% { transform: translateX(0); opacity: 0; }
+}
+
+@keyframes warpPlasmaFlowRight {
+    0% { transform: translateX(-100px); opacity: 0; }
+    20% { opacity: 1; }
+    80% { opacity: 1; }
+    100% { transform: translateX(0); opacity: 0; }
+}
+
+/* ==========================================
+   POWER STATUS
+   ========================================== */
+
+.sidebar-section[data-section="servers"] .power-status {
+    position: relative;
+    width: 100%;
+    padding: 0 15px;
+    margin-top: 20px;
+    z-index: 10;
+}
+
+.sidebar-section[data-section="servers"] .status-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.sidebar-section[data-section="servers"] .status-title {
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: rgba(255, 255, 255, 0.3);
+    text-transform: uppercase;
+    font-family: 'Share Tech Mono', monospace;
+}
+
+.sidebar-section[data-section="servers"] .status-value {
+    font-size: 11px;
+    color: rgba(0, 212, 255, 0.8);
+    font-family: 'Share Tech Mono', monospace;
+}
+
+.sidebar-section[data-section="servers"] .power-bars {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.sidebar-section[data-section="servers"] .power-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.sidebar-section[data-section="servers"] .power-bar-label {
+    font-size: 9px;
+    color: rgba(255, 255, 255, 0.4);
+    width: 60px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-family: 'Share Tech Mono', monospace;
+}
+
+.sidebar-section[data-section="servers"] .power-bar-track {
+    flex: 1;
+    height: 4px;
+    background: rgba(0, 212, 255, 0.1);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.sidebar-section[data-section="servers"] .power-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg,
+        rgba(0, 212, 255, 0.8) 0%,
+        rgba(0, 255, 255, 0.9) 100%
+    );
+    border-radius: 2px;
+    transition: width 0.5s ease;
+}
+
+.sidebar-section[data-section="servers"] .power-bar-fill.critical {
+    background: linear-gradient(90deg,
+        rgba(255, 100, 100, 0.8) 0%,
+        rgba(255, 150, 100, 0.9) 100%
+    );
+    animation: warpCriticalPulse 1s ease-in-out infinite;
+}
+
+@keyframes warpCriticalPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+}
+
+.sidebar-section[data-section="servers"] .power-bar-value {
+    font-size: 10px;
+    color: rgba(0, 212, 255, 0.7);
+    width: 35px;
+    text-align: right;
+    font-family: 'Share Tech Mono', monospace;
+}
+
+/* ==========================================
+   SYSTEM NODES
+   ========================================== */
+
+.sidebar-section[data-section="servers"] .system-nodes {
+    position: relative;
+    width: 100%;
+    padding: 15px;
+    margin-top: 15px;
+    z-index: 10;
+}
+
+.sidebar-section[data-section="servers"] .nodes-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+}
+
+.sidebar-section[data-section="servers"] .system-node {
+    aspect-ratio: 1;
+    background: rgba(0, 212, 255, 0.05);
+    border: 1px solid rgba(0, 212, 255, 0.15);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
+    color: rgba(0, 212, 255, 0.5);
+    font-family: 'Share Tech Mono', monospace;
+    transition: all 0.3s ease;
+    cursor: default;
+}
+
+.sidebar-section[data-section="servers"] .system-node.online {
+    background: rgba(0, 212, 255, 0.1);
+    border-color: rgba(0, 212, 255, 0.3);
+    color: rgba(0, 212, 255, 0.8);
+    box-shadow: 0 0 10px rgba(0, 212, 255, 0.1);
+}
+
+.sidebar-section[data-section="servers"] .system-node.critical {
+    background: rgba(255, 100, 100, 0.1);
+    border-color: rgba(255, 100, 100, 0.3);
+    color: rgba(255, 150, 150, 0.8);
+    animation: warpNodeCritical 1.5s ease-in-out infinite;
+}
+
+@keyframes warpNodeCritical {
+    0%, 100% { box-shadow: 0 0 5px rgba(255, 100, 100, 0.2); }
+    50% { box-shadow: 0 0 15px rgba(255, 100, 100, 0.4); }
+}
+
+/* ==========================================
+   CORE STATUS WHISPER
+   ========================================== */
+
+.sidebar-section[data-section="servers"] .core-whisper {
+    position: absolute;
+    bottom: 15px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    z-index: 10;
+}
+
+.sidebar-section[data-section="servers"] .core-whisper-text {
+    font-size: 10px;
+    color: rgba(0, 212, 255, 0.3);
+    font-style: italic;
+    letter-spacing: 1px;
+    animation: warpCoreWhisper 6s ease-in-out infinite;
+}
+
+@keyframes warpCoreWhisper {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.6; }
+}
+
+/* ==========================================
+   WARP BREACH STATE (for fun)
+   ========================================== */
+
+.sidebar-section[data-section="servers"].breach .reaction-chamber {
+    animation: warpBreachPulse 0.5s ease-in-out infinite;
+}
+
+.sidebar-section[data-section="servers"].breach .reaction-chamber::before {
+    background: radial-gradient(circle,
+        rgba(255, 200, 200, 0.9) 0%,
+        rgba(255, 100, 100, 0.5) 50%,
+        transparent 70%
+    );
+}
+
+@keyframes warpBreachPulse {
+    0%, 100% {
+        transform: translate(-50%, -50%) scale(1);
+        box-shadow: 0 0 30px rgba(255, 100, 100, 0.5);
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1.3);
+        box-shadow: 0 0 60px rgba(255, 100, 100, 0.8);
+    }
+}
+
+/* ==========================================
+   RESPONSIVE
+   ========================================== */
+
+/* ==========================================
+   ENGINEERING TERMINAL LAYOUT - Tetris Style
+   Asymmetric control room aesthetic
+   ========================================== */
+
+[data-theme="servers"] .terminals-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows: 1fr auto;
+    gap: var(--gap-md);
+}
+
+/* Main terminal - left side, taller */
+[data-theme="servers"] .terminals-grid .terminal-panel.active-room {
+    grid-column: 1;
+    grid-row: 1 / 3;
+    min-height: 400px;
+    max-height: none;
+}
+
+/* Walkie terminals stack on the right */
+[data-theme="servers"] .terminals-grid .terminal-panel:not(.active-room).walkie-open {
+    grid-column: 2;
+    max-height: 180px;
+    min-height: 140px;
+}
+
+/* Stagger the right-side terminals */
+[data-theme="servers"] .terminals-grid .terminal-panel:not(.active-room).walkie-open:nth-of-type(2) {
+    margin-top: 20px;
+}
+
+[data-theme="servers"] .terminals-grid .terminal-panel:not(.active-room).walkie-open:nth-of-type(3) {
+    margin-top: -10px;
+}
+
+/* Engineering terminal styling - more technical feel */
+[data-theme="servers"] .terminal-panel {
+    border-color: rgba(0, 212, 255, 0.3);
+}
+
+[data-theme="servers"] .terminal-panel.active-room {
+    box-shadow:
+        0 0 20px rgba(0, 212, 255, 0.15),
+        inset 0 0 40px rgba(0, 212, 255, 0.03);
+}
+
+[data-theme="servers"] .terminal-panel:not(.active-room).walkie-open {
+    background: rgba(0, 20, 30, 0.9);
+    border-color: rgba(0, 212, 255, 0.2);
+}
+
+/* ==========================================
+   RESPONSIVE
+   ========================================== */
+
+@media (max-width: 1400px) {
+    .sidebar-section[data-section="servers"] .warp-core-canvas-container {
+        height: 220px;
+    }
+
+    .sidebar-section[data-section="servers"] .core-vessel {
+        width: 60px;
+        height: 160px;
+    }
+
+    [data-theme="servers"] .terminals-grid {
+        grid-template-columns: 1fr;
+    }
+
+    [data-theme="servers"] .terminals-grid .terminal-panel.active-room {
+        grid-column: 1;
+        grid-row: 1;
+        min-height: 300px;
+    }
+
+    [data-theme="servers"] .terminals-grid .terminal-panel:not(.active-room).walkie-open {
+        grid-column: 1;
+        margin-top: 0;
+    }
+}
+
+/* ==========================================
+   HARDWARE MONITOR - Ship Diagnostics Panel
+   ========================================== */
+
+/* Only show in engineering section */
+.hardware-monitor {
+    display: none;
+}
+
+[data-theme="servers"] .hardware-monitor {
+    display: flex;
+    flex-direction: column;
+    grid-column: 2;
+    grid-row: 1 / 3;
+    background: rgba(0, 15, 25, 0.95);
+    border: 1px solid rgba(0, 212, 255, 0.25);
+    border-radius: 8px;
+    overflow: hidden;
+    animation: hwMonitorFadeIn 0.5s ease-out;
+}
+
+@keyframes hwMonitorFadeIn {
+    from { opacity: 0; transform: translateX(10px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+.hw-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 15px;
+    background: linear-gradient(90deg,
+        rgba(0, 212, 255, 0.15) 0%,
+        rgba(0, 212, 255, 0.05) 100%
+    );
+    border-bottom: 1px solid rgba(0, 212, 255, 0.2);
+}
+
+.hw-title {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: rgba(0, 212, 255, 0.9);
+    text-transform: uppercase;
+}
+
+.hw-status {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(0, 212, 255, 0.5);
+    animation: hwStatusPulse 2s ease-in-out infinite;
+}
+
+.hw-status.online {
+    background: rgba(0, 255, 200, 0.8);
+    box-shadow: 0 0 8px rgba(0, 255, 200, 0.5);
+}
+
+@keyframes hwStatusPulse {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+}
+
+.hw-content {
+    flex: 1;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    overflow-y: auto;
+}
+
+/* Individual Metric */
+.hw-metric {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.hw-metric-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.hw-metric-icon {
+    font-size: 10px;
+    color: rgba(0, 212, 255, 0.6);
+}
+
+.hw-metric-label {
+    flex: 1;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    color: rgba(255, 255, 255, 0.4);
+    text-transform: uppercase;
+}
+
+.hw-metric-value {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    color: rgba(0, 212, 255, 0.9);
+    min-width: 35px;
+    text-align: right;
+}
+
+/* Progress bars */
+.hw-bar {
+    height: 4px;
+    background: rgba(0, 212, 255, 0.1);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.hw-bar-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg,
+        rgba(0, 212, 255, 0.7) 0%,
+        rgba(0, 255, 255, 0.9) 100%
+    );
+    border-radius: 2px;
+    transition: width 0.5s ease-out;
+}
+
+/* Warning states */
+.hw-bar-fill.warning {
+    background: linear-gradient(90deg,
+        rgba(255, 180, 0, 0.7) 0%,
+        rgba(255, 220, 100, 0.9) 100%
+    );
+}
+
+.hw-bar-fill.critical {
+    background: linear-gradient(90deg,
+        rgba(255, 100, 100, 0.7) 0%,
+        rgba(255, 150, 100, 0.9) 100%
+    );
+    animation: hwCriticalPulse 1s ease-in-out infinite;
+}
+
+@keyframes hwCriticalPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+}
+
+.hw-metric-detail {
+    display: flex;
+    justify-content: space-between;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 9px;
+    color: rgba(255, 255, 255, 0.3);
+}
+
+/* System Info Section */
+.hw-system-info {
+    margin-top: auto;
+    padding-top: 12px;
+    border-top: 1px solid rgba(0, 212, 255, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.hw-info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.hw-info-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 1px;
+    color: rgba(255, 255, 255, 0.35);
+    text-transform: uppercase;
+}
+
+.hw-info-value {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    color: rgba(0, 212, 255, 0.7);
+}
+
+/* Responsive */
+@media (max-width: 1400px) {
+    [data-theme="servers"] .hardware-monitor {
+        display: none;
+    }
+}
+
+/* ==========================================
+   HARDWARE MONITOR - Expanded Sections
+   ========================================== */
+
+.hw-section {
+    margin-bottom: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(0, 212, 255, 0.1);
+}
+
+.hw-section:last-of-type {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.hw-section-title {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 2px;
+    color: rgba(0, 212, 255, 0.5);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+}
+
+/* Per-Core CPU Grid */
+.hw-cores-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(20px, 1fr));
+    gap: 3px;
+    margin: 8px 0;
+}
+
+.hw-core-bar {
+    height: 20px;
+    background: rgba(0, 212, 255, 0.1);
+    border-radius: 2px;
+    position: relative;
+    overflow: hidden;
+}
+
+.hw-core-fill {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(0deg,
+        rgba(0, 212, 255, 0.8) 0%,
+        rgba(0, 255, 255, 0.6) 100%
+    );
+    transition: height 0.3s ease-out;
+}
+
+.hw-core-fill.high {
+    background: linear-gradient(0deg,
+        rgba(255, 180, 0, 0.8) 0%,
+        rgba(255, 220, 100, 0.6) 100%
+    );
+}
+
+.hw-core-fill.critical {
+    background: linear-gradient(0deg,
+        rgba(255, 80, 80, 0.8) 0%,
+        rgba(255, 120, 80, 0.6) 100%
+    );
+}
+
+.hw-core-label {
+    position: absolute;
+    bottom: 2px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 7px;
+    color: rgba(255, 255, 255, 0.5);
+    font-family: 'Share Tech Mono', monospace;
+}
+
+/* Temperature Grid */
+.hw-temps-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.hw-temp-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 4px 8px;
+    background: rgba(0, 212, 255, 0.05);
+    border-radius: 4px;
+}
+
+.hw-temp-label {
+    font-size: 9px;
+    color: rgba(255, 255, 255, 0.5);
+    font-family: 'Share Tech Mono', monospace;
+}
+
+.hw-temp-value {
+    font-size: 11px;
+    font-family: 'Share Tech Mono', monospace;
+    color: rgba(0, 212, 255, 0.9);
+}
+
+.hw-temp-value.warm {
+    color: rgba(255, 200, 100, 0.9);
+}
+
+.hw-temp-value.hot {
+    color: rgba(255, 120, 80, 0.9);
+    animation: hwTempPulse 1s ease-in-out infinite;
+}
+
+@keyframes hwTempPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+}
+
+/* Fan Grid */
+.hw-fans-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.hw-fan-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 8px;
+    background: rgba(0, 212, 255, 0.05);
+    border-radius: 4px;
+}
+
+.hw-fan-icon {
+    font-size: 12px;
+    color: rgba(0, 212, 255, 0.6);
+    animation: hwFanSpin 2s linear infinite;
+}
+
+.hw-fan-icon.fast {
+    animation-duration: 0.5s;
+}
+
+@keyframes hwFanSpin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.hw-fan-label {
+    flex: 1;
+    font-size: 9px;
+    color: rgba(255, 255, 255, 0.5);
+    font-family: 'Share Tech Mono', monospace;
+}
+
+.hw-fan-value {
+    font-size: 10px;
+    font-family: 'Share Tech Mono', monospace;
+    color: rgba(0, 212, 255, 0.8);
+}
+
+/* I/O Stats */
+.hw-io-stats {
+    display: flex;
+    gap: 12px;
+    margin-top: 6px;
+}
+
+.hw-io-stat {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 6px;
+    background: rgba(0, 212, 255, 0.05);
+    border-radius: 4px;
+}
+
+.hw-io-label {
+    font-size: 8px;
+    letter-spacing: 1px;
+    color: rgba(255, 255, 255, 0.4);
+    font-family: 'Share Tech Mono', monospace;
+    text-transform: uppercase;
+}
+
+.hw-io-value {
+    font-size: 10px;
+    color: rgba(0, 212, 255, 0.8);
+    font-family: 'Share Tech Mono', monospace;
+    margin-top: 2px;
+}
+
+/* Battery Bar */
+.hw-bar-battery .hw-bar-fill {
+    background: linear-gradient(90deg,
+        rgba(100, 255, 150, 0.7) 0%,
+        rgba(150, 255, 180, 0.9) 100%
+    );
+}
+
+.hw-bar-battery .hw-bar-fill.low {
+    background: linear-gradient(90deg,
+        rgba(255, 180, 0, 0.7) 0%,
+        rgba(255, 220, 100, 0.9) 100%
+    );
+}
+
+.hw-bar-battery .hw-bar-fill.critical {
+    background: linear-gradient(90deg,
+        rgba(255, 80, 80, 0.7) 0%,
+        rgba(255, 120, 80, 0.9) 100%
+    );
+}
+
+/* Secondary bar style (for swap, etc.) */
+.hw-bar-secondary {
+    height: 3px;
+    margin-top: 4px;
+}
+
+.hw-bar-secondary .hw-bar-fill {
+    background: linear-gradient(90deg,
+        rgba(0, 180, 220, 0.5) 0%,
+        rgba(0, 200, 240, 0.7) 100%
+    );
+}
+
+/* Scrollable content for smaller screens */
+[data-theme="servers"] .hardware-monitor .hw-content {
+    overflow-y: auto;
+    max-height: calc(100vh - 200px);
+}
+
+/* Custom scrollbar for hardware monitor */
+.hw-content::-webkit-scrollbar {
+    width: 4px;
+}
+
+.hw-content::-webkit-scrollbar-track {
+    background: rgba(0, 212, 255, 0.05);
+}
+
+.hw-content::-webkit-scrollbar-thumb {
+    background: rgba(0, 212, 255, 0.3);
+    border-radius: 2px;
+}
+
+.hw-content::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 212, 255, 0.5);
+}
+
+/* GPU Section */
+.hw-gpu-section {
+    background: rgba(0, 212, 255, 0.03);
+    border-radius: 6px;
+    padding: 10px !important;
+    margin: 8px 0;
+}
+
+.hw-gpu-name {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    color: rgba(0, 212, 255, 0.8);
+    margin-bottom: 8px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.hw-gpu-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+}
+
+.hw-gpu-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 6px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+}
+
+.hw-gpu-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 1px;
+    color: rgba(255, 255, 255, 0.4);
+    text-transform: uppercase;
+}
+
+.hw-gpu-value {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    color: rgba(0, 212, 255, 0.9);
+    margin-top: 2px;
+}
+
+.hw-gpu-value.hot {
+    color: rgba(255, 120, 80, 0.9);
+}
+
+/* LHM Setup Hint */
+.hw-lhm-hint {
+    margin: 0 10px 10px 10px;
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.1) 0%, rgba(0, 150, 200, 0.05) 100%);
+    border: 1px solid rgba(0, 212, 255, 0.2);
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.hw-hint-content {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px;
+}
+
+.hw-hint-icon {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    font-weight: bold;
+    color: rgba(0, 212, 255, 0.9);
+    background: rgba(0, 212, 255, 0.15);
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+}
+
+.hw-hint-text {
+    flex: 1;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    line-height: 1.4;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.hw-hint-text strong {
+    display: block;
+    color: rgba(0, 212, 255, 0.9);
+    margin-bottom: 3px;
+}
+
+.hw-hint-text a {
+    color: rgba(0, 212, 255, 0.9);
+    text-decoration: none;
+}
+
+.hw-hint-text a:hover {
+    text-decoration: underline;
+}
+
+.hw-hint-dismiss {
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 16px;
+    cursor: pointer;
+    padding: 0;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+}
+
+.hw-hint-dismiss:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.8);
+}
+
+/* LHM Launch Button */
+.hw-hint-launch {
+    background: rgba(0, 212, 255, 0.2);
+    border: 1px solid rgba(0, 212, 255, 0.4);
+    color: rgba(0, 212, 255, 0.9);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 1px;
+    padding: 4px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+}
+
+.hw-hint-launch:hover {
+    background: rgba(0, 212, 255, 0.3);
+    border-color: rgba(0, 212, 255, 0.6);
+}
+
+.hw-hint-launch:active {
+    transform: scale(0.95);
+}
+
+.hw-hint-launch.loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+/* Tool Button (DiskHog, etc.) */
+.hw-tool-btn {
+    display: block;
+    width: 100%;
+    margin-top: 8px;
+    padding: 6px 10px;
+    background: rgba(0, 212, 255, 0.1);
+    border: 1px solid rgba(0, 212, 255, 0.3);
+    border-radius: 4px;
+    color: rgba(0, 212, 255, 0.8);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.hw-tool-btn:hover {
+    background: rgba(0, 212, 255, 0.2);
+    border-color: rgba(0, 212, 255, 0.5);
+    color: rgba(0, 212, 255, 1);
+}
+
+.hw-tool-btn:active {
+    transform: scale(0.98);
+}
